@@ -1,3 +1,4 @@
+import type { Request, Response } from 'express';
 import { getVideoMeta, saveVideoMeta, toPlayerData } from '../services/videoStore.js';
 import db from '../services/db.js';
 

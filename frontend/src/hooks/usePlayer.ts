@@ -53,6 +53,8 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     isLooping: true,
   });
 
+  const [hasInitialSeeked, setHasInitialSeeked] = useState(false);
+
   const stateRef = useRef(state);
   stateRef.current = state;
 
@@ -120,7 +122,6 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
   }, [state.isPlaying, data?.videoId]);
 
   // Initial Seek
-  const [hasInitialSeeked, setHasInitialSeeked] = useState(false);
   useEffect(() => {
     if (data?.stageInfo.lastPosition && videoElRef.current && !hasInitialSeeked) {
       videoElRef.current.currentTime = data.stageInfo.lastPosition;
