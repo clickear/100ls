@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, 'data', '100ls.db');
+const dbPath = join(__dirname, '../../data/100ls.db');
 console.log("DB PATH:", dbPath);
 const db = new Database(dbPath);
 
