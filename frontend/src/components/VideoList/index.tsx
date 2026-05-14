@@ -146,7 +146,9 @@ export default function VideoList({ currentVideoId, onSelectVideo }: VideoListPr
               </button>
             </div>
             <div className={styles.content}>
-              <h3 className={styles.cardTitle}>{video.title}</h3>
+              <h3 className={styles.cardTitle}>
+                <span className={styles.cardTitleText}>{video.title}</span>
+              </h3>
               <p className={styles.meta}>{video.sentenceCount} 句台词</p>
             </div>
           </div>

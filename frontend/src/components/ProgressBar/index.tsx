@@ -39,7 +39,7 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
   const [activeMarker, setActiveMarker] = useState<number | null>(null);
   const [suppressedIndex, setSuppressedIndex] = useState<number | null>(null);
 
-  // Clear active marker when clicking elsewhere
+  // Clear active marker when clicking elsewhere or when video changes
   useEffect(() => {
     const handleGlobalClick = () => {
       setActiveMarker(null);
@@ -48,6 +48,11 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
     document.addEventListener('click', handleGlobalClick);
     return () => document.removeEventListener('click', handleGlobalClick);
   }, []);
+
+  useEffect(() => {
+    setActiveMarker(null);
+    setSuppressedIndex(null);
+  }, [duration, markers]);
 
   const handleJump = useCallback((time: number, index: number) => {
     onSeek(time);
@@ -104,7 +109,7 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
             
             return (
               <div 
-                key={i}
+                key={`${m.patternId}-${m.time}`}
                 className={`${styles.patternMarker} ${isActive ? styles.activeMarker : ''} ${suppressedIndex === i ? styles.suppressed : ''}`} 
                 style={{ 
                   left: `${markerPct}%`,
@@ -117,11 +122,10 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
                 } as any} 
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (isActive || suppressedIndex !== i) {
+                  if (isActive) {
                     handleJump(m.time, i);
                   } else {
                     setActiveMarker(i);
-                    setSuppressedIndex(null);
                   }
                 }}
                 onMouseEnter={() => setSuppressedIndex(null)}

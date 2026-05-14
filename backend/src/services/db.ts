@@ -3,13 +3,15 @@ import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const DATA_DIR = path.resolve(__dirname, '../../data');
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-const db = new Database(path.join(DATA_DIR, '100ls.db'));
+const dbPath = path.join(DATA_DIR, '100ls.db');
+const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
@@ -39,7 +41,7 @@ db.exec(`
     cn TEXT,
     keywords TEXT, -- JSON array of strings
     isKey INTEGER DEFAULT 0,
-    FOREIGN KEY(videoId) REFERENCES videos(id) ON DELETE CASCADE
+    FOREIGN KEY(videoId) REFERENCES videos(id)
   );
 
   CREATE INDEX IF NOT EXISTS idx_sentences_videoId ON sentences(videoId);
@@ -48,7 +50,8 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     text TEXT NOT NULL UNIQUE, -- e.g. "as soon as *"
     description TEXT,
-    category TEXT
+    category TEXT,
+    mastery_xp INTEGER DEFAULT 0
   );
 
   CREATE TABLE IF NOT EXISTS phrase_instances (
@@ -56,8 +59,8 @@ db.exec(`
     patternId INTEGER NOT NULL,
     sentenceId INTEGER NOT NULL,
     exactText TEXT NOT NULL, -- The actual text found in the sentence
-    FOREIGN KEY(patternId) REFERENCES patterns(id) ON DELETE CASCADE,
-    FOREIGN KEY(sentenceId) REFERENCES sentences(id) ON DELETE CASCADE
+    FOREIGN KEY(patternId) REFERENCES patterns(id),
+    FOREIGN KEY(sentenceId) REFERENCES sentences(id)
   );
 
   CREATE INDEX IF NOT EXISTS idx_phrase_instances_patternId ON phrase_instances(patternId);
@@ -69,5 +72,7 @@ db.exec(`
 try { db.exec('ALTER TABLE videos ADD COLUMN currentStage INTEGER DEFAULT 1'); } catch (e) {}
 try { db.exec('ALTER TABLE videos ADD COLUMN repetitionCount INTEGER DEFAULT 0'); } catch (e) {}
 try { db.exec('ALTER TABLE videos ADD COLUMN lastPosition REAL DEFAULT 0'); } catch (e) {}
+try { db.exec('ALTER TABLE patterns ADD COLUMN mastery_xp INTEGER DEFAULT 0'); } catch (e) {}
+try { db.exec('ALTER TABLE patterns ADD COLUMN category TEXT'); } catch (e) {}
 
 export default db;

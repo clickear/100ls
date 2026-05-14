@@ -25,11 +25,33 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+  flex: 1;
+  margin: 0 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  justify-content: center;
 }
 
 .titleText {
   font-size: 17px;
   font-weight: 600;
+  display: inline-block;
+  padding: 0 10px;
+  animation: headerMarquee 10s linear infinite;
+}
+
+@keyframes headerMarquee {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(0); } /* Pause at start */
+  75% { transform: translateX(-50%); } /* Scroll a bit */
+  100% { transform: translateX(0); } /* Return */
+}
+
+/* Pause on hover if user wants to read carefully */
+.headerTitle:hover .titleText {
+  animation-play-state: paused;
 }
 
 .vipBadge {

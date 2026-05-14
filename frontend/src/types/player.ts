@@ -89,6 +89,7 @@ export interface Pattern {
   text: string;
   description: string;
   category: string | null;
+  masteryXp: number;
   count: number;
 }
 

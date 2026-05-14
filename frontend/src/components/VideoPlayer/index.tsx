@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react';
 import type { ABLoop, Sentence, SubtitleMode } from '../../types/player';
 import HighlightedText from '../HighlightedText';
 import styles from './styles.module.css';
@@ -63,11 +64,21 @@ export default function VideoPlayer({
   onTogglePlay,
   onToggleAudioMode,
 }: VideoPlayerProps) {
+  const [feedback, setFeedback] = useState<'play' | 'pause' | null>(null);
+  const timerRef = useRef<any>(null);
+
+  const handleTogglePlay = () => {
+    onTogglePlay();
+    setFeedback(isPlaying ? 'pause' : 'play');
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setFeedback(null), 600);
+  };
+
   const showCn = subtitleMode === 'bilingual';
 
   return (
     <div className={styles.videoArea} id="videoArea">
-      <div className={styles.videoContainer} onClick={onTogglePlay}>
+      <div className={styles.videoContainer} onClick={handleTogglePlay}>
         {videoUrl ? (
           <video
             ref={videoRef}
@@ -84,6 +95,21 @@ export default function VideoPlayer({
             alt="视频封面"
             className={styles.videoThumb}
           />
+        )}
+
+        {/* Tap Feedback Icon */}
+        {feedback && (
+          <div className={styles.tapFeedback}>
+            {feedback === 'play' ? (
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="white">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            ) : (
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="white">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+              </svg>
+            )}
+          </div>
         )}
 
         {/* Audio Mode Overlay */}

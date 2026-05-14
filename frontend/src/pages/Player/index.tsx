@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'wouter';
 import type { PlayerData, SubtitleMode } from '../../types/player';
 import { fetchPlayerData } from '../../api/player';
 import { usePlayer } from '../../hooks/usePlayer';
@@ -19,6 +20,7 @@ interface PlayerPageProps {
 }
 
 export default function PlayerPage({ videoId }: PlayerPageProps) {
+  const [, setLocation] = useLocation();
   const [data, setData] = useState<PlayerData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +39,20 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
       .finally(() => setLoading(false));
   }, [videoId]);
 
-  const player = usePlayer(data);
+  const [xpPops, setXpPops] = useState<{ id: number; amount: number }[]>([]);
+  const popIdRef = useRef(0);
+
+  const handleXpGain = (amount: number) => {
+    if (amount <= 0) return;
+    const id = ++popIdRef.current;
+    setXpPops(prev => [...prev, { id, amount }]);
+    // Remove after animation completes
+    setTimeout(() => {
+      setXpPops(prev => prev.filter(p => p.id !== id));
+    }, 1200);
+  };
+
+  const player = usePlayer(data, handleXpGain);
   const { state, currentSentence, videoRef } = player;
 
   const mainRef = useRef<HTMLElement | null>(null);
@@ -67,27 +82,15 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
     requestAnimationFrame(animateScroll);
   };
 
-  // Auto-scroll when panel is expanded
-  useEffect(() => {
-    if (!isCollapsed && mainRef.current) {
-      // Small delay to let the height transition start
-      const timer = setTimeout(() => {
-        const target = mainRef.current!.scrollHeight - mainRef.current!.clientHeight;
-        slowScrollTo(mainRef.current!, target, 1000); // Slower, more deliberate 1s scroll
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [isCollapsed]);
-
   // Sync scroll to current sentence in list
   useEffect(() => {
-    if (!isCollapsed && state.currentSentenceIndex !== -1 && mainRef.current) {
+    if (state.currentSentenceIndex !== -1) {
       const activeItem = document.querySelector(`[data-sentence-index="${state.currentSentenceIndex}"]`);
       if (activeItem) {
         activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-  }, [state.currentSentenceIndex, isCollapsed]);
+  }, [state.currentSentenceIndex]);
 
 
   // If there's an error and we have a videoId, show error
@@ -121,11 +124,14 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
           {state.activeTab === 'subtitles' ? (
             <VideoList 
               currentVideoId="" 
-              onSelectVideo={(id) => window.location.href = `/player/${id}`} 
+              onSelectVideo={(id) => setLocation(`/player/${id}`)} 
             />
           ) : state.activeTab === 'vocabulary' ? (
             <PatternBook 
-              onPlayInstance={(id, t) => window.location.href = `/player/${id}?t=${t}`}
+              onPlayInstance={(id, t) => {
+                player.setActiveTab('player');
+                setLocation(`/player/${id}?t=${t}`);
+              }}
             />
           ) : (
             <div className={styles.empty}>请从“首页”选择一个视频开始学习</div>
@@ -147,6 +153,15 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
         isVip={data.isVip} 
         onBack={() => setLocation('/')} 
       />
+
+      {/* XP Popups */}
+      <div className={styles.xpPopContainer}>
+        {xpPops.map(pop => (
+          <div key={pop.id} className={styles.xpPop}>
+            XP +{pop.amount}
+          </div>
+        ))}
+      </div>
 
       <main className={styles.mainContent} id="mainContent" ref={mainRef}>
         {state.activeTab === 'player' ? (
@@ -201,59 +216,42 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
               }}
             />
             
-            <div className={styles.collapsibleWrapper}>
-              <div className={styles.divider}>
-                <button 
-                  className={styles.collapseToggleMinimal} 
-                  onClick={() => setIsCollapsed(!isCollapsed)}
-                  title={isCollapsed ? '展开' : '收起'}
-                >
-                  <svg 
-                    className={isCollapsed ? styles.iconRotate : ''} 
-                    width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  >
-                    <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-
-              <div className={`${styles.controlsContent} ${isCollapsed ? styles.collapsed : ''}`}>
-                {currentSentence && (
-                  <SentenceCard
-                    sentence={currentSentence}
-                    currentIndex={state.currentSentenceIndex}
-                    totalSentences={data.sentences.length}
-                    isLoopSentence={state.isLoopSentence}
-                    subtitleMode={state.subtitleMode}
-                    onPrev={player.goToPrevSentence}
-                    onNext={player.goToNextSentence}
-                    onToggleLoop={player.toggleLoopSentence}
-                    onToggleKey={player.toggleKeySentence}
-                    onSpeak={() => {}}
-                    onTogglePlay={player.togglePlayPause}
-                  />
-                )}
-              </div>
+            <div className={styles.sentencesSection}>
+              {currentSentence && (
+                <SentenceCard
+                  sentence={currentSentence}
+                  currentIndex={state.currentSentenceIndex}
+                  totalSentences={data.sentences.length}
+                  isLoopSentence={state.isLoopSentence}
+                  subtitleMode={state.subtitleMode}
+                  onPrev={player.goToPrevSentence}
+                  onNext={player.goToNextSentence}
+                  onToggleLoop={player.toggleLoopSentence}
+                  onToggleKey={player.toggleKeySentence}
+                  onSpeak={() => {}}
+                  onTogglePlay={player.togglePlayPause}
+                />
+              )}
             </div>
           </>
         ) : state.activeTab === 'subtitles' ? (
           <VideoList 
             currentVideoId={videoId} 
             onSelectVideo={(newId) => {
-              window.location.href = `/player/${newId}`;
+              setLocation(`/player/${newId}`);
             }} 
           />
         ) : state.activeTab === 'vocabulary' ? (
-          <PatternBook 
-            onPlayInstance={(targetVideoId, startTime) => {
-              if (targetVideoId === videoId) {
-                player.seek(startTime);
+            <PatternBook 
+              onPlayInstance={(targetVideoId, startTime) => {
                 player.setActiveTab('player');
-              } else {
-                window.location.href = `/player/${targetVideoId}?t=${startTime}`;
-              }
-            }}
-          />
+                if (targetVideoId === videoId) {
+                  player.seek(startTime);
+                } else {
+                  setLocation(`/player/${targetVideoId}?t=${startTime}`);
+                }
+              }}
+            />
         ) : (
           <div style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
             <div style={{ fontSize: '48px', marginBottom: '20px' }}>🚧</div>

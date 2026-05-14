@@ -40,3 +40,18 @@ export async function rescanPatterns(_req: Request, res: Response): Promise<void
     res.status(500).json({ error: err.message });
   }
 }
+
+/**
+ * POST /api/patterns/:patternId/mastery — Increment mastery XP for a pattern.
+ */
+export async function addPatternMastery(req: Request, res: Response): Promise<void> {
+  const { patternId } = req.params;
+  const { xp } = req.body as { xp?: number };
+  try {
+    const { incrementPatternMastery } = await import('../services/patternService.js');
+    incrementPatternMastery(parseInt(patternId), xp || 1);
+    res.json({ success: true });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+}

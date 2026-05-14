@@ -45,8 +45,13 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
   `);
 
   const deleteSentences = db.prepare(`DELETE FROM sentences WHERE videoId = ?`);
+  const deleteInstances = db.prepare(`
+    DELETE FROM phrase_instances 
+    WHERE sentenceId IN (SELECT id FROM sentences WHERE videoId = ?)
+  `);
 
   const transaction = db.transaction(() => {
+    // ...
     insertVideo.run(
       meta.videoId,
       meta.title,
@@ -62,6 +67,8 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
       meta.lastPosition || 0
     );
 
+    // Manual cascade: instances first, then sentences
+    deleteInstances.run(meta.videoId);
     deleteSentences.run(meta.videoId);
 
     for (let i = 0; i < meta.sentences.length; i++) {

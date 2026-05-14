@@ -7,6 +7,9 @@
   position: relative;
   overflow: hidden;
   background: var(--bg);
+  /* Safe area support for iOS/Android notches */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .mainContent {
@@ -49,66 +52,9 @@
   box-shadow: none;
 }
 
-.collapsibleWrapper {
+.sentencesSection {
   margin-top: var(--spacing-sm);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.divider {
-  height: 1px;
-  background: #222;
-  position: relative;
-  margin: 10px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.collapseToggleMinimal {
-  position: absolute;
-  background: var(--bg-card);
-  border: 1px solid #333;
-  color: var(--text-secondary);
-  width: 40px;
-  height: 24px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0;
-  z-index: 5;
-}
-
-.collapseToggleMinimal:hover {
-  background: #333;
-  color: var(--text);
-  transform: scale(1.1);
-  border-color: var(--green);
-}
-
-.iconRotate {
-  transform: rotate(180deg);
-}
-
-.controlsContent {
-  overflow: hidden;
-  max-height: 1000px;
-  opacity: 1;
-  transition: 
-    max-height 0.8s cubic-bezier(0.23, 1, 0.32, 1),
-    opacity 0.5s ease-out,
-    transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  transform: translateY(0) scale(1);
-  transform-origin: top center;
-}
-
-.controlsContent.collapsed {
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-20px) scale(0.98);
-  pointer-events: none;
+  padding: 0 var(--spacing-md);
 }
 
 /* Loading state */
@@ -159,6 +105,31 @@
   font-weight: 600;
   cursor: pointer;
   font-family: var(--font);
+}
+
+/* XP Floating Animation */
+.xpPopContainer {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 100;
+}
+
+.xpPop {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--green);
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+  animation: floatUpAndFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  white-space: nowrap;
+}
+
+@keyframes floatUpAndFade {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-80px) scale(1); opacity: 0; }
 }
 
 /* Wider than mobile */

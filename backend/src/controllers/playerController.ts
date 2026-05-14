@@ -46,16 +46,18 @@ export async function updateVideoProgress(req: Request, res: Response): Promise<
     lastPosition?: number;
   };
 
-  const meta = await getVideoMeta(videoId);
-  if (!meta) {
-    res.status(404).json({ error: '视频未找到' });
-    return;
-  }
+  db.prepare(`
+    UPDATE videos 
+    SET currentStage = COALESCE(?, currentStage),
+        repetitionCount = COALESCE(?, repetitionCount),
+        lastPosition = COALESCE(?, lastPosition)
+    WHERE id = ?
+  `).run(
+    currentStage ?? null, 
+    repetitionCount ?? null, 
+    lastPosition ?? null, 
+    videoId
+  );
 
-  if (currentStage !== undefined) meta.currentStage = currentStage;
-  if (repetitionCount !== undefined) meta.repetitionCount = repetitionCount;
-  if (lastPosition !== undefined) meta.lastPosition = lastPosition;
-
-  await saveVideoMeta(videoId, meta);
   res.json({ success: true });
 }

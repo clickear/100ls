@@ -163,7 +163,20 @@
   margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
+}
+
+.card:hover .cardTitleText {
+  display: inline-block;
+  animation: scrollTitle 6s linear infinite;
+}
+
+@keyframes scrollTitle {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(0); } /* Stay still for a bit at start */
+  80% { transform: translateX(calc(-100% + 150px)); } /* Scroll to near end */
+  100% { transform: translateX(0); } /* Snap back or smooth? Let's go smooth */
 }
 
 .meta {

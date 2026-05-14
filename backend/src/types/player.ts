@@ -17,6 +17,7 @@ export interface StageInfo {
   currentProgress: number;
   totalProgress: number;
   repetitionCount: number;
+  lastPosition?: number;
 }
 
 export interface Episode {

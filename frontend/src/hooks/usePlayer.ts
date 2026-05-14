@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { PlayerData, PlayerState, PlaybackSpeed, SubtitleMode, TabId, Sentence } from '../types/player';
-import { updateSentenceStatus, updateVideoProgress } from '../api/player';
+import { updateSentenceStatus, updateVideoProgress, updatePatternMastery } from '../api/player';
 
 const SPEEDS: PlaybackSpeed[] = ['0.5x', '0.75x', '1.0x', '1.25x', '1.5x'];
 const SPEED_VALUES: Record<PlaybackSpeed, number> = {
@@ -33,13 +33,13 @@ export interface UsePlayerReturn {
   incrementRepetition: () => void;
 }
 
-export function usePlayer(data: PlayerData | null): UsePlayerReturn {
+export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) => void): UsePlayerReturn {
   const videoElRef = useRef<HTMLVideoElement | null>(null);
   const dataRef = useRef(data);
   dataRef.current = data;
 
   const [state, setState] = useState<PlayerState>({
-    isPlaying: false,
+    isPlaying: true,
     currentSpeed: '1.0x',
     currentSentenceIndex: 0,
     subtitleMode: 'bilingual',
@@ -58,10 +58,15 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  // Automatically switch to player tab when a video is loaded
+  const currentSentence = data ? data.sentences[state.currentSentenceIndex] ?? null : null;
+
+  // Automatically switch to player tab when a video is loaded and reset initial seek flag
   useEffect(() => {
-    if (data && state.activeTab === 'subtitles') {
-      setState(prev => ({ ...prev, activeTab: 'player' }));
+    if (data) {
+      if (state.activeTab === 'subtitles') {
+        setState(prev => ({ ...prev, activeTab: 'player' }));
+      }
+      setHasInitialSeeked(false);
     }
   }, [data?.videoId]);
 
@@ -131,22 +136,38 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
   // Initial Seek (Handles last position and URL parameter ?t=)
   useEffect(() => {
     if (videoElRef.current && !hasInitialSeeked && data) {
-      const params = new URLSearchParams(window.location.search);
-      const t = params.get('t');
+      const video = videoElRef.current;
       
-      if (t) {
-        const time = parseFloat(t);
-        videoElRef.current.currentTime = time;
-        setState(prev => ({ ...prev, currentTime: time, isPlaying: true }));
-        videoElRef.current.play().catch(() => {
-          // Auto-play might be blocked by browser
-          console.warn('Auto-play blocked');
+      const performInitialSeek = () => {
+        const params = new URLSearchParams(window.location.search);
+        const t = params.get('t');
+        let time = 0;
+        
+        if (t) {
+          time = parseFloat(t);
+        } else if (data.stageInfo.lastPosition) {
+          time = data.stageInfo.lastPosition;
+        }
+
+        if (time > 0) {
+          video.currentTime = time;
+          setState(prev => ({ ...prev, currentTime: time }));
+        }
+
+        // Universal auto-play trigger
+        video.play().catch((err) => {
+          console.warn('Auto-play blocked by browser or failed:', err);
           setState(prev => ({ ...prev, isPlaying: false }));
         });
-      } else if (data.stageInfo.lastPosition) {
-        videoElRef.current.currentTime = data.stageInfo.lastPosition;
+        
+        setHasInitialSeeked(true);
+      };
+
+      if (video.readyState >= 1) { // 1 = HAVE_METADATA
+        performInitialSeek();
+      } else {
+        video.addEventListener('loadedmetadata', performInitialSeek, { once: true });
       }
-      setHasInitialSeeked(true);
     }
   }, [data, hasInitialSeeked]);
 
@@ -238,8 +259,9 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     const video = videoElRef.current;
     if (video) {
       video.currentTime = time;
+      video.play().catch(() => {});
     }
-    setState(prev => ({ ...prev, currentTime: time }));
+    setState(prev => ({ ...prev, currentTime: time, isPlaying: true }));
   }, []);
 
   const replay = useCallback(() => {
@@ -325,8 +347,18 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
   }, []);
 
   const toggleLoopSentence = useCallback(() => {
-    setState(prev => ({ ...prev, isLoopSentence: !prev.isLoopSentence }));
-  }, []);
+    setState(prev => {
+      const isEnabling = !prev.isLoopSentence;
+      // Award small XP when starting to loop a sentence (intensive study)
+      if (isEnabling && currentSentence?.patterns) {
+        currentSentence.patterns.forEach(p => {
+          updatePatternMastery(p.patternId, 2).catch(() => {});
+        });
+        onXpGain?.(currentSentence.patterns.length * 2);
+      }
+      return { ...prev, isLoopSentence: isEnabling };
+    });
+  }, [currentSentence]);
 
   const toggleKeySentence = useCallback(() => {
     const d = dataRef.current;
@@ -347,6 +379,14 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
       sentence.isKey = !newStatus;
       setState(prev => ({ ...prev }));
     });
+
+    // Award XP if marking as key
+    if (newStatus && sentence.patterns) {
+      sentence.patterns.forEach(p => {
+        updatePatternMastery(p.patternId, 10).catch(() => {});
+      });
+      onXpGain?.(sentence.patterns.length * 10);
+    }
   }, []);
 
   const setSubtitleMode = useCallback((mode: SubtitleMode) => {
@@ -380,10 +420,18 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
         updateVideoProgress(videoId, { repetitionCount: newCount }).catch(err => {
           console.error('Failed to update repetition count', err);
         });
+
+        // Award XP to patterns in current sentence when checking in
+        if (currentSentence?.patterns) {
+          currentSentence.patterns.forEach(p => {
+            updatePatternMastery(p.patternId, 5).catch(() => {});
+          });
+          onXpGain?.(currentSentence.patterns.length * 5);
+        }
       }
       return { ...prev, repetitionCount: newCount };
     });
-  }, []);
+  }, [currentSentence]);
 
   const toggleAudioMode = useCallback(() => {
     setState(prev => ({ ...prev, isAudioMode: !prev.isAudioMode }));
@@ -398,8 +446,6 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
   }, []);
 
   const selectEpisode = useCallback((_ep: number) => {}, []);
-
-  const currentSentence = data ? data.sentences[state.currentSentenceIndex] ?? null : null;
 
   return {
     videoRef,

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { getPlayerData, updateSentenceProgress, updateVideoProgress } from '../controllers/playerController.js';
 import { importVideo, getVideos, removeVideo } from '../controllers/videoController.js';
-import { getPatterns, getPatternDetails, rescanPatterns } from '../controllers/patternController.js';
+import { getPatterns, getPatternDetails, rescanPatterns, addPatternMastery } from '../controllers/patternController.js';
+import db from '../services/db.js';
 
 const router = Router();
 
@@ -19,7 +20,6 @@ router.delete('/videos/:videoId', removeVideo);
 router.get('/patterns', getPatterns);
 router.get('/patterns/:patternId', getPatternDetails);
 router.post('/patterns/rescan', rescanPatterns);
-
-
+router.post('/patterns/:patternId/mastery', addPatternMastery);
 
 export default router;

@@ -195,3 +195,15 @@ export async function rescanPatterns(): Promise<{ videoCount: number; instanceCo
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }
+
+/**
+ * Increment mastery XP for a specific pattern.
+ */
+export async function updatePatternMastery(patternId: number, xp: number = 1): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/patterns/${patternId}/mastery`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ xp }),
+  });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+}
