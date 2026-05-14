@@ -147,7 +147,16 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
             <div className={styles.empty}>请从“首页”选择一个视频开始学习</div>
           )}
         </main>
-        <TabBar activeTab={state.activeTab} onTabChange={player.setActiveTab} />
+        <TabBar 
+        activeTab={state.activeTab} 
+        onTabChange={(tab) => {
+          if (tab === 'home') {
+            setLocation('/');
+          } else {
+            setState(prev => ({ ...prev, activeTab: tab }));
+          }
+        }} 
+      />
       </div>
     );
   }
@@ -311,7 +320,16 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
         )}
       </main>
 
-      <TabBar activeTab={state.activeTab} onTabChange={player.setActiveTab} />
+      <TabBar 
+        activeTab={state.activeTab} 
+        onTabChange={(tab) => {
+          if (tab === 'home') {
+            setLocation('/');
+          } else {
+            player.setActiveTab(tab);
+          }
+        }} 
+      />
     </div>
   );
 }

@@ -47,7 +47,7 @@ export interface ABLoop {
 }
 
 /** Tab bar items */
-export type TabId = 'player' | 'subtitles' | 'vocabulary' | 'settings';
+export type TabId = 'home' | 'player' | 'subtitles' | 'vocabulary' | 'settings';
 
 /** Full player page data from API */
 export interface PlayerData {
