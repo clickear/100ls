@@ -177,6 +177,15 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
               onSeek={player.seek}
               onSetA={player.setPointA}
               onSetB={player.setPointB}
+              markers={data.sentences
+                .filter(s => s.patterns && s.patterns.length > 0)
+                .flatMap(s => (s.patterns || []).map(p => ({
+                  time: s.startTime,
+                  patternId: p.patternId,
+                  patternText: p.patternText,
+                  sentenceEn: s.en
+                })))
+              }
             />
             <PlaybackControls
               isPlaying={state.isPlaying}
