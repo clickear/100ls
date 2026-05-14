@@ -155,3 +155,16 @@ export async function updateVideoProgress(
     throw new Error(err.error || `Update failed: ${res.status}`);
   }
 }
+
+/**
+ * Delete a video.
+ */
+export async function deleteVideo(videoId: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/videos/${videoId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: res.statusText }));
+    throw new Error(err.error || `Delete failed: ${res.status}`);
+  }
+}

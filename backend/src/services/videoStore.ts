@@ -154,11 +154,22 @@ export async function listVideos(): Promise<VideoSummary[]> {
 export async function deleteVideo(videoId: string): Promise<boolean> {
   try {
     const dir = getVideoDir(videoId);
-    await fs.rm(dir, { recursive: true, force: true });
-    db.prepare(`DELETE FROM videos WHERE id = ?`).run(videoId);
-    return true;
+    // 1. Check if directory exists before trying to delete it
+    try {
+      const stats = await fs.stat(dir);
+      if (stats.isDirectory()) {
+        await fs.rm(dir, { recursive: true, force: true });
+      }
+    } catch (e) {
+      // Directory doesn't exist, ignore and proceed to DB
+      console.log(`Directory for ${videoId} not found, proceeding with DB deletion.`);
+    }
+
+    // 2. Always attempt to delete from database
+    const result = db.prepare(`DELETE FROM videos WHERE id = ?`).run(videoId);
+    return result.changes > 0;
   } catch (err) {
-    console.error('Error deleting video', err);
+    console.error(`Error deleting video ${videoId}:`, err);
     return false;
   }
 }
