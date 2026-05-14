@@ -4,7 +4,8 @@
 import type { Request, Response } from 'express';
 import * as path from 'node:path';
 import { downloadVideo } from '../services/downloader.js';
-import { parseSubtitleFile, buildSentences } from '../services/subtitleParser.js';
+import { parseSubtitleFile, buildSentences, buildSentencesFromWhisper } from '../services/subtitleParser.js';
+import { extractAudio, transcribeAudio } from '../services/whisperService.js';
 import {
   generateVideoId,
   getVideoDir,
@@ -53,29 +54,22 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
       }
     });
 
+    // Step 2: Extract audio for Whisper
+    sendEvent('progress', { percent: 100, step: 'extracting_audio' });
+    console.log('🎵 Extracting audio for Whisper...');
+    const wavFile = path.join(outputDir, 'audio.wav');
+    await extractAudio(result.videoFile, wavFile);
+
+    // Step 3: Transcribe with Whisper
+    sendEvent('progress', { percent: 100, step: 'transcribing' });
+    const whisperSegments = await transcribeAudio(wavFile);
+
+    // Step 4: Build sentences semantically
     sendEvent('progress', { percent: 100, step: 'parsing' });
-
-    // Step 2: Parse subtitles
-    let enCues = undefined;
-    let cnCues = undefined;
-
-    if (result.subtitleFiles.en) {
-      console.log('📝 Parsing English subtitles...');
-      enCues = await parseSubtitleFile(result.subtitleFiles.en);
-      console.log(`   Found ${enCues.length} English cues`);
-    }
-
-    if (result.subtitleFiles.cn) {
-      console.log('📝 Parsing Chinese subtitles...');
-      cnCues = await parseSubtitleFile(result.subtitleFiles.cn);
-      console.log(`   Found ${cnCues.length} Chinese cues`);
-    }
-
-    // Step 3: Build sentences
-    const sentences = enCues ? buildSentences(enCues, cnCues) : [];
+    const sentences = buildSentencesFromWhisper(whisperSegments);
     console.log(`📊 Generated ${sentences.length} sentences`);
 
-    // Step 4: Save metadata
+    // Step 5: Save metadata
     const meta: VideoMeta = {
       videoId,
       title: result.title,
@@ -84,10 +78,7 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
       importedAt: new Date().toISOString(),
       videoFile: path.basename(result.videoFile),
       thumbnailFile: result.thumbnailFile ? path.basename(result.thumbnailFile) : '',
-      subtitleFiles: {
-        en: result.subtitleFiles.en ? path.basename(result.subtitleFiles.en) : undefined,
-        cn: result.subtitleFiles.cn ? path.basename(result.subtitleFiles.cn) : undefined,
-      },
+      subtitleFiles: {}, // No longer using static subtitle files
       sentences,
     };
 

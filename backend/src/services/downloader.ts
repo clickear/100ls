@@ -13,10 +13,6 @@ export interface DownloadResult {
   duration: number;
   videoFile: string;          // absolute path
   thumbnailFile: string;      // absolute path
-  subtitleFiles: {
-    en?: string;
-    cn?: string;
-  };
 }
 
 /**
@@ -51,12 +47,7 @@ export async function downloadVideo(
         '--merge-output-format', 'mp4',
         '--no-playlist',
         '--legacy-server-connect',
-        '--ignore-errors', // continue on download errors (e.g. subtitle 429)
-        '--write-subs',
-        '--write-auto-subs',
-        '--sub-langs', 'en.*,zh-Hans,zh-CN,zh',
-        '--sub-format', 'vtt',
-        '--convert-subs', 'vtt',
+        '--ignore-errors', // continue on download errors
         '--write-thumbnail',
         '--convert-thumbnails', 'jpg',
         '-o', path.join(outputDir, 'video.%(ext)s'),
@@ -118,26 +109,7 @@ export async function downloadVideo(
     f.startsWith('video.') && (f.endsWith('.jpg') || f.endsWith('.webp') || f.endsWith('.png'))
   ) || '';
 
-  // Find subtitle files
-  const subtitleFiles: { en?: string; cn?: string } = {};
-  for (const f of files) {
-    if (!f.endsWith('.vtt')) continue;
-    const lower = f.toLowerCase();
-    if (lower.includes('.en') || lower.includes('english')) {
-      subtitleFiles.en = f;
-    } else if (lower.includes('.zh') || lower.includes('chinese') || lower.includes('hans')) {
-      subtitleFiles.cn = f;
-    }
-  }
-
-  // If no explicit English subtitle but there's a generic .vtt, use it
-  if (!subtitleFiles.en) {
-    const genericVtt = files.find(f => f.endsWith('.vtt'));
-    if (genericVtt) subtitleFiles.en = genericVtt;
-  }
-
   console.log(`✅ Download complete: ${videoFile}`);
-  console.log(`   Subtitles: en=${subtitleFiles.en || 'none'}, cn=${subtitleFiles.cn || 'none'}`);
   console.log(`   Thumbnail: ${thumbnailFile || 'none'}`);
 
   return {
@@ -145,9 +117,5 @@ export async function downloadVideo(
     duration,
     videoFile: path.join(outputDir, videoFile),
     thumbnailFile: thumbnailFile ? path.join(outputDir, thumbnailFile) : '',
-    subtitleFiles: {
-      en: subtitleFiles.en ? path.join(outputDir, subtitleFiles.en) : undefined,
-      cn: subtitleFiles.cn ? path.join(outputDir, subtitleFiles.cn) : undefined,
-    },
   };
 }

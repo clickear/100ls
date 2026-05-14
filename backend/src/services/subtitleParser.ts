@@ -3,6 +3,7 @@
  */
 import * as fs from 'node:fs/promises';
 import type { Sentence } from '../types/player.js';
+import type { WhisperSegment } from './whisperService.js';
 
 export interface SubtitleCue {
   startTime: number;  // seconds
@@ -167,11 +168,29 @@ function deduplicateCues(cues: SubtitleCue[]): SubtitleCue[] {
   return result;
 }
 
+const ABBREVIATIONS = new Set(['mr', 'mrs', 'ms', 'dr', 'prof', 'vs', 'etc', 'eg', 'ie', 'st']);
+
+function isEndOfSentence(text: string): boolean {
+  const trimmed = text.trim();
+  if (!trimmed) return false;
+  // Last char check
+  const lastChar = trimmed.slice(-1);
+  const endPunctuation = ['.', '?', '!', '”', '"'];
+  if (!endPunctuation.includes(lastChar)) return false;
+
+  // Check for abbreviations (e.g. "Mr.")
+  const match = trimmed.match(/([a-zA-Z]+)\.$/);
+  if (match) {
+    const word = match[1].toLowerCase();
+    if (ABBREVIATIONS.has(word)) return false;
+  }
+  return true;
+}
+
 /**
- * Merge short cues together into sentence-like chunks.
- * Target: each sentence is at least `minDuration` seconds.
+ * Merge short cues into sentence-like chunks using semantic boundaries (punctuation, pauses).
  */
-function mergeCuesIntoSentences(cues: SubtitleCue[], minDuration = 2): SubtitleCue[] {
+function semanticMergeCues(cues: SubtitleCue[]): SubtitleCue[] {
   if (cues.length === 0) return [];
 
   const merged: SubtitleCue[] = [];
@@ -179,15 +198,21 @@ function mergeCuesIntoSentences(cues: SubtitleCue[], minDuration = 2): SubtitleC
 
   for (let i = 1; i < cues.length; i++) {
     const cue = cues[i];
-    const currentDuration = current.endTime - current.startTime;
+    const duration = current.endTime - current.startTime;
+    const gap = cue.startTime - current.endTime;
+    
+    const hasEndPunctuation = isEndOfSentence(current.text);
+    const hasLongPause = gap > 0.8;
+    const isTooLong = duration > 12;
 
-    // If current is still short and the next cue is close, merge
-    if (currentDuration < minDuration && (cue.startTime - current.endTime) < 1) {
-      current.endTime = cue.endTime;
-      current.text += ' ' + cue.text;
-    } else {
+    if (hasEndPunctuation || hasLongPause || (isTooLong && (gap > 0.2 || current.text.endsWith(',')))) {
+      // Natural boundary reached, push current and start new
       merged.push(current);
       current = { ...cue };
+    } else {
+      // Merge
+      current.endTime = cue.endTime;
+      current.text += ' ' + cue.text.trim();
     }
   }
   merged.push(current);
@@ -220,7 +245,7 @@ export function buildSentences(
 ): Sentence[] {
   // Deduplicate + merge into sentences
   const deduped = deduplicateCues(enCues);
-  const sentences = mergeCuesIntoSentences(deduped);
+  const sentences = semanticMergeCues(deduped);
 
   return sentences.map((cue, idx) => {
     // Try to find matching Chinese subtitle by time overlap
@@ -236,6 +261,32 @@ export function buildSentences(
       id: idx + 1,
       en: cue.text,
       cn,
+      keywords: extractKeywords(cue.text),
+      startTime: Math.round(cue.startTime * 100) / 100,
+      endTime: Math.round(cue.endTime * 100) / 100,
+      isKey: false,
+    };
+  });
+}
+
+/**
+ * Build Sentence[] from Whisper segments.
+ */
+export function buildSentencesFromWhisper(segments: WhisperSegment[]): Sentence[] {
+  const cues: SubtitleCue[] = segments.map(seg => ({
+    startTime: parseTimestamp(seg.start),
+    endTime: parseTimestamp(seg.end),
+    text: seg.speech.trim()
+  }));
+
+  // Apply semantic merge because Whisper can sometimes output fragmented segments
+  const sentences = semanticMergeCues(cues);
+
+  return sentences.map((cue, idx) => {
+    return {
+      id: idx + 1,
+      en: cue.text,
+      cn: '', // Whisper base model usually outputs english only, cn can be translated later if needed
       keywords: extractKeywords(cue.text),
       startTime: Math.round(cue.startTime * 100) / 100,
       endTime: Math.round(cue.endTime * 100) / 100,
