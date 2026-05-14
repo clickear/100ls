@@ -13,7 +13,9 @@ export const mockPlayerData: PlayerData = {
     subtitleMode: '纯英文字幕',
     currentProgress: 36,
     totalProgress: 100,
+    repetitionCount: 36,
   },
+  repetitionCount: 36,
   episodes: [
     { number: 1, status: 'completed' },
     { number: 2, status: 'completed' },

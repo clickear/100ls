@@ -16,6 +16,7 @@ export interface StageInfo {
   subtitleMode: string;
   currentProgress: number;
   totalProgress: number;
+  repetitionCount: number;
 }
 
 export interface Episode {
@@ -60,6 +61,8 @@ export interface VideoMeta {
     cn?: string;
   };
   sentences: Sentence[];
+  currentStage: number;
+  repetitionCount: number;
 }
 
 /** Summary returned by GET /api/videos list */
@@ -71,6 +74,8 @@ export interface VideoSummary {
   importedAt: string;
   sentenceCount: number;
   thumbnailUrl: string;
+  currentStage: number;
+  repetitionCount: number;
 }
 
 /** Request body for POST /api/videos */

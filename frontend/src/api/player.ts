@@ -136,3 +136,22 @@ export async function updateSentenceStatus(
     throw new Error(err.error || `Update failed: ${res.status}`);
   }
 }
+
+/**
+ * Update the overall video progress (stage and repetition count).
+ */
+export async function updateVideoProgress(
+  videoId: string,
+  data: { currentStage?: number; repetitionCount?: number }
+): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/player/${videoId}/progress`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: res.statusText }));
+    throw new Error(err.error || `Update failed: ${res.status}`);
+  }
+}

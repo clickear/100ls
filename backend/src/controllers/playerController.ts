@@ -37,3 +37,36 @@ export async function updateSentenceProgress(req: Request, res: Response): Promi
 
   res.json({ success: true });
 }
+
+export async function updateVideoProgress(req: Request, res: Response): Promise<void> {
+  const videoId = req.params.videoId as string;
+  const { currentStage, repetitionCount } = req.body as { currentStage?: number, repetitionCount?: number };
+
+  const updates: string[] = [];
+  const params: any[] = [];
+
+  if (typeof currentStage === 'number') {
+    updates.push('currentStage = ?');
+    params.push(currentStage);
+  }
+
+  if (typeof repetitionCount === 'number') {
+    updates.push('repetitionCount = ?');
+    params.push(repetitionCount);
+  }
+
+  if (updates.length === 0) {
+    res.status(400).json({ error: '没有提供更新字段' });
+    return;
+  }
+
+  params.push(videoId);
+  const result = db.prepare(`UPDATE videos SET ${updates.join(', ')} WHERE id = ?`).run(...params);
+
+  if (result.changes === 0) {
+    res.status(404).json({ error: `未找到视频 ${videoId}` });
+    return;
+  }
+
+  res.json({ success: true });
+}

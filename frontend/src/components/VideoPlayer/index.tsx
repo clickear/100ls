@@ -13,7 +13,9 @@ interface VideoPlayerProps {
   currentSentence: Sentence | null;
   subtitleMode: SubtitleMode;
   isPlaying: boolean;
+  isAudioMode: boolean;
   onTogglePlay: () => void;
+  onToggleAudioMode: () => void;
 }
 
 function formatTime(seconds: number): string {
@@ -52,14 +54,14 @@ export default function VideoPlayer({
   videoRef,
   videoUrl,
   thumbnailUrl,
-  subtitleUrls,
   abLoop,
   currentSentence,
   subtitleMode,
   isPlaying,
+  isAudioMode,
   onTogglePlay,
+  onToggleAudioMode,
 }: VideoPlayerProps) {
-  const showEn = subtitleMode !== 'none';
   const showCn = subtitleMode === 'bilingual';
 
   return (
@@ -68,7 +70,7 @@ export default function VideoPlayer({
         {videoUrl ? (
           <video
             ref={videoRef}
-            className={styles.videoThumb}
+            className={`${styles.videoThumb} ${isAudioMode ? styles.hiddenVideo : ''}`}
             poster={thumbnailUrl}
             playsInline
             preload="auto"
@@ -81,6 +83,20 @@ export default function VideoPlayer({
             alt="视频封面"
             className={styles.videoThumb}
           />
+        )}
+
+        {/* Audio Mode Overlay */}
+        {isAudioMode && (
+          <div className={styles.audioModeOverlay}>
+            <div className={styles.audioDisk}>
+              <img src={thumbnailUrl} alt="" className={styles.diskCover} />
+              <div className={styles.diskHole}></div>
+            </div>
+            <div className={styles.listeningText}>
+              <span className={styles.listeningIcon}>🎧</span>
+              纯音频练习模式
+            </div>
+          </div>
         )}
 
         {/* Play overlay when paused */}
@@ -110,27 +126,51 @@ export default function VideoPlayer({
           </div>
         )}
 
-        {/* Fullscreen */}
-        <button
-          className={styles.fullscreenBtn}
-          id="btn-fullscreen"
-          aria-label="全屏"
-          onClick={(e) => {
-            e.stopPropagation();
-            const video = document.querySelector('video');
-            video?.requestFullscreen?.();
-          }}
-        >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M2 6V3C2 2.45 2.45 2 3 2H6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M12 2H15C15.55 2 16 2.45 16 3V6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M16 12V15C16 15.55 15.55 16 15 16H12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M6 16H3C2.45 16 2 15.55 2 15V12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
+        {/* Mode Toggles */}
+        <div className={styles.playerTopActions}>
+          <button
+            className={`${styles.actionBtn} ${isAudioMode ? styles.activeAction : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleAudioMode();
+            }}
+            title={isAudioMode ? '切换到视频模式' : '切换到音频模式'}
+          >
+            {isAudioMode ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M23 7L16 12L23 17V7Z" />
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18V5l12-2v13" />
+                <circle cx="6" cy="18" r="3" />
+                <circle cx="18" cy="16" r="3" />
+              </svg>
+            )}
+          </button>
+          
+          <button
+            className={styles.actionBtn}
+            id="btn-fullscreen"
+            aria-label="全屏"
+            onClick={(e) => {
+              e.stopPropagation();
+              const video = document.querySelector('video');
+              video?.requestFullscreen?.();
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 6V3C2 2.45 2.45 2 3 2H6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M12 2H15C15.55 2 16 2.45 16 3V6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M16 12V15C16 15.55 15.55 16 15 16H12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M6 16H3C2.45 16 2 15.55 2 15V12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
 
-        {/* Subtitle on video */}
-        {currentSentence && showEn && (
+        {/* Subtitle on video - Moved to last to ensure it's on top */}
+        {currentSentence && (subtitleMode !== 'none') && (
           <div className={styles.videoSubtitle}>
             <p className={styles.videoSubtitleEn}>
               {renderSubtitleEn(currentSentence, subtitleMode)}

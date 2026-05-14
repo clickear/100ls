@@ -35,8 +35,8 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
   await fs.mkdir(dir, { recursive: true });
   
   const insertVideo = db.prepare(`
-    INSERT OR REPLACE INTO videos (id, title, sourceUrl, duration, videoFile, thumbnailFile, subEn, subCn, importedAt)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT OR REPLACE INTO videos (id, title, sourceUrl, duration, videoFile, thumbnailFile, subEn, subCn, importedAt, currentStage, repetitionCount)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   const insertSentence = db.prepare(`
@@ -56,7 +56,9 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
       meta.thumbnailFile || null,
       meta.subtitleFiles.en || null,
       meta.subtitleFiles.cn || null,
-      meta.importedAt
+      meta.importedAt,
+      meta.currentStage || 1,
+      meta.repetitionCount || 0
     );
 
     deleteSentences.run(meta.videoId);
@@ -110,7 +112,9 @@ export async function getVideoMeta(videoId: string): Promise<VideoMeta | null> {
       en: video.subEn || undefined,
       cn: video.subCn || undefined
     },
-    sentences
+    sentences,
+    currentStage: video.currentStage || 1,
+    repetitionCount: video.repetitionCount || 0
   };
 }
 
@@ -134,7 +138,9 @@ export async function listVideos(): Promise<VideoSummary[]> {
       duration: row.duration,
       importedAt: row.importedAt,
       sentenceCount: row.sentenceCount,
-      thumbnailUrl: row.thumbnailFile ? `/media/${row.id}/${row.thumbnailFile}` : ''
+      thumbnailUrl: row.thumbnailFile ? `/media/${row.id}/${row.thumbnailFile}` : '',
+      currentStage: row.currentStage || 1,
+      repetitionCount: row.repetitionCount || 0
     }));
   } catch (err) {
     console.error('Error listing videos', err);
@@ -181,11 +187,12 @@ export function toPlayerData(meta: VideoMeta): PlayerData {
     },
     duration: meta.duration,
     stageInfo: {
-      currentStage: 1,
+      currentStage: meta.currentStage || 1,
       totalStages: 10,
       subtitleMode: '中英双语',
       currentProgress: 0,
       totalProgress: 100,
+      repetitionCount: meta.repetitionCount || 0,
     },
     episodes,
     sentences: meta.sentences,
@@ -194,5 +201,6 @@ export function toPlayerData(meta: VideoMeta): PlayerData {
       startTime: 0,
       endTime: 0,
     },
+    repetitionCount: meta.repetitionCount || 0,
   };
 }

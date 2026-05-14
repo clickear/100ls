@@ -27,6 +27,7 @@ export interface StageInfo {
   subtitleMode: string; // e.g. "纯英文字幕"
   currentProgress: number;
   totalProgress: number;
+  repetitionCount: number;
 }
 
 /** Episode (阶段) status */
@@ -61,6 +62,7 @@ export interface PlayerData {
   episodes: Episode[];
   sentences: Sentence[];
   abLoop: ABLoop;
+  repetitionCount: number;
 }
 
 /** Player UI state (managed by frontend) */
@@ -73,4 +75,7 @@ export interface PlayerState {
   activeTab: TabId;
   currentTime: number;
   abLoop: ABLoop;
+  currentStage: number;
+  repetitionCount: number;
+  isAudioMode: boolean;
 }

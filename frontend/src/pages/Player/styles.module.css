@@ -21,6 +21,96 @@
   display: none;
 }
 
+.stageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-sm);
+  position: relative;
+}
+
+.checkInBtn {
+  background: var(--green);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.2);
+  transition: all 0.2s ease;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.checkInBtn:active {
+  transform: scale(0.95);
+  box-shadow: none;
+}
+
+.collapsibleWrapper {
+  margin-top: var(--spacing-sm);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.divider {
+  height: 1px;
+  background: #222;
+  position: relative;
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.collapseToggleMinimal {
+  position: absolute;
+  background: var(--bg-card);
+  border: 1px solid #333;
+  color: var(--text-secondary);
+  width: 40px;
+  height: 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  z-index: 5;
+}
+
+.collapseToggleMinimal:hover {
+  background: #333;
+  color: var(--text);
+  transform: scale(1.1);
+  border-color: var(--green);
+}
+
+.iconRotate {
+  transform: rotate(180deg);
+}
+
+.controlsContent {
+  overflow: hidden;
+  max-height: 1000px;
+  opacity: 1;
+  transition: 
+    max-height 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 0.5s ease-out,
+    transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateY(0) scale(1);
+  transform-origin: top center;
+}
+
+.controlsContent.collapsed {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-20px) scale(0.98);
+  pointer-events: none;
+}
+
 /* Loading state */
 .loadingContainer {
   display: flex;

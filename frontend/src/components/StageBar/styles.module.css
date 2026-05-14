@@ -13,42 +13,51 @@
   gap: 6px;
 }
 
-.stageLabel {
-  font-weight: 600;
-  color: var(--text);
+.stageInfoRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.stageSubtitleMode {
-  color: var(--text-secondary);
-}
-
-.stageInfoCenter {
+.repetitionInfo {
   display: flex;
   align-items: center;
   gap: 2px;
+}
+
+.checkInBtn {
+  background: var(--green);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(74, 222, 128, 0.2);
+  transition: all 0.2s ease;
+}
+
+.checkInBtn:active {
+  transform: scale(0.95);
+  box-shadow: none;
+}
+
+.stageLabel {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.stageSubtitleMode {
+  color: var(--text-dim);
+  font-size: 11px;
 }
 
 .progressNumber {
   font-weight: 700;
   color: var(--green);
-  font-size: 16px;
-}
-
-.stageDetailBtn {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  background: none;
-  border: none;
-  color: var(--green);
-  font-size: 13px;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: opacity var(--transition-fast);
-}
-
-.stageDetailBtn:active {
-  opacity: 0.6;
+  font-size: 14px;
 }
 
 /* Episode Row */
@@ -103,10 +112,59 @@
 }
 
 .episodeActive {
-  background: var(--green);
-  color: var(--bg);
+  background: var(--green) !important;
+  color: var(--bg) !important;
   font-weight: 700;
   box-shadow: var(--shadow-green);
+  transform: scale(1.1);
+}
+
+/* Stage Group Colors (Dimmed when not active) */
+.stageFoundation {
+  border: 1px solid rgba(59, 130, 246, 0.3); /* Blue */
+}
+.stageShadowing {
+  border: 1px solid rgba(74, 222, 128, 0.3); /* Green */
+}
+.stageFluent {
+  border: 1px solid rgba(251, 191, 36, 0.3); /* Amber */
+}
+.stageMastery {
+  border: 1px solid rgba(244, 63, 94, 0.3);  /* Rose */
+}
+
+/* Active colors should override group colors */
+.episodeActive.stageFoundation { background: #3B82F6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+.episodeActive.stageShadowing { background: #4ADE80; box-shadow: 0 0 15px rgba(74, 222, 128, 0.4); }
+.episodeActive.stageFluent { background: #FBBF24; box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
+.episodeActive.stageMastery { background: #F43F5E; box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+
+.stageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.recCrown {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  color: #FFD700; /* Richer Gold */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(25deg);
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4)) drop-shadow(0 0 5px rgba(255, 215, 0, 0.4));
+  z-index: 2;
+  pointer-events: none;
+  animation: crown-float 3s infinite ease-in-out;
+}
+
+@keyframes crown-float {
+  0%, 100% { transform: rotate(25deg) translateY(0); }
+  50% { transform: rotate(25deg) translateY(-2px); }
 }
 
 .locked {

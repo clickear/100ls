@@ -24,7 +24,9 @@ db.exec(`
     thumbnailFile TEXT,
     subEn TEXT,
     subCn TEXT,
-    importedAt TEXT NOT NULL
+    importedAt TEXT NOT NULL,
+    currentStage INTEGER DEFAULT 1,
+    repetitionCount INTEGER DEFAULT 0
   );
 
   CREATE TABLE IF NOT EXISTS sentences (
@@ -42,5 +44,9 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_sentences_videoId ON sentences(videoId);
 `);
+
+// Defensive migrations for existing databases
+try { db.exec('ALTER TABLE videos ADD COLUMN currentStage INTEGER DEFAULT 1'); } catch (e) {}
+try { db.exec('ALTER TABLE videos ADD COLUMN repetitionCount INTEGER DEFAULT 0'); } catch (e) {}
 
 export default db;

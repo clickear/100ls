@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { PlayerData, PlayerState, PlaybackSpeed, SubtitleMode, TabId, Sentence } from '../types/player';
-import { updateSentenceStatus } from '../api/player';
+import { updateSentenceStatus, updateVideoProgress } from '../api/player';
 
 const SPEEDS: PlaybackSpeed[] = ['0.5x', '0.75x', '1.0x', '1.25x', '1.5x'];
 const SPEED_VALUES: Record<PlaybackSpeed, number> = {
@@ -24,9 +24,12 @@ export interface UsePlayerReturn {
   goToSentence: (index: number) => void;
   toggleLoopSentence: () => void;
   toggleKeySentence: () => void;
+  toggleAudioMode: () => void;
   setSubtitleMode: (mode: SubtitleMode) => void;
   setActiveTab: (tab: TabId) => void;
   selectEpisode: (ep: number) => void;
+  setStage: (stage: number) => void;
+  incrementRepetition: () => void;
 }
 
 export function usePlayer(data: PlayerData | null): UsePlayerReturn {
@@ -43,15 +46,26 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     activeTab: 'player',
     currentTime: 0,
     abLoop: { active: false, startTime: 0, endTime: 0 },
+    currentStage: 1,
+    repetitionCount: 0,
+    isAudioMode: false,
   });
 
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  // Init AB loop from data
+  // Init progress and state from data
   useEffect(() => {
-    if (data?.abLoop) {
-      setState(prev => ({ ...prev, abLoop: { ...data.abLoop } }));
+    if (data) {
+      setState(prev => ({
+        ...prev,
+        abLoop: { ...data.abLoop },
+        currentStage: data.stageInfo.currentStage,
+        repetitionCount: data.repetitionCount,
+        // Auto set subtitle mode based on stage
+        subtitleMode: data.stageInfo.currentStage === 1 ? 'bilingual' : 
+                      data.stageInfo.currentStage === 2 ? 'pure-en' : 'none'
+      }));
     }
   }, [data]);
 
@@ -131,6 +145,7 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
 
   function handleEnded() {
     setState(prev => ({ ...prev, isPlaying: false }));
+    incrementRepetition();
   }
 
   // --- Controls ---
@@ -262,6 +277,42 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     setState(prev => ({ ...prev, subtitleMode: mode }));
   }, []);
 
+  const setStage = useCallback((stage: number) => {
+    setState(prev => {
+      const videoId = dataRef.current?.videoId;
+      if (videoId) {
+        updateVideoProgress(videoId, { currentStage: stage }).catch(err => {
+          console.error('Failed to update stage', err);
+        });
+      }
+
+      // Automatic subtitle mode switching logic
+      let subtitleMode: SubtitleMode = prev.subtitleMode;
+      if (stage === 1) subtitleMode = 'bilingual';
+      else if (stage === 2) subtitleMode = 'pure-en';
+      else if (stage >= 3) subtitleMode = 'none';
+
+      return { ...prev, currentStage: stage, subtitleMode };
+    });
+  }, []);
+
+  const incrementRepetition = useCallback(() => {
+    setState(prev => {
+      const newCount = prev.repetitionCount + 1;
+      const videoId = dataRef.current?.videoId;
+      if (videoId) {
+        updateVideoProgress(videoId, { repetitionCount: newCount }).catch(err => {
+          console.error('Failed to update repetition count', err);
+        });
+      }
+      return { ...prev, repetitionCount: newCount };
+    });
+  }, []);
+
+  const toggleAudioMode = useCallback(() => {
+    setState(prev => ({ ...prev, isAudioMode: !prev.isAudioMode }));
+  }, []);
+
   const setActiveTab = useCallback((tab: TabId) => {
     setState(prev => ({ ...prev, activeTab: tab }));
   }, []);
@@ -277,9 +328,13 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     togglePlayPause, seek, replay,
     cycleSpeed,
     setPointA, setPointB, toggleABLoop,
-    goToPrevSentence, goToNextSentence, goToSentence, toggleLoopSentence, toggleKeySentence,
+    goToPrevSentence, goToNextSentence, goToSentence, toggleLoopSentence,
+    toggleKeySentence,
+    toggleAudioMode,
     setSubtitleMode,
     setActiveTab,
     selectEpisode,
+    setStage,
+    incrementRepetition,
   };
 }

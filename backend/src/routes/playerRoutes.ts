@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPlayerData, updateSentenceProgress } from '../controllers/playerController.js';
+import { getPlayerData, updateSentenceProgress, updateVideoProgress } from '../controllers/playerController.js';
 import { importVideo, getVideos, removeVideo } from '../controllers/videoController.js';
 
 const router = Router();
@@ -7,6 +7,7 @@ const router = Router();
 // Player data
 router.get('/player/:videoId', getPlayerData);
 router.put('/player/:videoId/sentences/:sentenceId', updateSentenceProgress);
+router.put('/player/:videoId/progress', updateVideoProgress);
 
 // Video management
 router.post('/videos', importVideo);
