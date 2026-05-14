@@ -78,4 +78,5 @@ export interface PlayerState {
   currentStage: number;
   repetitionCount: number;
   isAudioMode: boolean;
+  isLooping: boolean;
 }

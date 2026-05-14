@@ -142,7 +142,7 @@ export async function updateSentenceStatus(
  */
 export async function updateVideoProgress(
   videoId: string,
-  data: { currentStage?: number; repetitionCount?: number }
+  data: { currentStage?: number; repetitionCount?: number; lastPosition?: number }
 ): Promise<void> {
   const res = await fetch(`${API_BASE}/api/player/${videoId}/progress`, {
     method: 'PUT',

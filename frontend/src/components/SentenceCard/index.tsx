@@ -89,7 +89,7 @@ export default function SentenceCard({
   const dotIndex = currentIndex % 3;
 
   return (
-    <div className={styles.sentenceSection} id="sentenceSection">
+    <div className={styles.sentenceSection} id="sentenceSection" data-sentence-index={currentIndex}>
       <div className={styles.sentenceHeader}>
         <span className={styles.sentenceCounter}>
           当前句子  <strong>{currentIndex + 1}</strong>/{totalSentences}

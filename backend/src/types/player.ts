@@ -63,6 +63,7 @@ export interface VideoMeta {
   sentences: Sentence[];
   currentStage: number;
   repetitionCount: number;
+  lastPosition: number;
 }
 
 /** Summary returned by GET /api/videos list */

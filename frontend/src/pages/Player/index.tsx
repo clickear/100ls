@@ -74,6 +74,16 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
     }
   }, [isCollapsed]);
 
+  // Sync scroll to current sentence in list
+  useEffect(() => {
+    if (!isCollapsed && state.currentSentenceIndex !== -1 && mainRef.current) {
+      const activeItem = document.querySelector(`[data-sentence-index="${state.currentSentenceIndex}"]`);
+      if (activeItem) {
+        activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [state.currentSentenceIndex, isCollapsed]);
+
   const [, setLocation] = useLocation();
 
   if (loading) {
@@ -138,11 +148,13 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
         />
         <PlaybackControls
           isPlaying={state.isPlaying}
+          isLooping={state.isLooping}
           currentSpeed={state.currentSpeed}
           onPlayPause={player.togglePlayPause}
           onReplay={player.replay}
           onClearAB={player.toggleABLoop}
           onSpeedChange={player.cycleSpeed}
+          onToggleLoop={player.toggleLoop}
         />
         
         <div className={styles.collapsibleWrapper}>

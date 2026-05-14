@@ -36,6 +36,11 @@
   color: var(--text-secondary);
 }
 
+.activeText {
+  color: var(--green) !important;
+  font-weight: 600;
+}
+
 .speedText {
   font-size: 18px;
   font-weight: 700;

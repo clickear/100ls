@@ -45,8 +45,10 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_sentences_videoId ON sentences(videoId);
 `);
 
-// Defensive migrations for existing databases
-try { db.exec('ALTER TABLE videos ADD COLUMN currentStage INTEGER DEFAULT 1'); } catch (e) {}
-try { db.exec('ALTER TABLE videos ADD COLUMN repetitionCount INTEGER DEFAULT 0'); } catch (e) {}
+  ALTER TABLE videos ADD COLUMN repetitionCount INTEGER DEFAULT 0;
+  ALTER TABLE videos ADD COLUMN lastPosition REAL DEFAULT 0;
+`); } catch (e) {}
+
+try { db.exec('ALTER TABLE videos ADD COLUMN lastPosition REAL DEFAULT 0'); } catch (e) {}
 
 export default db;

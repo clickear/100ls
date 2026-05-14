@@ -25,6 +25,7 @@ export interface UsePlayerReturn {
   toggleLoopSentence: () => void;
   toggleKeySentence: () => void;
   toggleAudioMode: () => void;
+  toggleLoop: () => void;
   setSubtitleMode: (mode: SubtitleMode) => void;
   setActiveTab: (tab: TabId) => void;
   selectEpisode: (ep: number) => void;
@@ -49,6 +50,7 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     currentStage: 1,
     repetitionCount: 0,
     isAudioMode: false,
+    isLooping: true,
   });
 
   const stateRef = useRef(state);
@@ -91,6 +93,40 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Persistence: Save position every 5s or on pause
+  useEffect(() => {
+    if (!data?.videoId) return;
+    
+    const saveProgress = async () => {
+      try {
+        await updateVideoProgress(data.videoId, { 
+          lastPosition: stateRef.current.currentTime 
+        });
+      } catch (err) {
+        console.error('Failed to save progress', err);
+      }
+    };
+
+    if (!state.isPlaying && state.currentTime > 0) {
+      saveProgress();
+    }
+
+    const interval = setInterval(() => {
+      if (state.isPlaying) saveProgress();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [state.isPlaying, data?.videoId]);
+
+  // Initial Seek
+  const [hasInitialSeeked, setHasInitialSeeked] = useState(false);
+  useEffect(() => {
+    if (data?.stageInfo.lastPosition && videoElRef.current && !hasInitialSeeked) {
+      videoElRef.current.currentTime = data.stageInfo.lastPosition;
+      setHasInitialSeeked(true);
+    }
+  }, [data, hasInitialSeeked]);
 
   function handleTimeUpdate() {
     const video = videoElRef.current;
@@ -144,8 +180,18 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
   }
 
   function handleEnded() {
-    setState(prev => ({ ...prev, isPlaying: false }));
+    const video = videoElRef.current;
+    if (!video) return;
+
+    // Automatic check-in logic
     incrementRepetition();
+
+    if (stateRef.current.isLooping) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    } else {
+      setState(prev => ({ ...prev, isPlaying: false }));
+    }
   }
 
   // --- Controls ---
@@ -313,6 +359,10 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     setState(prev => ({ ...prev, isAudioMode: !prev.isAudioMode }));
   }, []);
 
+  const toggleLoop = useCallback(() => {
+    setState(prev => ({ ...prev, isLooping: !prev.isLooping }));
+  }, []);
+
   const setActiveTab = useCallback((tab: TabId) => {
     setState(prev => ({ ...prev, activeTab: tab }));
   }, []);
@@ -331,6 +381,7 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     goToPrevSentence, goToNextSentence, goToSentence, toggleLoopSentence,
     toggleKeySentence,
     toggleAudioMode,
+    toggleLoop,
     setSubtitleMode,
     setActiveTab,
     selectEpisode,

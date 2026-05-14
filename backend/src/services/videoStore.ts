@@ -35,8 +35,8 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
   await fs.mkdir(dir, { recursive: true });
   
   const insertVideo = db.prepare(`
-    INSERT OR REPLACE INTO videos (id, title, sourceUrl, duration, videoFile, thumbnailFile, subEn, subCn, importedAt, currentStage, repetitionCount)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT OR REPLACE INTO videos (id, title, sourceUrl, duration, videoFile, thumbnailFile, subEn, subCn, importedAt, currentStage, repetitionCount, lastPosition)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   const insertSentence = db.prepare(`
@@ -58,7 +58,8 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
       meta.subtitleFiles.cn || null,
       meta.importedAt,
       meta.currentStage || 1,
-      meta.repetitionCount || 0
+      meta.repetitionCount || 0,
+      meta.lastPosition || 0
     );
 
     deleteSentences.run(meta.videoId);
@@ -114,7 +115,8 @@ export async function getVideoMeta(videoId: string): Promise<VideoMeta | null> {
     },
     sentences,
     currentStage: video.currentStage || 1,
-    repetitionCount: video.repetitionCount || 0
+    repetitionCount: video.repetitionCount || 0,
+    lastPosition: video.lastPosition || 0
   };
 }
 
@@ -204,6 +206,7 @@ export function toPlayerData(meta: VideoMeta): PlayerData {
       currentProgress: 0,
       totalProgress: 100,
       repetitionCount: meta.repetitionCount || 0,
+      lastPosition: meta.lastPosition || 0,
     },
     episodes,
     sentences: meta.sentences,

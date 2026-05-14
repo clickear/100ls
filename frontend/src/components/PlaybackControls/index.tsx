@@ -3,14 +3,25 @@ import styles from './styles.module.css';
 
 interface PlaybackControlsProps {
   isPlaying: boolean;
+  isLooping: boolean;
   currentSpeed: PlaybackSpeed;
   onPlayPause: () => void;
   onReplay: () => void;
   onClearAB: () => void;
   onSpeedChange: () => void;
+  onToggleLoop: () => void;
 }
 
-export default function PlaybackControls({ isPlaying, currentSpeed, onPlayPause, onReplay, onClearAB, onSpeedChange }: PlaybackControlsProps) {
+export default function PlaybackControls({ 
+  isPlaying, 
+  isLooping,
+  currentSpeed, 
+  onPlayPause, 
+  onReplay, 
+  onClearAB, 
+  onSpeedChange,
+  onToggleLoop
+}: PlaybackControlsProps) {
   return (
     <div className={styles.playbackControls} id="playbackControls">
       <button className={styles.controlBtn} id="btn-replay" onClick={onReplay}>
@@ -46,6 +57,23 @@ export default function PlaybackControls({ isPlaying, currentSpeed, onPlayPause,
           </svg>
         </div>
         <span className={styles.controlLabel}>清除 AB</span>
+      </button>
+
+      <button 
+        className={`${styles.controlBtn} ${isLooping ? styles.active : ''}`} 
+        id="btn-loop" 
+        onClick={onToggleLoop}
+        title={isLooping ? '取消循环' : '循环播放'}
+      >
+        <div className={styles.controlIcon}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M17 1L21 5L17 9" stroke={isLooping ? "var(--green)" : "white"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3 11V9a4 4 0 014-4h14" stroke={isLooping ? "var(--green)" : "white"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7 23L3 19L7 15" stroke={isLooping ? "var(--green)" : "white"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M21 13v2a4 4 0 01-4 4H3" stroke={isLooping ? "var(--green)" : "white"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        <span className={`${styles.controlLabel} ${isLooping ? styles.activeText : ''}`}>循环</span>
       </button>
 
       <button className={styles.controlBtn} id="btn-speed" onClick={onSpeedChange}>
