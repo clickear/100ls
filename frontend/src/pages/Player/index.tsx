@@ -20,6 +20,12 @@ interface PlayerPageProps {
   videoId?: string;
 }
 
+function formatTime(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 export default function PlayerPage({ videoId }: PlayerPageProps) {
   const [, setLocation] = useLocation();
   const [data, setData] = useState<PlayerData | null>(null);
@@ -89,15 +95,7 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
     requestAnimationFrame(animateScroll);
   };
 
-  // Sync scroll to current sentence in list
-  useEffect(() => {
-    if (state.currentSentenceIndex !== -1) {
-      const activeItem = document.querySelector(`[data-sentence-index="${state.currentSentenceIndex}"]`);
-      if (activeItem) {
-        activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-  }, [state.currentSentenceIndex]);
+  // Manual scroll trigger will be handled by a button instead of this auto-effect
 
 
   // If there's an error and we have a videoId, show error
@@ -175,7 +173,18 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
         ))}
       </div>
 
-      <main className={styles.mainContent} id="mainContent" ref={mainRef}>
+      <main 
+        className={styles.mainContent} 
+        id="mainContent" 
+        ref={mainRef}
+        onScroll={() => {
+          const btn = document.querySelector(`.${styles.fabLocation}`) as HTMLElement;
+          if (btn && btn.style.opacity === '0') {
+            btn.style.visibility = 'visible';
+            btn.style.opacity = '1';
+          }
+        }}
+      >
         {state.activeTab === 'player' ? (
           <>
             <StageBar
@@ -247,16 +256,40 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
             </div>
           </>
         ) : state.activeTab === 'subtitles' ? (
-          <div style={{ padding: '0 var(--spacing-lg)' }}>
-            <div style={{ marginBottom: 'var(--spacing-lg)' }}>
-              <VideoImport onSuccess={loadVideos} />
+          <div className={styles.transcriptWrapper}>
+            <div className={styles.transcriptContainer}>
+              {data.sentences.map((s, idx) => (
+                <div 
+                  key={idx}
+                  data-sentence-index={idx}
+                  className={`${styles.transcriptItem} ${idx === state.currentSentenceIndex ? styles.transcriptActive : ''}`}
+                  onClick={() => player.seek(s.startTime)}
+                >
+                  <div className={styles.transcriptTime}>{formatTime(s.startTime)}</div>
+                  <div className={styles.transcriptText}>
+                    <div className={styles.transcriptEn}>{s.en}</div>
+                    <div className={styles.transcriptCn}>{s.cn}</div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <VideoList 
-              currentVideoId={videoId} 
-              onSelectVideo={(newId) => {
-                setLocation(`/player/${newId}`);
-              }} 
-            />
+            
+            {/* Floating Action Button for Location */}
+            <button 
+              className={styles.fabLocation} 
+              onClick={() => {
+                const activeItem = document.querySelector(`[data-sentence-index="${state.currentSentenceIndex}"]`);
+                if (activeItem) {
+                  activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }}
+              title="定位当前台词"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </button>
           </div>
         ) : state.activeTab === 'vocabulary' ? (
             <PatternBook 

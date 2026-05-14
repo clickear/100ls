@@ -198,8 +198,8 @@ export default function VideoPlayer({
 
         {/* Subtitle on video - Moved to last to ensure it's on top */}
         {currentSentence && (subtitleMode !== 'none') && (
-          <div className={styles.videoSubtitle}>
-            <p className={styles.videoSubtitleEn}>
+          <div className={styles.subtitles}>
+            <div className={styles.enSub}>
               {(subtitleMode === 'pure-en' || subtitleMode === 'bilingual') ? (
                 <HighlightedText 
                   text={currentSentence.en} 
@@ -208,9 +208,9 @@ export default function VideoPlayer({
               ) : (
                 renderSubtitleEn(currentSentence, subtitleMode)
               )}
-            </p>
+            </div>
             {showCn && (
-              <p className={styles.videoSubtitleCn}>{currentSentence.cn}</p>
+              <div className={styles.cnSub}>{currentSentence.cn}</div>
             )}
           </div>
         )}

@@ -56,9 +56,8 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
 
   const handleJump = useCallback((time: number, index: number) => {
     onSeek(time);
-    setActiveMarker(null);
     setSuppressedIndex(index);
-    // Automatically lift suppression after 1s or if mouse moves significantly
+    // Automatically lift suppression after 1s
     setTimeout(() => setSuppressedIndex(null), 1000);
   }, [onSeek]);
 
@@ -103,10 +102,6 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
             const isActive = activeMarker === i;
             const markerPct = (m.time / duration) * 100;
             
-            // Smart boundary adjustment for tooltip using CSS variables
-            const xOffset = markerPct < 20 ? '0' : markerPct > 80 ? '-100%' : '-50%';
-            const leftPos = markerPct < 20 ? '0' : markerPct > 80 ? '100%' : '50%';
-            
             return (
               <div 
                 key={`${m.patternId}-${m.time}`}
@@ -116,9 +111,6 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
                   background: color,
                   boxShadow: `0 0 6px ${color}88`,
                   cursor: 'pointer',
-                  // @ts-ignore
-                  '--tooltip-left': leftPos,
-                  '--tooltip-x': xOffset
                 } as any} 
                 onClick={(e) => {
                   e.stopPropagation();
@@ -128,25 +120,9 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
                     setActiveMarker(i);
                   }
                 }}
-                onMouseEnter={() => setSuppressedIndex(null)}
-              >
-                <div 
-                  className={styles.markerTooltip}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleJump(m.time, i);
-                  }}
-                >
-                  <div className={styles.tooltipPattern} style={{ color }}>{m.patternText}</div>
-                  <div className={styles.tooltipSentence}>
-                    {m.sentenceEn.split(new RegExp(`(${m.patternText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\\\*/g, '.*?')})`, 'gi')).map((part, idx) => {
-                      // Check if this part matches the pattern (roughly)
-                      const isMatch = idx % 2 === 1;
-                      return isMatch ? <span key={idx} style={{ color, fontWeight: 'bold' }}>{part}</span> : part;
-                    })}
-                  </div>
-                </div>
-              </div>
+                onMouseEnter={() => setActiveMarker(i)}
+                onMouseLeave={() => setActiveMarker(null)}
+              />
             );
           })}
 
@@ -155,6 +131,30 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
           {abLoop.active && <div className={styles.progressMarker} style={{ left: `${bPct}%` }} id="markerB"><span className={styles.markerLabel}>B</span></div>}
         </div>
         <span className={styles.progressTime}>{formatTime(duration)}</span>
+
+        {/* Single Globally Centered Tooltip - Moved outside of Track */}
+        {activeMarker !== null && markers?.[activeMarker] && (
+          <div 
+            className={`${styles.markerTooltip} ${styles.activeTooltip}`}
+            onMouseEnter={() => setActiveMarker(activeMarker)}
+            onMouseLeave={() => setActiveMarker(null)}
+            onClick={(e) => {
+              e.stopPropagation();
+              const m = markers[activeMarker];
+              handleJump(m.time, activeMarker);
+            }}
+          >
+            <div 
+              className={styles.tooltipPattern} 
+              style={{ color: PATTERN_COLORS[markers[activeMarker].patternId % PATTERN_COLORS.length] }}
+            >
+              {markers[activeMarker].patternText}
+            </div>
+            <div className={styles.tooltipSentence}>
+              {markers[activeMarker].sentenceEn}
+            </div>
+          </div>
+        )}
       </div>
       <div className={styles.abControls}>
         <button className={`${styles.abBtn} ${abLoop.active ? styles.abBtnActive : ''}`} id="btn-a" onClick={onSetA}>A</button>
