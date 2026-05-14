@@ -5,106 +5,51 @@
 
 .header {
   margin-bottom: var(--spacing-lg);
+  padding: 0 var(--spacing-xs);
 }
 
 .title {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
   margin-bottom: 4px;
 }
 
 .subtitle {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.importSection {
-  margin-bottom: var(--spacing-xl);
-  background: rgba(255,255,255,0.03);
-  padding: 16px;
-  border-radius: var(--radius-md);
-  border: 1px dashed #333;
-}
-
-.importForm {
-  display: flex;
-  gap: 8px;
-}
-
-.input {
-  flex: 1;
-  background: #111;
-  border: 1px solid #333;
-  color: white;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
   font-size: 14px;
-}
-
-.importBtn {
-  background: var(--green);
-  color: #000;
-  border: none;
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.progressRow {
-  margin-top: 12px;
-}
-
-.progressBar {
-  height: 4px;
-  background: #222;
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-
-.progressFill {
-  height: 100%;
-  background: var(--green);
-  transition: width 0.3s ease;
-}
-
-.progressText {
-  font-size: 11px;
-  color: var(--text-dim);
-}
-
-.errorText {
-  color: #f87171;
-  font-size: 12px;
-  margin-top: 8px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .grid {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-xl);
 }
 
 .card {
   display: flex;
   gap: 12px;
   background: var(--bg-card);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 8px;
-  border: 1px solid #222;
+  border: 1px solid var(--border-light);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-soft);
 }
 
 .card:hover {
   background: var(--bg-card-hover);
-  border-color: #444;
+  border-color: var(--border-focus);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-majestic);
 }
 
 .activeCard {
-  border-color: var(--green);
-  background: rgba(74, 222, 128, 0.05);
+  border-color: var(--active);
+  background: var(--active-dim);
+  box-shadow: inset 0 0 0 1px var(--border-active);
 }
 
 .thumbnailWrapper {

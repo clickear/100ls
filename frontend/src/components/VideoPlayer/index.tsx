@@ -131,7 +131,7 @@ export default function VideoPlayer({
           <div className={styles.playOverlay}>
             <div className={styles.playOverlayBtn}>
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <path d="M14 8V32L34 20L14 8Z" fill="white" fillOpacity="0.9" />
+                <path d="M14 8V32L34 20L14 8Z" fill="currentColor" fillOpacity="0.9" />
               </svg>
             </div>
           </div>
@@ -142,8 +142,8 @@ export default function VideoPlayer({
           <div className={styles.abOverlay}>
             <div className={styles.abStatus}>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <rect x="1" y="1" width="12" height="12" rx="2" stroke="#4ADE80" strokeWidth="1.5" />
-                <text x="3" y="10" fontSize="7" fill="#4ADE80" fontWeight="bold">AB</text>
+                <rect x="1" y="1" width="12" height="12" rx="2" stroke="#D97706" strokeWidth="1.5" />
+                <text x="3" y="10" fontSize="7" fill="#D97706" fontWeight="bold">AB</text>
               </svg>
               <span className={styles.abStatusText}>循环中</span>
             </div>
@@ -188,10 +188,10 @@ export default function VideoPlayer({
             }}
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M2 6V3C2 2.45 2.45 2 3 2H6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M12 2H15C15.55 2 16 2.45 16 3V6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M16 12V15C16 15.55 15.55 16 15 16H12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M6 16H3C2.45 16 2 15.55 2 15V12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M2 6V3C2 2.45 2.45 2 3 2H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M12 2H15C15.55 2 16 2.45 16 3V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M16 12V15C16 15.55 15.55 16 15 16H12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M6 16H3C2.45 16 2 15.55 2 15V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>

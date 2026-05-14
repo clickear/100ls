@@ -19,7 +19,7 @@
 .progressTrack {
   flex: 1;
   height: 4px;
-  background: #333;
+  background: var(--bg-alt);
   border-radius: 2px;
   position: relative;
   cursor: pointer;
@@ -30,7 +30,7 @@
   left: 0;
   top: 0;
   height: 100%;
-  background: var(--green);
+  background: var(--brand);
   border-radius: 2px;
   transition: width 0.1s;
 }
@@ -38,12 +38,13 @@
 .progressThumb {
   position: absolute;
   top: 50%;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background: #fff;
+  border: 2px solid var(--brand);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: var(--shadow-thumb);
+  box-shadow: var(--shadow-soft);
   z-index: 3;
   cursor: grab;
   transition: left 0.1s;
@@ -83,9 +84,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 2px solid #555;
+  border: 1.5px solid var(--text-dim);
   background: none;
-  color: #555;
+  color: var(--text-dim);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -97,14 +98,15 @@
 }
 
 .abBtnActive {
-  border-color: var(--green);
-  color: var(--green);
+  background: var(--brand-dim);
+  border-color: var(--brand);
+  color: var(--brand);
 }
 
 .abDuration {
   font-size: 13px;
-  color: var(--green);
-  font-weight: 500;
+  color: var(--brand);
+  font-weight: 700;
 }
 
 .patternMarker {
@@ -112,7 +114,7 @@
   top: 50%;
   width: 6px;
   height: 6px;
-  background: #ffcc00;
+  background: var(--brand);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;

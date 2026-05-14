@@ -19,7 +19,7 @@ export default function Header({ title, isVip, onBack, onMenu }: HeaderProps) {
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
             d="M15 18L9 12L15 6"
-            stroke="white"
+            stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -37,9 +37,9 @@ export default function Header({ title, isVip, onBack, onMenu }: HeaderProps) {
         onClick={onMenu}
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="5" r="2" fill="white" />
-          <circle cx="12" cy="12" r="2" fill="white" />
-          <circle cx="12" cy="19" r="2" fill="white" />
+          <circle cx="12" cy="5" r="2" fill="currentColor" />
+          <circle cx="12" cy="12" r="2" fill="currentColor" />
+          <circle cx="12" cy="19" r="2" fill="currentColor" />
         </svg>
       </button>
     </header>

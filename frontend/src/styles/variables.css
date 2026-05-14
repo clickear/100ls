@@ -1,75 +1,77 @@
-/* === Design Tokens === */
+/* === Theme Tokens - Golden Majestic (Semantic & Abstracted) === */
 :root {
-  /* Brand colors */
-  --green: #4ADE80;
-  --green-dark: #22C55E;
-  --green-dim: rgba(74, 222, 128, 0.15);
-  --amber: #F59E0B;
-
+  /* Brand Identity */
+  --brand: #D97706;          /* Majestic Gold */
+  --brand-dim: rgba(217, 119, 6, 0.08);
+  
+  /* Interaction & Status */
+  --active: #059669;         /* Success/Active Green */
+  --active-dim: rgba(5, 150, 105, 0.08);
+  --error: #ef4444;
+  
   /* Backgrounds */
-  --bg: #0a0a0a;
-  --bg-card: #1a1a1a;
-  --bg-elevated: #222;
-  --bg-input: #2a2a2a;
-
-  /* Text */
-  --text: #fff;
-  --text-secondary: #999;
-  --text-dim: #666;
-
-  /* System */
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --bg-main: #fdfbf7;        /* Light Champagne */
+  --bg-alt: #f5f0e6;         /* Cream */
+  --bg-card: #ffffff;
+  --bg-card-hover: #fffdfa;
+  --bg-dark: #2d1604;        /* Deep Bronze Brown (Used for dark buttons) */
+  
+  /* Borders & Lines */
+  --border-light: rgba(217, 119, 6, 0.12);
+  --border-active: rgba(5, 150, 105, 0.4);
+  --border-focus: rgba(217, 119, 6, 0.3);
 
   /* Typography */
-  --font: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --text-main: #2d1604;      /* Deep Bronze Brown */
+  --text-body: #422006;      /* Warm Brown */
+  --text-muted: #78350f;     /* Amber Brown */
+  --text-dim: #92400e;
+  --text-on-dark: #ffffff;
 
-  /* Spacing */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 12px;
-  --spacing-lg: 16px;
-  --spacing-xl: 20px;
-  --spacing-2xl: 28px;
+  /* Elevation - Refined for better clarity */
+  --shadow-soft: 0 2px 10px rgba(120, 53, 15, 0.04);
+  --shadow-majestic: 0 10px 30px rgba(120, 53, 15, 0.08);
+  --shadow-strong: 0 15px 45px rgba(120, 53, 15, 0.1);
 
-  /* Radius */
+  /* Geometry - More balanced radii */
   --radius-sm: 6px;
   --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-round: 50%;
-
-  /* Shadows */
-  --shadow-green: 0 0 12px rgba(74, 222, 128, 0.4);
-  --shadow-green-lg: 0 4px 20px rgba(74, 222, 128, 0.4);
-  --shadow-green-glow: 0 4px 30px rgba(74, 222, 128, 0.6);
-  --shadow-thumb: 0 1px 4px rgba(0, 0, 0, 0.4);
-
-  /* Transitions */
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.2s ease;
-  --transition-slow: 0.3s ease;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  
+  /* Spacing System (with legacy aliases) */
+  --space-xs: 4px;  --spacing-xs: 4px;
+  --space-sm: 8px;  --spacing-sm: 8px;
+  --space-md: 12px; --spacing-md: 12px;
+  --space-lg: 20px; --spacing-lg: 20px;
+  --space-xl: 24px; --spacing-xl: 24px;
+  --space-2xl: 32px; --spacing-2xl: 32px;
+  
+  /* Theme Aliases for Legacy Compatibility */
+  --accent-gold: var(--brand);
+  --text: var(--text-body);
+  --text-primary: var(--text-main);
+  --text-secondary: var(--text-muted);
+  --border: var(--border-light);
+  --bg: var(--bg-main);
+  --bg-secondary: var(--bg-alt);
+  --green: var(--active);
+  --shadow-md: var(--shadow-majestic);
+  --shadow-lg: var(--shadow-strong);
 }
 
-/* === Global Reset === */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 16px;
-}
+/* === Global Reset & Body === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
 
 body {
   font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
+  background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-alt) 100%);
+  background-attachment: fixed;
+  color: var(--text-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
-  height: 100dvh;
+  min-height: 100vh;
 }
 
 /* Scrollbar hiding utility */

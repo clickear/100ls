@@ -55,7 +55,7 @@ export default function StageBar({
           
           {onCheckIn && (
             <button className={styles.checkInBtn} onClick={onCheckIn}>
-              打卡
+              打卡 +1
             </button>
           )}
         </div>

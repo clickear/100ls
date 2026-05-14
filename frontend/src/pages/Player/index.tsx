@@ -13,6 +13,7 @@ import SentenceCard from '../../components/SentenceCard';
 import TabBar from '../../components/TabBar';
 import PatternBook from '../../components/PatternBook';
 import VideoList from '../../components/VideoList';
+import VideoImport from '../../components/VideoImport';
 import styles from './styles.module.css';
 
 interface PlayerPageProps {
@@ -56,6 +57,12 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
   const { state, currentSentence, videoRef } = player;
 
   const mainRef = useRef<HTMLElement | null>(null);
+
+  const loadVideos = () => {
+    // In PlayerPage, we just want to refresh the list state
+    // VideoList component handles its own fetching, so we can just trigger a re-render or do nothing
+    window.location.reload(); 
+  };
 
   // Luxury Quartic Easing (More fluid than Quad)
   const easeInOutQuart = (t: number, b: number, c: number, d: number) => {
@@ -122,10 +129,15 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
       <div className={styles.container}>
         <main className={styles.mainContent}>
           {state.activeTab === 'subtitles' ? (
-            <VideoList 
-              currentVideoId="" 
-              onSelectVideo={(id) => setLocation(`/player/${id}`)} 
-            />
+            <div style={{ padding: '0 var(--spacing-lg)' }}>
+              <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+                <VideoImport onSuccess={loadVideos} />
+              </div>
+              <VideoList 
+                currentVideoId="" 
+                onSelectVideo={(id) => setLocation(`/player/${id}`)} 
+              />
+            </div>
           ) : state.activeTab === 'vocabulary' ? (
             <PatternBook 
               onPlayInstance={(id, t) => {
@@ -235,12 +247,17 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
             </div>
           </>
         ) : state.activeTab === 'subtitles' ? (
-          <VideoList 
-            currentVideoId={videoId} 
-            onSelectVideo={(newId) => {
-              setLocation(`/player/${newId}`);
-            }} 
-          />
+          <div style={{ padding: '0 var(--spacing-lg)' }}>
+            <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+              <VideoImport onSuccess={loadVideos} />
+            </div>
+            <VideoList 
+              currentVideoId={videoId} 
+              onSelectVideo={(newId) => {
+                setLocation(`/player/${newId}`);
+              }} 
+            />
+          </div>
         ) : state.activeTab === 'vocabulary' ? (
             <PatternBook 
               onPlayInstance={(targetVideoId, startTime) => {

@@ -11,32 +11,33 @@
 }
 
 .title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 800;
   margin-bottom: 4px;
-  background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+  background: linear-gradient(135deg, var(--brand), var(--text-main));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
   font-size: 13px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   line-height: 1.4;
+  font-weight: 600;
 }
 
 /* Category Sections */
 .categorySection {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: 24px;
 }
 
 .categoryTitle {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
   color: var(--text-dim);
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -46,16 +47,16 @@
   content: "";
   height: 1px;
   flex: 1;
-  background: linear-gradient(90deg, #333 0%, transparent 100%);
+  background: linear-gradient(90deg, var(--border-light) 0%, transparent 100%);
 }
 
 .patternGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
-@media (max-width: 350px) {
+@media (max-width: 400px) {
   .patternGrid {
     grid-template-columns: 1fr;
   }
@@ -63,83 +64,70 @@
 
 /* Mastery Levels & Card Styles */
 .patternCard {
-  background: #111;
+  background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  border: 1px solid #222;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px;
+  border: 1px solid var(--border-light);
+  transition: all var(--transition-normal);
   cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100px;
+  min-height: 110px;
+  box-shadow: var(--shadow-soft);
 }
 
-.patternCard:active {
-  transform: scale(0.96);
+.patternCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-majestic);
+  border-color: var(--active);
+  background: var(--bg-card-hover);
 }
 
-/* Mastery Level Visuals */
-.level_0 { border-color: #222; }
-.level_1 { border-color: rgba(74, 222, 128, 0.3); background: linear-gradient(180deg, #111 0%, rgba(74, 222, 128, 0.05) 100%); }
-.level_2 { border-color: rgba(59, 130, 246, 0.4); background: linear-gradient(180deg, #111 0%, rgba(59, 130, 246, 0.05) 100%); }
-.level_3 { border-color: rgba(168, 85, 247, 0.5); background: linear-gradient(180deg, #111 0%, rgba(168, 85, 247, 0.05) 100%); }
+/* Mastery Level Visuals - Semi-Abstracted */
+.level_0 { border-color: var(--border-light); }
+.level_1 { border-color: var(--active-dim); background: linear-gradient(180deg, #fff 0%, var(--active-dim) 100%); }
+.level_2 { border-color: var(--border-active); background: linear-gradient(180deg, #fff 0%, var(--active-dim) 100%); }
+.level_3 { border-color: var(--brand); background: linear-gradient(180deg, #fff 0%, var(--brand-dim) 100%); }
 .level_4 { 
-  border-color: rgba(234, 179, 8, 0.6); 
-  background: linear-gradient(180deg, #111 0%, rgba(234, 179, 8, 0.1) 100%);
-  box-shadow: 0 0 15px rgba(234, 179, 8, 0.1);
-}
-
-.cardMain {
-  margin-bottom: 12px;
+  border-color: var(--text-main); 
+  background: linear-gradient(180deg, #fff 0%, rgba(45, 22, 4, 0.05) 100%);
+  box-shadow: var(--shadow-majestic);
 }
 
 .cardText {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
   margin-bottom: 4px;
   line-height: 1.2;
 }
 
 .cardDesc {
-  font-size: 11px;
-  color: var(--text-dim);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
-.cardFooter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-
-.masteryBadge {
-  font-size: 9px;
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.badge_0 { background: #222; color: #666; }
-.badge_1 { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-.badge_2 { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
-.badge_3 { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
-.badge_4 { background: rgba(234, 179, 8, 0.2); color: #fbbf24; }
+.badge_0 { background: var(--bg-alt); color: var(--text-dim); }
+.badge_1 { background: var(--active-dim); color: var(--active); }
+.badge_2 { background: var(--active-dim); color: var(--active); border: 1px solid var(--border-active); }
+.badge_3 { background: var(--brand-dim); color: var(--brand); }
+.badge_4 { background: var(--text-main); color: var(--text-on-dark); }
 
 .countText {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-dim);
+  font-weight: 700;
 }
 
 /* Details View */
 .detailsView {
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
   animation: slideUp 0.3s ease-out;
   position: relative;
 }
@@ -183,21 +171,23 @@
 
 .patternTag {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--brand);
   margin-bottom: 8px;
 }
 
 .patternTitle {
   font-size: 24px;
   font-weight: 800;
+  color: var(--text-main);
   margin-bottom: 8px;
 }
 
 .patternDescription {
-  color: var(--text-secondary);
+  color: var(--text-body);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .masteryStatus {
@@ -209,22 +199,23 @@
 
 .xpBar {
   flex: 1;
-  height: 6px;
-  background: #222;
-  border-radius: 3px;
+  height: 8px;
+  background: var(--bg-alt);
+  border-radius: 4px;
   overflow: hidden;
+  border: 1px solid var(--border-light);
 }
 
 .xpFill {
   height: 100%;
-  background: var(--green);
-  transition: width 0.5s ease;
+  background: var(--brand);
+  transition: width 0.5s var(--transition-normal);
 }
 
 .xpText {
   font-size: 11px;
   color: var(--text-dim);
-  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
 }
 
 /* Instance Cards */
@@ -232,27 +223,30 @@
   background: var(--bg-card);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md);
-  border: 1px solid #222;
+  border: 1px solid var(--border-light);
   margin-bottom: var(--spacing-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-soft);
 }
 
 .instanceCard:hover {
-  border-color: #444;
+  border-color: var(--brand);
   transform: translateX(4px);
+  box-shadow: var(--shadow-majestic);
 }
 
 .fullSentence {
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 8px;
+  color: var(--text-body);
 }
 
 .highlight {
-  color: var(--green);
-  font-weight: 700;
-  border-bottom: 2px solid rgba(74, 222, 128, 0.3);
+  color: var(--brand);
+  font-weight: 800;
+  border-bottom: 2px solid var(--brand-dim);
 }
 
 .videoInfo {
@@ -261,14 +255,25 @@
   gap: 10px;
   font-size: 11px;
   color: var(--text-dim);
-}
-
-.timestamp {
-  color: var(--green);
   font-weight: 600;
 }
 
+.timestamp {
+  color: var(--brand);
+  font-weight: 700;
+}
+
 /* States */
+.loading, .container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  max-width: 430px;
+  margin: 0 auto;
+  background: transparent;
+}
+
 .loading, .empty {
   display: flex;
   flex-direction: column;

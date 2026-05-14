@@ -43,26 +43,35 @@
 
 .sentenceCard {
   background: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 20px 18px 16px;
-  margin-bottom: 14px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  padding: 24px 20px 20px;
+  margin-bottom: 20px;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-soft);
+}
+
+.sentenceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-majestic);
+  border-color: var(--border-focus);
 }
 
 .sentenceContent {
   text-align: center;
 }
 
-.sentenceEn {
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.7;
-  margin-bottom: var(--spacing-md);
+.enText {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--text-main);
+  margin-bottom: var(--spacing-sm);
 }
 
 .highlightWord {
-  color: var(--green);
-  font-weight: 600;
+  color: var(--brand);
+  font-weight: 800;
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 4px;
@@ -154,7 +163,7 @@
   gap: 6px;
   background: none;
   border: none;
-  color: var(--green);
+  color: var(--brand);
   font-size: 14px;
   cursor: pointer;
   padding: var(--spacing-sm) var(--spacing-lg);
@@ -164,11 +173,12 @@
 }
 
 .loopSentenceBtn:active {
-  background: var(--green-dim);
+  background: var(--brand-dim);
 }
 
 .loopActive {
-  background: var(--green-dim);
+  background: var(--brand-dim);
+  font-weight: 800;
 }
 
 /* Pagination Dots */
@@ -184,12 +194,12 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #333;
+  background: var(--border-focus);
   transition: all var(--transition-slow);
 }
 
 .dotActive {
   width: 18px;
   border-radius: 3px;
-  background: var(--green);
+  background: var(--brand);
 }

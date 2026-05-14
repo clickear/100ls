@@ -26,16 +26,16 @@
 }
 
 .checkInBtn {
-  background: var(--green);
-  color: var(--bg);
+  background: var(--active);
+  color: #fff;
   border: none;
-  border-radius: var(--radius-sm);
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(74, 222, 128, 0.2);
-  transition: all 0.2s ease;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px var(--active-dim);
 }
 
 .checkInBtn:active {
@@ -44,8 +44,8 @@
 }
 
 .stageLabel {
-  font-weight: 700;
-  color: var(--text);
+  font-weight: 800;
+  color: var(--text-primary);
   font-size: 14px;
 }
 
@@ -55,89 +55,75 @@
 }
 
 .progressNumber {
-  font-weight: 700;
-  color: var(--green);
-  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent-gold);
+  font-size: 15px;
 }
 
 /* Episode Row */
 .episodeRow {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px var(--spacing-lg) var(--spacing-md);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.episodeRow::-webkit-scrollbar {
-  display: none;
+  justify-content: space-between; /* Spread them out */
+  gap: 4px;
+  padding: 8px var(--spacing-lg) var(--spacing-md);
+  overflow: hidden; /* No scroll */
 }
 
 .episodeItem {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
   background: var(--bg-card);
   cursor: pointer;
-  flex-shrink: 0;
+  flex-shrink: 1; /* Allow slight shrink to fit */
   position: relative;
   transition: all var(--transition-normal);
-  border: none;
+  border: 1px solid var(--border-light);
   font-family: var(--font);
 }
 
 .completed {
-  background: var(--bg-elevated);
-  color: var(--text);
+  background: #fdfbf7;
+  color: var(--text-primary);
+  border-color: var(--accent-gold);
 }
 
 .epCheck {
   position: absolute;
   bottom: -2px;
   right: -2px;
-  background: var(--green);
+  background: var(--accent-gold);
+  color: #fff;
   border-radius: 50%;
   width: 14px;
   height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 8px;
 }
 
 .episodeActive {
-  background: var(--green) !important;
-  color: var(--bg) !important;
-  font-weight: 700;
-  box-shadow: var(--shadow-green);
+  background: #2d1604 !important; /* Majestic Dark */
+  color: #fff !important;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(45, 22, 4, 0.3);
   transform: scale(1.1);
+  border-color: #2d1604 !important;
 }
 
-/* Stage Group Colors (Dimmed when not active) */
-.stageFoundation {
-  border: 1px solid rgba(59, 130, 246, 0.3); /* Blue */
-}
-.stageShadowing {
-  border: 1px solid rgba(74, 222, 128, 0.3); /* Green */
-}
-.stageFluent {
-  border: 1px solid rgba(251, 191, 36, 0.3); /* Amber */
-}
-.stageMastery {
-  border: 1px solid rgba(244, 63, 94, 0.3);  /* Rose */
-}
-
-/* Active colors should override group colors */
-.episodeActive.stageFoundation { background: #3B82F6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
-.episodeActive.stageShadowing { background: #4ADE80; box-shadow: 0 0 15px rgba(74, 222, 128, 0.4); }
-.episodeActive.stageFluent { background: #FBBF24; box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
-.episodeActive.stageMastery { background: #F43F5E; box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+/* Stage Group Colors */
+.stageFoundation { border-color: rgba(37, 99, 235, 0.4); }
+.stageShadowing { border-color: rgba(5, 150, 105, 0.4); }
+.stageFluent { border-color: rgba(217, 119, 6, 0.4); }
+.stageMastery { border-color: rgba(225, 29, 72, 0.4); }
 
 .stageWrapper {
   display: flex;

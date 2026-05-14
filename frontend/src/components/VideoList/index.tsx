@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { listVideos, importVideo, deleteVideo } from '../../api/player';
+import { listVideos, deleteVideo } from '../../api/player';
+import VideoImport from '../VideoImport';
 import styles from './styles.module.css';
 
 interface VideoSummary {
@@ -24,13 +25,6 @@ function formatTime(seconds: number): string {
 export default function VideoList({ currentVideoId, onSelectVideo }: VideoListProps) {
   const [videos, setVideos] = useState<VideoSummary[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  // Import state
-  const [importUrl, setImportUrl] = useState('');
-  const [importing, setImporting] = useState(false);
-  const [importProgress, setImportProgress] = useState(0);
-  const [importStep, setImportStep] = useState('');
-  const [error, setError] = useState('');
 
   const loadVideos = () => {
     setLoading(true);
@@ -43,31 +37,6 @@ export default function VideoList({ currentVideoId, onSelectVideo }: VideoListPr
   useEffect(() => {
     loadVideos();
   }, []);
-
-  const handleImport = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!importUrl) return;
-    setImporting(true);
-    setImportProgress(0);
-    setImportStep('正在初始化...');
-    setError('');
-    try {
-      await importVideo(importUrl, (percent, step) => {
-        setImportProgress(percent);
-        if (step === 'downloading') setImportStep(`正在下载... ${percent}%`);
-        else if (step === 'extracting_audio') setImportStep('正在提取音频...');
-        else if (step === 'transcribing') setImportStep('正在进行 AI 语音识别...');
-        else if (step === 'parsing') setImportStep('正在解析台词...');
-        else if (step === 'translating') setImportStep('正在进行 AI 意译...');
-      });
-      setImportUrl('');
-      loadVideos();
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setImporting(false);
-    }
-  };
 
   const handleDelete = async (e: React.MouseEvent, videoId: string) => {
     e.stopPropagation();
@@ -84,40 +53,12 @@ export default function VideoList({ currentVideoId, onSelectVideo }: VideoListPr
     }
   };
 
-  if (loading) {
-    return <div className={styles.loading}>加载视频库...</div>;
+  if (loading && videos.length === 0) {
+    return <div className={styles.loading}>正在载入库...</div>;
   }
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <h2 className={styles.title}>我的学习库</h2>
-        <p className={styles.subtitle}>粘贴链接导入新视频或切换剧集</p>
-      </header>
-
-      <section className={styles.importSection}>
-        <form onSubmit={handleImport} className={styles.importForm}>
-          <input
-            type="url"
-            value={importUrl}
-            onChange={(e) => setImportUrl(e.target.value)}
-            placeholder="粘贴 YouTube / B站链接..."
-            className={styles.input}
-            disabled={importing}
-          />
-          <button type="submit" className={styles.importBtn} disabled={importing || !importUrl}>
-            {importing ? '...' : '导入'}
-          </button>
-        </form>
-        {importing && (
-          <div className={styles.progressRow}>
-            <div className={styles.progressBar}><div className={styles.progressFill} style={{width: `${importProgress}%`}} /></div>
-            <span className={styles.progressText}>{importStep}</span>
-          </div>
-        )}
-        {error && <p className={styles.errorText}>{error}</p>}
-      </section>
-
       <div className={styles.grid}>
         {videos.map(video => (
           <div 

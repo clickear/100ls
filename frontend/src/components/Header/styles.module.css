@@ -2,14 +2,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px var(--spacing-lg) 10px;
+  width: 100%;
+  padding: 10px var(--spacing-lg);
   flex-shrink: 0;
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
 }
 
 .headerBtn {
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   padding: var(--spacing-xs);
   cursor: pointer;
   display: flex;

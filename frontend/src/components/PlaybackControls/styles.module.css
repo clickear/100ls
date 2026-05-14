@@ -15,8 +15,13 @@
   }
   
   .controlIcon {
-    width: 38px !important;
-    height: 38px !important;
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  .controlBtn {
+    min-width: 44px;
+    gap: 4px !important;
   }
   
   .controlLabel {
@@ -64,29 +69,34 @@
 }
 
 .activeText {
-  color: var(--green) !important;
-  font-weight: 600;
+  color: var(--brand) !important;
+  font-weight: 800;
 }
 
 .speedText {
   font-size: 18px;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 800;
+  color: var(--text-main);
 }
 
 .playBtn {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--bg-dark);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--shadow-green-lg);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  animation: glow 3s ease-in-out infinite;
+  color: var(--text-on-dark);
+  box-shadow: 0 4px 15px rgba(45, 22, 4, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.playBtn:hover {
+  background: #000;
+  transform: scale(1.05);
 }
 
 .playBtn:active {
