@@ -14,7 +14,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: var(--spacing-sm);
+  padding-bottom: 90px; /* Space for fixed TabBar */
 }
 
 .mainContent::-webkit-scrollbar {

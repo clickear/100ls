@@ -222,7 +222,13 @@ export async function scanSentencesForPatterns(videoId: string, sentences: Sente
   // 1. Ensure seed patterns exist in DB
   await initPatterns();
 
-  // 2. Fetch all patterns from DB to get IDs
+  // 2. Clear old instances for THIS video only to avoid duplicates
+  db.prepare(`
+    DELETE FROM phrase_instances 
+    WHERE sentenceId IN (SELECT id FROM sentences WHERE videoId = ?)
+  `).run(videoId);
+
+  // 3. Fetch all patterns from DB to get IDs
   const allPatterns = db.prepare('SELECT id, text FROM patterns').all() as { id: number; text: string }[];
   
   // Create a map for quick lookup
@@ -294,22 +300,38 @@ export function getPatternInstances(patternId: number) {
  * Re-scan all existing videos and sentences in the database.
  */
 export async function rescanAllVideos(): Promise<{ videoCount: number; instanceCount: number }> {
-  // 1. Ensure patterns exist
+  // 1. Ensure patterns exist (uses INSERT OR IGNORE)
   await initPatterns();
 
   // 2. Get all videos
   const videos = db.prepare('SELECT id FROM videos').all() as { id: string }[];
   
-  // 3. Clear existing instances and patterns to avoid stale data and ID mismatches
+  // 3. Clear existing instances for a clean scan, but keep the patterns table
   db.prepare('DELETE FROM phrase_instances').run();
-  db.prepare('DELETE FROM patterns').run();
   
-  // 4. Re-initialize patterns from the latest SEED_PATTERNS
-  await initPatterns();
-
   let totalInstances = 0;
   for (const video of videos) {
-    // Fetch sentences for this video
+    // A. Fix missing translations first
+    const missingRows = db.prepare('SELECT id, en FROM sentences WHERE videoId = ? AND (cn IS NULL OR cn = \'\')').all(video.id) as any[];
+    if (missingRows.length > 0) {
+      console.log(`🌐 Found ${missingRows.length} sentences missing translation for video ${video.id}. Translating...`);
+      try {
+        const { batchTranslate } = await import('./translationService.js');
+        const translations = await batchTranslate(missingRows.map(r => ({ en: r.en })));
+        
+        const updateCn = db.prepare('UPDATE sentences SET cn = ? WHERE id = ?');
+        db.transaction(() => {
+          translations.forEach((cn, i) => {
+            if (cn) updateCn.run(cn, missingRows[i].id);
+          });
+        })();
+        console.log(`✅ Translation backfill complete for ${video.id}`);
+      } catch (err) {
+        console.error(`⚠️ Translation backfill failed for ${video.id}:`, err);
+      }
+    }
+
+    // B. Perform pattern scan
     const sentencesRows = db.prepare('SELECT id, sentenceIndex, en FROM sentences WHERE videoId = ?').all(video.id) as any[];
     
     // Map to the internal Sentence format (simplified for scanning)

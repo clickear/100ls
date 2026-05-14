@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import type { PlayerData } from '../../types/player';
+import type { PlayerData, SubtitleMode } from '../../types/player';
 import { fetchPlayerData } from '../../api/player';
 import { usePlayer } from '../../hooks/usePlayer';
 import StatusBar from '../../components/StatusBar';
@@ -8,7 +8,6 @@ import StageBar from '../../components/StageBar';
 import VideoPlayer from '../../components/VideoPlayer';
 import ProgressBar from '../../components/ProgressBar';
 import PlaybackControls from '../../components/PlaybackControls';
-import SubtitleModes from '../../components/SubtitleModes';
 import SentenceCard from '../../components/SentenceCard';
 import TabBar from '../../components/TabBar';
 import PatternBook from '../../components/PatternBook';
@@ -188,14 +187,18 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
               }
             />
             <PlaybackControls
-              isPlaying={state.isPlaying}
               isLooping={state.isLooping}
               currentSpeed={state.currentSpeed}
-              onPlayPause={player.togglePlayPause}
+              subtitleMode={state.subtitleMode}
               onReplay={player.replay}
               onClearAB={player.toggleABLoop}
               onSpeedChange={player.cycleSpeed}
               onToggleLoop={player.toggleLoop}
+              onSubtitleToggle={() => {
+                const order: SubtitleMode[] = ['bilingual', 'pure-en', 'none'];
+                const nextIndex = (order.indexOf(state.subtitleMode) + 1) % order.length;
+                player.setSubtitleMode(order[nextIndex]);
+              }}
             />
             
             <div className={styles.collapsibleWrapper}>
@@ -215,10 +218,6 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
               </div>
 
               <div className={`${styles.controlsContent} ${isCollapsed ? styles.collapsed : ''}`}>
-                <SubtitleModes
-                  currentMode={state.subtitleMode}
-                  onChange={player.setSubtitleMode}
-                />
                 {currentSentence && (
                   <SentenceCard
                     sentence={currentSentence}
@@ -231,6 +230,7 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
                     onToggleLoop={player.toggleLoopSentence}
                     onToggleKey={player.toggleKeySentence}
                     onSpeak={() => {}}
+                    onTogglePlay={player.togglePlayPause}
                   />
                 )}
               </div>

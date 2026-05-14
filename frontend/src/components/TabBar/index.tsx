@@ -15,7 +15,7 @@ const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
 
 export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
   return (
-    <>
+    <div className={styles.fixedBottomWrapper}>
       <nav className={styles.tabBar} id="tabBar">
         {tabs.map(t => (
           <button
@@ -33,6 +33,6 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
       <div className={styles.homeIndicatorArea}>
         <div className={styles.homeIndicator} />
       </div>
-    </>
+    </div>
   );
 }

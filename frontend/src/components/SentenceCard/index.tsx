@@ -14,46 +14,11 @@ interface SentenceCardProps {
   onToggleLoop: () => void;
   onToggleKey: () => void;
   onSpeak: () => void;
+  onTogglePlay: () => void;
 }
 
-/** Render English text based on subtitle mode */
-function renderEnglish(sentence: Sentence, mode: SubtitleMode): string {
-  if (mode === 'none') return '';
 
-  const words = sentence.en.split(/\b/);
-  const keywordsLower = sentence.keywords.map(k => k.toLowerCase());
-
-  if (mode === 'keyword') {
-    // Show only keywords, blank out other words
-    return words.map(word => {
-      const lower = word.toLowerCase().trim();
-      if (!lower || /^\W+$/.test(word)) return word;
-      return keywordsLower.includes(lower)
-        ? `<span class="${styles.highlightWord}">${word}</span>`
-        : '<span class="' + styles.blankWord + '">____</span>';
-    }).join('');
-  }
-
-  if (mode === 'dictation') {
-    // Blank out keywords, show the rest
-    return words.map(word => {
-      const lower = word.toLowerCase().trim();
-      if (!lower || /^\W+$/.test(word)) return word;
-      return keywordsLower.includes(lower)
-        ? '<span class="' + styles.blankInput + '">____</span>'
-        : word;
-    }).join('');
-  }
-
-  // pure-en or bilingual: highlight keywords
-  return words.map(word => {
-    const lower = word.toLowerCase().trim();
-    if (!lower || /^\W+$/.test(word)) return word;
-    return keywordsLower.includes(lower)
-      ? `<span class="${styles.highlightWord}">${word}</span>`
-      : word;
-  }).join('');
-}
+/** SentenceCard Component */
 
 export default function SentenceCard({
   sentence,
@@ -66,13 +31,9 @@ export default function SentenceCard({
   onToggleLoop,
   onToggleKey,
   onSpeak,
+  onTogglePlay
 }: SentenceCardProps) {
-  const htmlEn = useMemo(
-    () => renderEnglish(sentence, subtitleMode),
-    [sentence, subtitleMode]
-  );
-
-  const showCn = subtitleMode === 'bilingual' || subtitleMode === 'keyword';
+  const showCn = subtitleMode === 'bilingual';
 
   // Speak using Web Speech API
   const handleSpeak = () => {
@@ -112,22 +73,15 @@ export default function SentenceCard({
         </button>
       </div>
 
-      <div className={styles.sentenceCard} id="sentenceCard">
+      <div className={styles.sentenceCard} id="sentenceCard" onClick={onTogglePlay} style={{ cursor: 'pointer' }}>
         <div className={styles.sentenceContent}>
           {subtitleMode !== 'none' && (
-            (subtitleMode === 'pure-en' || subtitleMode === 'bilingual') ? (
-              <p className={styles.sentenceEn}>
-                <HighlightedText 
-                  text={sentence.en} 
-                  patterns={sentence.patterns} 
-                />
-              </p>
-            ) : (
-              <p
-                className={styles.sentenceEn}
-                dangerouslySetInnerHTML={{ __html: htmlEn }}
+            <p className={styles.sentenceEn}>
+              <HighlightedText 
+                text={sentence.en} 
+                patterns={sentence.patterns} 
               />
-            )
+            </p>
           )}
           {subtitleMode === 'none' && (
             <p className={styles.sentenceEnHidden}>（无字幕模式）</p>

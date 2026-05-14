@@ -1,27 +1,28 @@
-import type { PlaybackSpeed } from '../../types/player';
+import type { PlaybackSpeed, SubtitleMode } from '../../types/player';
 import styles from './styles.module.css';
 
 interface PlaybackControlsProps {
-  isPlaying: boolean;
   isLooping: boolean;
   currentSpeed: PlaybackSpeed;
-  onPlayPause: () => void;
+  subtitleMode: SubtitleMode;
   onReplay: () => void;
   onClearAB: () => void;
   onSpeedChange: () => void;
   onToggleLoop: () => void;
+  onSubtitleToggle: () => void;
 }
 
 export default function PlaybackControls({ 
-  isPlaying, 
   isLooping,
   currentSpeed, 
-  onPlayPause, 
+  subtitleMode,
   onReplay, 
   onClearAB, 
   onSpeedChange,
-  onToggleLoop
+  onToggleLoop,
+  onSubtitleToggle
 }: PlaybackControlsProps) {
+  const subtitleLabel = subtitleMode === 'bilingual' ? '双语' : subtitleMode === 'pure-en' ? '纯英' : '无';
   return (
     <div className={styles.playbackControls} id="playbackControls">
       <button className={styles.controlBtn} id="btn-replay" onClick={onReplay}>
@@ -35,18 +36,6 @@ export default function PlaybackControls({
         <span className={styles.controlLabel}>重播</span>
       </button>
 
-      <button className={styles.playBtn} id="btn-play" aria-label={isPlaying ? '暂停' : '播放'} onClick={onPlayPause}>
-        {isPlaying ? (
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <rect x="7" y="5" width="5" height="18" rx="1" fill="#111" />
-            <rect x="16" y="5" width="5" height="18" rx="1" fill="#111" />
-          </svg>
-        ) : (
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" className={styles.playBtnIcon}>
-            <path d="M8 4.5V23.5L23 14L8 4.5Z" fill="#111" />
-          </svg>
-        )}
-      </button>
 
       <button className={styles.controlBtn} id="btn-clear-ab" onClick={onClearAB}>
         <div className={styles.controlIcon}>
@@ -74,6 +63,11 @@ export default function PlaybackControls({
           </svg>
         </div>
         <span className={`${styles.controlLabel} ${isLooping ? styles.activeText : ''}`}>循环</span>
+      </button>
+
+      <button className={styles.controlBtn} id="btn-subtitle-toggle" onClick={onSubtitleToggle}>
+        <div className={`${styles.controlIcon} ${styles.speedText}`}>{subtitleLabel}</div>
+        <span className={styles.controlLabel}>字幕</span>
       </button>
 
       <button className={styles.controlBtn} id="btn-speed" onClick={onSpeedChange}>

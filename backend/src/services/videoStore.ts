@@ -186,8 +186,22 @@ export async function deleteVideo(videoId: string): Promise<boolean> {
       console.log(`Directory for ${videoId} not found, proceeding with DB deletion.`);
     }
 
-    // 2. Always attempt to delete from database
-    const result = db.prepare(`DELETE FROM videos WHERE id = ?`).run(videoId);
+    // 2. Explicitly delete related data in order to avoid relying on DB cascades
+    const transaction = db.transaction(() => {
+      // a. Delete phrase instances linked to this video's sentences
+      db.prepare(`
+        DELETE FROM phrase_instances 
+        WHERE sentenceId IN (SELECT id FROM sentences WHERE videoId = ?)
+      `).run(videoId);
+
+      // b. Delete sentences
+      db.prepare(`DELETE FROM sentences WHERE videoId = ?`).run(videoId);
+
+      // c. Delete video record
+      return db.prepare(`DELETE FROM videos WHERE id = ?`).run(videoId);
+    });
+
+    const result = transaction();
     return result.changes > 0;
   } catch (err) {
     console.error(`Error deleting video ${videoId}:`, err);

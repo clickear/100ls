@@ -18,8 +18,6 @@ export interface Sentence {
 export type SubtitleMode =
   | 'pure-en'
   | 'bilingual'
-  | 'keyword'
-  | 'dictation'
   | 'none';
 
 /** Playback speed option */
