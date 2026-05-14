@@ -1,0 +1,72 @@
+/** A single sentence/subtitle in the video */
+export interface Sentence {
+  id: number;
+  en: string;
+  cn: string;
+  keywords: string[];
+  startTime: number; // seconds
+  endTime: number;   // seconds
+  isKey: boolean;     // 重点句
+}
+
+/** Subtitle display mode */
+export type SubtitleMode =
+  | 'pure-en'
+  | 'bilingual'
+  | 'keyword'
+  | 'dictation'
+  | 'none';
+
+/** Playback speed option */
+export type PlaybackSpeed = '0.5x' | '0.75x' | '1.0x' | '1.25x' | '1.5x';
+
+/** Stage info for the learning session */
+export interface StageInfo {
+  currentStage: number;
+  totalStages: number;
+  subtitleMode: string; // e.g. "纯英文字幕"
+  currentProgress: number;
+  totalProgress: number;
+}
+
+/** Episode (阶段) status */
+export interface Episode {
+  number: number;
+  status: 'completed' | 'active' | 'locked';
+}
+
+/** AB Loop region */
+export interface ABLoop {
+  active: boolean;
+  startTime: number;
+  endTime: number;
+}
+
+/** Tab bar items */
+export type TabId = 'player' | 'subtitles' | 'vocabulary' | 'settings';
+
+/** Full player page data from API */
+export interface PlayerData {
+  videoId: string;
+  title: string;
+  isVip: boolean;
+  videoUrl: string;
+  thumbnailUrl: string;
+  duration: number; // seconds
+  stageInfo: StageInfo;
+  episodes: Episode[];
+  sentences: Sentence[];
+  abLoop: ABLoop;
+}
+
+/** Player UI state (managed by frontend) */
+export interface PlayerState {
+  isPlaying: boolean;
+  currentSpeed: PlaybackSpeed;
+  currentSentenceIndex: number;
+  subtitleMode: SubtitleMode;
+  isLoopSentence: boolean;
+  activeTab: TabId;
+  currentTime: number;
+  abLoop: ABLoop;
+}
