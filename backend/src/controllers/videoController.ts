@@ -6,6 +6,7 @@ import * as path from 'node:path';
 import { downloadVideo } from '../services/downloader.js';
 import { parseSubtitleFile, buildSentences, buildSentencesFromWhisper } from '../services/subtitleParser.js';
 import { extractAudio, transcribeAudio } from '../services/whisperService.js';
+import { scanSentencesForPatterns } from '../services/patternService.js';
 import {
   generateVideoId,
   getVideoDir,
@@ -83,6 +84,14 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
     };
 
     await saveVideoMeta(videoId, meta);
+
+    // Step 6: Automatic Pattern Recognition
+    console.log('🔍 Scanning for sentence patterns...');
+    try {
+      await scanSentencesForPatterns(videoId, sentences);
+    } catch (patternErr) {
+      console.error('⚠️ Pattern scanning failed (non-critical):', patternErr);
+    }
 
     const response: ImportVideoResponse = {
       videoId,

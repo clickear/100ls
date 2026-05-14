@@ -90,7 +90,25 @@ export async function getVideoMeta(videoId: string): Promise<VideoMeta | null> {
   if (!video) return null;
 
   const sentencesRows = db.prepare(`SELECT * FROM sentences WHERE videoId = ? ORDER BY sentenceIndex`).all(videoId) as any[];
-  
+
+  // Fetch pattern instances for these sentences
+  const instances = db.prepare(`
+    SELECT pi.sentenceId, pi.exactText, p.id as patternId, p.text as patternText
+    FROM phrase_instances pi
+    JOIN patterns p ON pi.patternId = p.id
+    WHERE pi.sentenceId IN (SELECT id FROM sentences WHERE videoId = ?)
+  `).all(videoId) as any[];
+
+  const instanceMap = new Map<number, any[]>();
+  instances.forEach(inst => {
+    if (!instanceMap.has(inst.sentenceId)) instanceMap.set(inst.sentenceId, []);
+    instanceMap.get(inst.sentenceId)!.push({
+      patternId: inst.patternId,
+      patternText: inst.patternText,
+      exactText: inst.exactText
+    });
+  });
+
   const sentences = sentencesRows.map((row) => ({
     id: row.id,
     startTime: row.startTime,
@@ -98,7 +116,8 @@ export async function getVideoMeta(videoId: string): Promise<VideoMeta | null> {
     en: row.en,
     cn: row.cn || '',
     keywords: JSON.parse(row.keywords || '[]'),
-    isKey: row.isKey === 1
+    isKey: row.isKey === 1,
+    patterns: instanceMap.get(row.id) || []
   }));
 
   return {

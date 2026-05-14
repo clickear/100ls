@@ -1,4 +1,5 @@
 import type { ABLoop, Sentence, SubtitleMode } from '../../types/player';
+import HighlightedText from '../HighlightedText';
 import styles from './styles.module.css';
 
 interface VideoPlayerProps {
@@ -173,7 +174,14 @@ export default function VideoPlayer({
         {currentSentence && (subtitleMode !== 'none') && (
           <div className={styles.videoSubtitle}>
             <p className={styles.videoSubtitleEn}>
-              {renderSubtitleEn(currentSentence, subtitleMode)}
+              {(subtitleMode === 'pure-en' || subtitleMode === 'bilingual') ? (
+                <HighlightedText 
+                  text={currentSentence.en} 
+                  patterns={currentSentence.patterns} 
+                />
+              ) : (
+                renderSubtitleEn(currentSentence, subtitleMode)
+              )}
             </p>
             {showCn && (
               <p className={styles.videoSubtitleCn}>{currentSentence.cn}</p>

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import type { Sentence, SubtitleMode } from '../../types/player';
+import HighlightedText from '../HighlightedText';
 import styles from './styles.module.css';
 
 interface SentenceCardProps {
@@ -114,10 +115,19 @@ export default function SentenceCard({
       <div className={styles.sentenceCard} id="sentenceCard">
         <div className={styles.sentenceContent}>
           {subtitleMode !== 'none' && (
-            <p
-              className={styles.sentenceEn}
-              dangerouslySetInnerHTML={{ __html: htmlEn }}
-            />
+            (subtitleMode === 'pure-en' || subtitleMode === 'bilingual') ? (
+              <p className={styles.sentenceEn}>
+                <HighlightedText 
+                  text={sentence.en} 
+                  patterns={sentence.patterns} 
+                />
+              </p>
+            ) : (
+              <p
+                className={styles.sentenceEn}
+                dangerouslySetInnerHTML={{ __html: htmlEn }}
+              />
+            )
           )}
           {subtitleMode === 'none' && (
             <p className={styles.sentenceEnHidden}>（无字幕模式）</p>

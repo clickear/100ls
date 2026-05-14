@@ -43,6 +43,26 @@ db.exec(`
   );
 
   CREATE INDEX IF NOT EXISTS idx_sentences_videoId ON sentences(videoId);
+
+  CREATE TABLE IF NOT EXISTS patterns (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT NOT NULL UNIQUE, -- e.g. "as soon as *"
+    description TEXT,
+    category TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS phrase_instances (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    patternId INTEGER NOT NULL,
+    sentenceId INTEGER NOT NULL,
+    exactText TEXT NOT NULL, -- The actual text found in the sentence
+    FOREIGN KEY(patternId) REFERENCES patterns(id) ON DELETE CASCADE,
+    FOREIGN KEY(sentenceId) REFERENCES sentences(id) ON DELETE CASCADE
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_phrase_instances_patternId ON phrase_instances(patternId);
+  CREATE INDEX IF NOT EXISTS idx_phrase_instances_sentenceId ON phrase_instances(sentenceId);
+
 `);
 
 // Defensive migrations for existing databases

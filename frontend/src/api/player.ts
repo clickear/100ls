@@ -168,3 +168,30 @@ export async function deleteVideo(videoId: string): Promise<void> {
     throw new Error(err.error || `Delete failed: ${res.status}`);
   }
 }
+
+/**
+ * Fetch all identified patterns and their counts.
+ */
+export async function fetchPatterns(): Promise<any[]> {
+  const res = await fetch(`${API_BASE}/api/patterns`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}
+
+/**
+ * Fetch all occurrences of a specific pattern.
+ */
+export async function fetchPatternDetails(patternId: number): Promise<any[]> {
+  const res = await fetch(`${API_BASE}/api/patterns/${patternId}`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}
+
+/**
+ * Trigger a library-wide pattern re-scan.
+ */
+export async function rescanPatterns(): Promise<{ videoCount: number; instanceCount: number }> {
+  const res = await fetch(`${API_BASE}/api/patterns/rescan`, { method: 'POST' });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}

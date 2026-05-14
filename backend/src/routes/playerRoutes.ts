@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getPlayerData, updateSentenceProgress, updateVideoProgress } from '../controllers/playerController.js';
 import { importVideo, getVideos, removeVideo } from '../controllers/videoController.js';
+import { getPatterns, getPatternDetails, rescanPatterns } from '../controllers/patternController.js';
 
 const router = Router();
 
@@ -13,5 +14,12 @@ router.put('/player/:videoId/progress', updateVideoProgress);
 router.post('/videos', importVideo);
 router.get('/videos', getVideos);
 router.delete('/videos/:videoId', removeVideo);
+
+// Pattern management
+router.get('/patterns', getPatterns);
+router.get('/patterns/:patternId', getPatternDetails);
+router.post('/patterns/rescan', rescanPatterns);
+
+
 
 export default router;

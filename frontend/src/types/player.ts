@@ -7,6 +7,11 @@ export interface Sentence {
   startTime: number; // seconds
   endTime: number;   // seconds
   isKey: boolean;     // 重点句
+  patterns?: {
+    patternId: number;
+    patternText: string;
+    exactText: string;
+  }[];
 }
 
 /** Subtitle display mode */
@@ -79,4 +84,24 @@ export interface PlayerState {
   repetitionCount: number;
   isAudioMode: boolean;
   isLooping: boolean;
+}
+
+export interface Pattern {
+  id: number;
+  text: string;
+  description: string;
+  category: string | null;
+  count: number;
+}
+
+export interface PatternInstance {
+  id: number;
+  patternId: number;
+  sentenceId: number;
+  exactText: string;
+  en: string;
+  startTime: number;
+  endTime: number;
+  videoTitle: string;
+  videoId: string;
 }

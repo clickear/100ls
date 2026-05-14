@@ -5,7 +5,9 @@ import HomePage from './pages/Home';
 function App() {
   return (
     <Switch>
-      <Route path="/" component={HomePage} />
+      <Route path="/">
+        <PlayerPage />
+      </Route>
       <Route path="/player/:videoId">
         {(params) => <PlayerPage videoId={params.videoId} />}
       </Route>

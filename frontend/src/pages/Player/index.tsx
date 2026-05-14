@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'wouter';
 import type { PlayerData } from '../../types/player';
 import { fetchPlayerData } from '../../api/player';
 import { usePlayer } from '../../hooks/usePlayer';
@@ -12,10 +11,12 @@ import PlaybackControls from '../../components/PlaybackControls';
 import SubtitleModes from '../../components/SubtitleModes';
 import SentenceCard from '../../components/SentenceCard';
 import TabBar from '../../components/TabBar';
+import PatternBook from '../../components/PatternBook';
+import VideoList from '../../components/VideoList';
 import styles from './styles.module.css';
 
 interface PlayerPageProps {
-  videoId: string;
+  videoId?: string;
 }
 
 export default function PlayerPage({ videoId }: PlayerPageProps) {
@@ -25,6 +26,11 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
+    if (!videoId) {
+      setLoading(false);
+      setData(null);
+      return;
+    }
     setLoading(true);
     fetchPlayerData(videoId)
       .then(setData)
@@ -84,22 +90,14 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
     }
   }, [state.currentSentenceIndex, isCollapsed]);
 
-  const [, setLocation] = useLocation();
 
-  if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.spinner} />
-      </div>
-    );
-  }
-
-  if (error || !data) {
+  // If there's an error and we have a videoId, show error
+  if (error && videoId) {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.errorMessage}>
           <p>加载失败</p>
-          <p className={styles.errorDetail}>{error || '未知错误'}</p>
+          <p className={styles.errorDetail}>{error}</p>
           <button className={styles.retryBtn} onClick={() => window.location.reload()}>
             重试
           </button>
@@ -108,6 +106,38 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
     );
   }
 
+  // If loading or root path, show loading or Home tab
+  if (loading || !videoId || !data) {
+    if (loading) {
+      return (
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner} />
+        </div>
+      );
+    }
+
+    return (
+      <div className={styles.container}>
+        <main className={styles.mainContent}>
+          {state.activeTab === 'subtitles' ? (
+            <VideoList 
+              currentVideoId="" 
+              onSelectVideo={(id) => window.location.href = `/player/${id}`} 
+            />
+          ) : state.activeTab === 'vocabulary' ? (
+            <PatternBook 
+              onPlayInstance={(id, t) => window.location.href = `/player/${id}?t=${t}`}
+            />
+          ) : (
+            <div className={styles.empty}>请从“首页”选择一个视频开始学习</div>
+          )}
+        </main>
+        <TabBar activeTab={state.activeTab} onTabChange={player.setActiveTab} />
+      </div>
+    );
+  }
+
+  // Now data is guaranteed to be non-null
   const videoDuration = data.duration;
 
   return (
@@ -120,80 +150,108 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
       />
 
       <main className={styles.mainContent} id="mainContent" ref={mainRef}>
-        <StageBar
-          currentStage={state.currentStage}
-          repetitionCount={state.repetitionCount}
-          onStageSelect={player.setStage}
-          onCheckIn={player.incrementRepetition}
-        />
-        <VideoPlayer
-          videoRef={videoRef}
-          videoUrl={data.videoUrl}
-          thumbnailUrl={data.thumbnailUrl}
-          abLoop={state.abLoop}
-          currentSentence={currentSentence}
-          subtitleMode={state.subtitleMode}
-          isPlaying={state.isPlaying}
-          isAudioMode={state.isAudioMode}
-          onTogglePlay={player.togglePlayPause}
-          onToggleAudioMode={player.toggleAudioMode}
-        />
-        <ProgressBar
-          currentTime={state.currentTime}
-          duration={videoDuration}
-          abLoop={state.abLoop}
-          onSeek={player.seek}
-          onSetA={player.setPointA}
-          onSetB={player.setPointB}
-        />
-        <PlaybackControls
-          isPlaying={state.isPlaying}
-          isLooping={state.isLooping}
-          currentSpeed={state.currentSpeed}
-          onPlayPause={player.togglePlayPause}
-          onReplay={player.replay}
-          onClearAB={player.toggleABLoop}
-          onSpeedChange={player.cycleSpeed}
-          onToggleLoop={player.toggleLoop}
-        />
-        
-        <div className={styles.collapsibleWrapper}>
-          <div className={styles.divider}>
-            <button 
-              className={styles.collapseToggleMinimal} 
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              title={isCollapsed ? '展开' : '收起'}
-            >
-              <svg 
-                className={isCollapsed ? styles.iconRotate : ''} 
-                width="20" height="20" viewBox="0 0 24 24" fill="none"
-              >
-                <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-          </div>
-
-          <div className={`${styles.controlsContent} ${isCollapsed ? styles.collapsed : ''}`}>
-            <SubtitleModes
-              currentMode={state.subtitleMode}
-              onChange={player.setSubtitleMode}
+        {state.activeTab === 'player' ? (
+          <>
+            <StageBar
+              currentStage={state.currentStage}
+              repetitionCount={state.repetitionCount}
+              onStageSelect={player.setStage}
+              onCheckIn={player.incrementRepetition}
             />
-            {currentSentence && (
-              <SentenceCard
-                sentence={currentSentence}
-                currentIndex={state.currentSentenceIndex}
-                totalSentences={data.sentences.length}
-                isLoopSentence={state.isLoopSentence}
-                subtitleMode={state.subtitleMode}
-                onPrev={player.goToPrevSentence}
-                onNext={player.goToNextSentence}
-                onToggleLoop={player.toggleLoopSentence}
-                onToggleKey={player.toggleKeySentence}
-                onSpeak={() => {}}
-              />
-            )}
+            <VideoPlayer
+              videoRef={videoRef}
+              videoUrl={data.videoUrl}
+              thumbnailUrl={data.thumbnailUrl}
+              abLoop={state.abLoop}
+              currentSentence={currentSentence}
+              subtitleMode={state.subtitleMode}
+              isPlaying={state.isPlaying}
+              isAudioMode={state.isAudioMode}
+              onTogglePlay={player.togglePlayPause}
+              onToggleAudioMode={player.toggleAudioMode}
+            />
+            <ProgressBar
+              currentTime={state.currentTime}
+              duration={videoDuration}
+              abLoop={state.abLoop}
+              onSeek={player.seek}
+              onSetA={player.setPointA}
+              onSetB={player.setPointB}
+            />
+            <PlaybackControls
+              isPlaying={state.isPlaying}
+              isLooping={state.isLooping}
+              currentSpeed={state.currentSpeed}
+              onPlayPause={player.togglePlayPause}
+              onReplay={player.replay}
+              onClearAB={player.toggleABLoop}
+              onSpeedChange={player.cycleSpeed}
+              onToggleLoop={player.toggleLoop}
+            />
+            
+            <div className={styles.collapsibleWrapper}>
+              <div className={styles.divider}>
+                <button 
+                  className={styles.collapseToggleMinimal} 
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  title={isCollapsed ? '展开' : '收起'}
+                >
+                  <svg 
+                    className={isCollapsed ? styles.iconRotate : ''} 
+                    width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  >
+                    <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div className={`${styles.controlsContent} ${isCollapsed ? styles.collapsed : ''}`}>
+                <SubtitleModes
+                  currentMode={state.subtitleMode}
+                  onChange={player.setSubtitleMode}
+                />
+                {currentSentence && (
+                  <SentenceCard
+                    sentence={currentSentence}
+                    currentIndex={state.currentSentenceIndex}
+                    totalSentences={data.sentences.length}
+                    isLoopSentence={state.isLoopSentence}
+                    subtitleMode={state.subtitleMode}
+                    onPrev={player.goToPrevSentence}
+                    onNext={player.goToNextSentence}
+                    onToggleLoop={player.toggleLoopSentence}
+                    onToggleKey={player.toggleKeySentence}
+                    onSpeak={() => {}}
+                  />
+                )}
+              </div>
+            </div>
+          </>
+        ) : state.activeTab === 'subtitles' ? (
+          <VideoList 
+            currentVideoId={videoId} 
+            onSelectVideo={(newId) => {
+              window.location.href = `/player/${newId}`;
+            }} 
+          />
+        ) : state.activeTab === 'vocabulary' ? (
+          <PatternBook 
+            onPlayInstance={(targetVideoId, startTime) => {
+              if (targetVideoId === videoId) {
+                player.seek(startTime);
+                player.setActiveTab('player');
+              } else {
+                window.location.href = `/player/${targetVideoId}?t=${startTime}`;
+              }
+            }}
+          />
+        ) : (
+          <div style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
+            <div style={{ fontSize: '48px', marginBottom: '20px' }}>🚧</div>
+            <h3>模块 {state.activeTab} 建设中</h3>
+            <p style={{ fontSize: '14px', marginTop: '10px' }}>我们正在努力完善此功能...</p>
           </div>
-        </div>
+        )}
       </main>
 
       <TabBar activeTab={state.activeTab} onTabChange={player.setActiveTab} />

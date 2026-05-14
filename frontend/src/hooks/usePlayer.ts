@@ -44,7 +44,7 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     currentSentenceIndex: 0,
     subtitleMode: 'bilingual',
     isLoopSentence: false,
-    activeTab: 'player',
+    activeTab: data ? 'player' : 'subtitles',
     currentTime: 0,
     abLoop: { active: false, startTime: 0, endTime: 0 },
     currentStage: 1,
@@ -57,6 +57,13 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
 
   const stateRef = useRef(state);
   stateRef.current = state;
+
+  // Automatically switch to player tab when a video is loaded
+  useEffect(() => {
+    if (data && state.activeTab === 'subtitles') {
+      setState(prev => ({ ...prev, activeTab: 'player' }));
+    }
+  }, [data?.videoId]);
 
   // Init progress and state from data
   useEffect(() => {
@@ -121,13 +128,34 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     return () => clearInterval(interval);
   }, [state.isPlaying, data?.videoId]);
 
-  // Initial Seek
+  // Initial Seek (Handles last position and URL parameter ?t=)
   useEffect(() => {
-    if (data?.stageInfo.lastPosition && videoElRef.current && !hasInitialSeeked) {
-      videoElRef.current.currentTime = data.stageInfo.lastPosition;
+    if (videoElRef.current && !hasInitialSeeked && data) {
+      const params = new URLSearchParams(window.location.search);
+      const t = params.get('t');
+      
+      if (t) {
+        const time = parseFloat(t);
+        videoElRef.current.currentTime = time;
+        setState(prev => ({ ...prev, currentTime: time, isPlaying: true }));
+        videoElRef.current.play().catch(() => {
+          // Auto-play might be blocked by browser
+          console.warn('Auto-play blocked');
+          setState(prev => ({ ...prev, isPlaying: false }));
+        });
+      } else if (data.stageInfo.lastPosition) {
+        videoElRef.current.currentTime = data.stageInfo.lastPosition;
+      }
       setHasInitialSeeked(true);
     }
   }, [data, hasInitialSeeked]);
+
+  // Sync video time on mount (useful for tab switching)
+  useEffect(() => {
+    if (videoElRef.current) {
+      videoElRef.current.currentTime = state.currentTime;
+    }
+  }, [videoElRef.current, state.activeTab]);
 
   function handleTimeUpdate() {
     const video = videoElRef.current;
@@ -208,8 +236,9 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
 
   const seek = useCallback((time: number) => {
     const video = videoElRef.current;
-    if (!video) return;
-    video.currentTime = time;
+    if (video) {
+      video.currentTime = time;
+    }
     setState(prev => ({ ...prev, currentTime: time }));
   }, []);
 
