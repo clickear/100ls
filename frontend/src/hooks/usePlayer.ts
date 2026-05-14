@@ -82,40 +82,42 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     if (!video) return;
     const ct = video.currentTime;
     const d = dataRef.current;
-    const s = stateRef.current;
 
-    let newSentenceIdx = s.currentSentenceIndex;
+    setState(prev => {
+      let newSentenceIdx = prev.currentSentenceIndex;
 
-    // Auto-track sentence
-    if (d) {
-      const idx = d.sentences.findIndex(
-        (sen) => ct >= sen.startTime && ct < sen.endTime
-      );
-      if (idx !== -1) newSentenceIdx = idx;
-    }
-
-    // AB Loop enforcement
-    if (s.abLoop.active && s.abLoop.endTime > s.abLoop.startTime && ct >= s.abLoop.endTime) {
-      video.currentTime = s.abLoop.startTime;
-      setState(prev => ({ ...prev, currentTime: s.abLoop.startTime, currentSentenceIndex: newSentenceIdx }));
-      return;
-    }
-
-    // Sentence loop enforcement
-    if (s.isLoopSentence && d) {
-      const sentence = d.sentences[s.currentSentenceIndex];
-      if (sentence && ct >= sentence.endTime) {
-        video.currentTime = sentence.startTime;
-        setState(prev => ({ ...prev, currentTime: sentence.startTime }));
-        return;
+      // Auto-track sentence
+      if (d) {
+        // Add a small epsilon (0.05s) to ct to prevent floating point issues when jumping exactly to startTime
+        const safeCt = ct + 0.05; 
+        const idx = d.sentences.findIndex(
+          (sen) => safeCt >= sen.startTime && safeCt < sen.endTime
+        );
+        if (idx !== -1) newSentenceIdx = idx;
       }
-    }
 
-    setState(prev => ({
-      ...prev,
-      currentTime: ct,
-      currentSentenceIndex: newSentenceIdx,
-    }));
+      // AB Loop enforcement
+      if (prev.abLoop.active && prev.abLoop.endTime > prev.abLoop.startTime && ct >= prev.abLoop.endTime) {
+        video.currentTime = prev.abLoop.startTime;
+        return { ...prev, currentTime: prev.abLoop.startTime, currentSentenceIndex: newSentenceIdx };
+      }
+
+      // Sentence loop enforcement
+      if (prev.isLoopSentence && d) {
+        const sentence = d.sentences[prev.currentSentenceIndex];
+        // For sentence loop, use strict ct
+        if (sentence && ct >= sentence.endTime) {
+          video.currentTime = sentence.startTime;
+          return { ...prev, currentTime: sentence.startTime };
+        }
+      }
+
+      return {
+        ...prev,
+        currentTime: ct,
+        currentSentenceIndex: newSentenceIdx,
+      };
+    });
   }
 
   function handlePlay() {

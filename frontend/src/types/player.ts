@@ -52,6 +52,10 @@ export interface PlayerData {
   isVip: boolean;
   videoUrl: string;
   thumbnailUrl: string;
+  subtitleUrls?: {
+    en?: string;
+    cn?: string;
+  };
   duration: number; // seconds
   stageInfo: StageInfo;
   episodes: Episode[];

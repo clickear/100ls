@@ -5,6 +5,10 @@ interface VideoPlayerProps {
   videoRef: React.RefCallback<HTMLVideoElement>;
   videoUrl: string;
   thumbnailUrl: string;
+  subtitleUrls?: {
+    en?: string;
+    cn?: string;
+  };
   abLoop: ABLoop;
   currentSentence: Sentence | null;
   subtitleMode: SubtitleMode;
@@ -48,6 +52,7 @@ export default function VideoPlayer({
   videoRef,
   videoUrl,
   thumbnailUrl,
+  subtitleUrls,
   abLoop,
   currentSentence,
   subtitleMode,

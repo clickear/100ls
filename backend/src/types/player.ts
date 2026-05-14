@@ -35,9 +35,54 @@ export interface PlayerData {
   isVip: boolean;
   videoUrl: string;
   thumbnailUrl: string;
+  subtitleUrls?: {
+    en?: string;
+    cn?: string;
+  };
   duration: number;
   stageInfo: StageInfo;
   episodes: Episode[];
   sentences: Sentence[];
   abLoop: ABLoop;
+}
+
+/** Metadata stored in meta.json for each imported video */
+export interface VideoMeta {
+  videoId: string;
+  title: string;
+  sourceUrl: string;
+  duration: number;
+  importedAt: string;
+  videoFile: string;       // relative filename, e.g. "video.mp4"
+  thumbnailFile: string;   // relative filename, e.g. "thumbnail.jpg"
+  subtitleFiles: {
+    en?: string;
+    cn?: string;
+  };
+  sentences: Sentence[];
+}
+
+/** Summary returned by GET /api/videos list */
+export interface VideoSummary {
+  videoId: string;
+  title: string;
+  sourceUrl: string;
+  duration: number;
+  importedAt: string;
+  sentenceCount: number;
+  thumbnailUrl: string;
+}
+
+/** Request body for POST /api/videos */
+export interface ImportVideoRequest {
+  url: string;
+}
+
+/** Response for POST /api/videos */
+export interface ImportVideoResponse {
+  videoId: string;
+  title: string;
+  duration: number;
+  sentenceCount: number;
+  status: 'ready' | 'no_subtitles';
 }

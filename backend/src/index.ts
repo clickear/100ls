@@ -1,15 +1,30 @@
 import express from 'express';
 import cors from 'cors';
+import * as path from 'node:path';
 import playerRoutes from './routes/playerRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'] }));
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'],
+}));
 app.use(express.json());
 
-// Routes
+// Serve downloaded video/thumbnail files as static assets
+const mediaDir = path.resolve(import.meta.dirname, '../data/videos');
+app.use('/media', express.static(mediaDir, {
+  setHeaders: (res, filePath) => {
+    // Enable range requests for video seeking
+    if (filePath.endsWith('.mp4')) {
+      res.setHeader('Accept-Ranges', 'bytes');
+      res.setHeader('Content-Type', 'video/mp4');
+    }
+  },
+}));
+
+// API Routes
 app.use('/api', playerRoutes);
 
 // Health check
@@ -19,5 +34,8 @@ app.get('/health', (_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 100LS Backend running on http://localhost:${PORT}`);
-  console.log(`   API: http://localhost:${PORT}/api/player/sunset-001`);
+  console.log(`   API: POST http://localhost:${PORT}/api/videos — import video`);
+  console.log(`   API: GET  http://localhost:${PORT}/api/videos — list videos`);
+  console.log(`   API: GET  http://localhost:${PORT}/api/player/:videoId — player data`);
+  console.log(`   Media: http://localhost:${PORT}/media/:videoId/video.mp4`);
 });

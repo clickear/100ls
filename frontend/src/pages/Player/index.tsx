@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import type { PlayerData } from '../../types/player';
-import { fetchPlayerData } from '../../api/player';
+import { fetchPlayerData, listVideos } from '../../api/player';
 import { usePlayer } from '../../hooks/usePlayer';
 import StatusBar from '../../components/StatusBar';
 import Header from '../../components/Header';
@@ -13,20 +14,27 @@ import SentenceCard from '../../components/SentenceCard';
 import TabBar from '../../components/TabBar';
 import styles from './styles.module.css';
 
-export default function PlayerPage() {
+interface PlayerPageProps {
+  videoId: string;
+}
+
+export default function PlayerPage({ videoId }: PlayerPageProps) {
   const [data, setData] = useState<PlayerData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchPlayerData('sunset-001')
+    setLoading(true);
+    fetchPlayerData(videoId)
       .then(setData)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [videoId]);
 
   const player = usePlayer(data);
   const { state, currentSentence, videoRef } = player;
+
+  const [, setLocation] = useLocation();
 
   if (loading) {
     return (
@@ -50,12 +58,16 @@ export default function PlayerPage() {
     );
   }
 
-  const videoDuration = videoRef.current?.duration || data.duration;
+  const videoDuration = data.duration;
 
   return (
     <div className={styles.appContainer} id="app">
       <StatusBar />
-      <Header title={data.title} isVip={data.isVip} />
+      <Header 
+        title={data.title} 
+        isVip={data.isVip} 
+        onBack={() => setLocation('/')} 
+      />
 
       <main className={styles.mainContent} id="mainContent">
         <StageBar
@@ -67,6 +79,7 @@ export default function PlayerPage() {
           videoRef={videoRef}
           videoUrl={data.videoUrl}
           thumbnailUrl={data.thumbnailUrl}
+          subtitleUrls={data.subtitleUrls}
           abLoop={state.abLoop}
           currentSentence={currentSentence}
           subtitleMode={state.subtitleMode}

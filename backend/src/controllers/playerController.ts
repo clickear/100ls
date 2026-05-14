@@ -1,7 +1,14 @@
 import type { Request, Response } from 'express';
-import { mockPlayerData } from '../models/mockData.js';
+import { getVideoMeta, toPlayerData } from '../services/videoStore.js';
 
-export function getPlayerData(_req: Request, res: Response) {
-  // In production, fetch from database using req.params.videoId
-  res.json(mockPlayerData);
+export async function getPlayerData(req: Request, res: Response): Promise<void> {
+  const videoId = req.params.videoId as string;
+
+  const meta = await getVideoMeta(videoId);
+  if (!meta) {
+    res.status(404).json({ error: `视频 ${videoId} 未找到` });
+    return;
+  }
+
+  res.json(toPlayerData(meta));
 }
