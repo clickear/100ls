@@ -1,6 +1,6 @@
 import type { PlayerData } from '../types/player';
 
-const API_BASE = 'http://localhost:3001';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3001';
 
 /**
  * Fetch player data for a given video from the backend API.
