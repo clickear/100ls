@@ -55,7 +55,10 @@ export default function VideoList({ currentVideoId, onSelectVideo }: VideoListPr
       await importVideo(importUrl, (percent, step) => {
         setImportProgress(percent);
         if (step === 'downloading') setImportStep(`正在下载... ${percent}%`);
-        else if (step === 'parsing') setImportStep('正在解析...');
+        else if (step === 'extracting_audio') setImportStep('正在提取音频...');
+        else if (step === 'transcribing') setImportStep('正在进行 AI 语音识别...');
+        else if (step === 'parsing') setImportStep('正在解析台词...');
+        else if (step === 'translating') setImportStep('正在进行 AI 意译...');
       });
       setImportUrl('');
       loadVideos();

@@ -70,6 +70,20 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
     const sentences = buildSentencesFromWhisper(whisperSegments);
     console.log(`📊 Generated ${sentences.length} sentences`);
 
+    // Step 4.5: Automatic AI Translation
+    sendEvent('progress', { percent: 100, step: 'translating' });
+    console.log('🌐 Translating sentences to Chinese...');
+    try {
+      const { batchTranslate } = await import('../services/translationService.js');
+      const translations = await batchTranslate(sentences);
+      translations.forEach((cn, i) => {
+        sentences[i].cn = cn || '';
+      });
+      console.log('✅ Translation complete');
+    } catch (transErr) {
+      console.error('⚠️ Translation failed (non-critical):', transErr);
+    }
+
     // Step 5: Save metadata
     const meta: VideoMeta = {
       videoId,
