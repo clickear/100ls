@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import { getVideoMeta, toPlayerData } from '../services/videoStore.js';
+import db from '../services/db.js';
 
 export async function getPlayerData(req: Request, res: Response): Promise<void> {
   const videoId = req.params.videoId as string;
@@ -11,4 +12,28 @@ export async function getPlayerData(req: Request, res: Response): Promise<void> 
   }
 
   res.json(toPlayerData(meta));
+}
+
+export async function updateSentenceProgress(req: Request, res: Response): Promise<void> {
+  const videoId = req.params.videoId as string;
+  const sentenceId = parseInt(req.params.sentenceId as string, 10);
+  const { isKey } = req.body as { isKey?: boolean };
+
+  if (isNaN(sentenceId) || typeof isKey !== 'boolean') {
+    res.status(400).json({ error: '无效的参数' });
+    return;
+  }
+
+  const result = db.prepare(`UPDATE sentences SET isKey = ? WHERE id = ? AND videoId = ?`).run(
+    isKey ? 1 : 0, 
+    sentenceId, 
+    videoId
+  );
+
+  if (result.changes === 0) {
+    res.status(404).json({ error: `未找到该句子或视频不匹配` });
+    return;
+  }
+
+  res.json({ success: true });
 }

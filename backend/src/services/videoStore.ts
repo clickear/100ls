@@ -5,8 +5,11 @@ import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import { createHash } from 'node:crypto';
 import type { VideoMeta, VideoSummary, PlayerData, Episode } from '../types/player.js';
+import db from './db.js';
+import { fileURLToPath } from 'node:url';
 
-const DATA_DIR = path.resolve(import.meta.dirname, '../../data/videos');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DATA_DIR = path.resolve(__dirname, '../../data/videos');
 
 /**
  * Generate a short videoId from a URL.
@@ -25,54 +28,116 @@ export function getVideoDir(videoId: string): string {
 }
 
 /**
- * Save video metadata to disk.
+ * Save video metadata and sentences to SQLite.
  */
 export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<void> {
   const dir = getVideoDir(videoId);
   await fs.mkdir(dir, { recursive: true });
-  await fs.writeFile(path.join(dir, 'meta.json'), JSON.stringify(meta, null, 2), 'utf-8');
+  
+  const insertVideo = db.prepare(`
+    INSERT OR REPLACE INTO videos (id, title, sourceUrl, duration, videoFile, thumbnailFile, subEn, subCn, importedAt)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const insertSentence = db.prepare(`
+    INSERT INTO sentences (videoId, sentenceIndex, startTime, endTime, en, cn, keywords, isKey)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const deleteSentences = db.prepare(`DELETE FROM sentences WHERE videoId = ?`);
+
+  const transaction = db.transaction(() => {
+    insertVideo.run(
+      meta.videoId,
+      meta.title,
+      meta.sourceUrl,
+      meta.duration,
+      meta.videoFile,
+      meta.thumbnailFile || null,
+      meta.subtitleFiles.en || null,
+      meta.subtitleFiles.cn || null,
+      meta.importedAt
+    );
+
+    deleteSentences.run(meta.videoId);
+
+    for (let i = 0; i < meta.sentences.length; i++) {
+      const s = meta.sentences[i];
+      insertSentence.run(
+        meta.videoId,
+        i,
+        s.startTime,
+        s.endTime,
+        s.en || '',
+        s.cn || '',
+        JSON.stringify(s.keywords || []),
+        s.isKey ? 1 : 0
+      );
+    }
+  });
+
+  transaction();
 }
 
 /**
- * Read video metadata from disk.
+ * Read video metadata from SQLite.
  */
 export async function getVideoMeta(videoId: string): Promise<VideoMeta | null> {
-  try {
-    const content = await fs.readFile(path.join(getVideoDir(videoId), 'meta.json'), 'utf-8');
-    return JSON.parse(content) as VideoMeta;
-  } catch {
-    return null;
-  }
+  const video = db.prepare(`SELECT * FROM videos WHERE id = ?`).get(videoId) as any;
+  if (!video) return null;
+
+  const sentencesRows = db.prepare(`SELECT * FROM sentences WHERE videoId = ? ORDER BY sentenceIndex`).all(videoId) as any[];
+  
+  const sentences = sentencesRows.map((row) => ({
+    id: row.id,
+    startTime: row.startTime,
+    endTime: row.endTime,
+    en: row.en,
+    cn: row.cn || '',
+    keywords: JSON.parse(row.keywords || '[]'),
+    isKey: row.isKey === 1
+  }));
+
+  return {
+    videoId: video.id,
+    title: video.title,
+    sourceUrl: video.sourceUrl,
+    duration: video.duration,
+    importedAt: video.importedAt,
+    videoFile: video.videoFile,
+    thumbnailFile: video.thumbnailFile || '',
+    subtitleFiles: {
+      en: video.subEn || undefined,
+      cn: video.subCn || undefined
+    },
+    sentences
+  };
 }
 
 /**
- * List all imported videos.
+ * List all imported videos from SQLite.
  */
 export async function listVideos(): Promise<VideoSummary[]> {
   try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    const entries = await fs.readdir(DATA_DIR, { withFileTypes: true });
-    const summaries: VideoSummary[] = [];
+    const rows = db.prepare(`
+      SELECT v.*, COUNT(s.id) as sentenceCount 
+      FROM videos v 
+      LEFT JOIN sentences s ON v.id = s.videoId 
+      GROUP BY v.id 
+      ORDER BY v.importedAt DESC
+    `).all() as any[];
 
-    for (const entry of entries) {
-      if (!entry.isDirectory()) continue;
-      const meta = await getVideoMeta(entry.name);
-      if (!meta) continue;
-      summaries.push({
-        videoId: meta.videoId,
-        title: meta.title,
-        sourceUrl: meta.sourceUrl,
-        duration: meta.duration,
-        importedAt: meta.importedAt,
-        sentenceCount: meta.sentences.length,
-        thumbnailUrl: `/media/${meta.videoId}/${meta.thumbnailFile}`,
-      });
-    }
-
-    return summaries.sort((a, b) =>
-      new Date(b.importedAt).getTime() - new Date(a.importedAt).getTime()
-    );
-  } catch {
+    return rows.map(row => ({
+      videoId: row.id,
+      title: row.title,
+      sourceUrl: row.sourceUrl,
+      duration: row.duration,
+      importedAt: row.importedAt,
+      sentenceCount: row.sentenceCount,
+      thumbnailUrl: row.thumbnailFile ? `/media/${row.id}/${row.thumbnailFile}` : ''
+    }));
+  } catch (err) {
+    console.error('Error listing videos', err);
     return [];
   }
 }
@@ -81,11 +146,13 @@ export async function listVideos(): Promise<VideoSummary[]> {
  * Delete a video and all its files.
  */
 export async function deleteVideo(videoId: string): Promise<boolean> {
-  const dir = getVideoDir(videoId);
   try {
+    const dir = getVideoDir(videoId);
     await fs.rm(dir, { recursive: true, force: true });
+    db.prepare(`DELETE FROM videos WHERE id = ?`).run(videoId);
     return true;
-  } catch {
+  } catch (err) {
+    console.error('Error deleting video', err);
     return false;
   }
 }

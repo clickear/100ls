@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { PlayerData, PlayerState, PlaybackSpeed, SubtitleMode, TabId, Sentence } from '../types/player';
+import { updateSentenceStatus } from '../api/player';
 
 const SPEEDS: PlaybackSpeed[] = ['0.5x', '0.75x', '1.0x', '1.25x', '1.5x'];
 const SPEED_VALUES: Record<PlaybackSpeed, number> = {
@@ -240,8 +241,21 @@ export function usePlayer(data: PlayerData | null): UsePlayerReturn {
     const d = dataRef.current;
     const s = stateRef.current;
     if (!d) return;
-    d.sentences[s.currentSentenceIndex].isKey = !d.sentences[s.currentSentenceIndex].isKey;
+    
+    const sentence = d.sentences[s.currentSentenceIndex];
+    const newStatus = !sentence.isKey;
+    sentence.isKey = newStatus;
+    
+    // Update UI immediately
     setState(prev => ({ ...prev }));
+    
+    // Persist to backend asynchronously
+    updateSentenceStatus(d.videoId, sentence.id, { isKey: newStatus }).catch(err => {
+      console.error('Failed to persist sentence status', err);
+      // Revert UI if API fails
+      sentence.isKey = !newStatus;
+      setState(prev => ({ ...prev }));
+    });
   }, []);
 
   const setSubtitleMode = useCallback((mode: SubtitleMode) => {

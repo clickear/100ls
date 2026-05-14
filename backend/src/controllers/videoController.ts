@@ -25,6 +25,16 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  // Setup SSE
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders(); // Ensure headers are sent immediately
+
+  const sendEvent = (event: string, data: any) => {
+    res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+  };
+
   try {
     const videoId = generateVideoId(url);
     const outputDir = getVideoDir(videoId);
@@ -33,7 +43,17 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
     console.log(`   Video ID: ${videoId}`);
 
     // Step 1: Download video + subtitles + thumbnail
-    const result = await downloadVideo(url, outputDir);
+    let lastPercent = -1;
+    const result = await downloadVideo(url, outputDir, (percent) => {
+      // Throttle updates to ~1% increments to avoid flooding
+      const p = Math.floor(percent);
+      if (p !== lastPercent) {
+        lastPercent = p;
+        sendEvent('progress', { percent: p, step: 'downloading' });
+      }
+    });
+
+    sendEvent('progress', { percent: 100, step: 'parsing' });
 
     // Step 2: Parse subtitles
     let enCues = undefined;
@@ -82,11 +102,13 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
     };
 
     console.log(`✅ Import complete: ${videoId} — ${sentences.length} sentences\n`);
-    res.json(response);
+    sendEvent('complete', response);
+    res.end();
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error('❌ Import failed:', message);
-    res.status(500).json({ error: `导入失败: ${message}` });
+    sendEvent('error', { error: `导入失败: ${message}` });
+    res.end();
   }
 }
 

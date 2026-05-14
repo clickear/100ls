@@ -25,6 +25,8 @@ export default function HomePage() {
   // Import state
   const [importUrl, setImportUrl] = useState('');
   const [importing, setImporting] = useState(false);
+  const [importProgress, setImportProgress] = useState(0);
+  const [importStep, setImportStep] = useState('');
   const [error, setError] = useState('');
 
   const loadVideos = () => {
@@ -44,10 +46,19 @@ export default function HomePage() {
     if (!importUrl) return;
 
     setImporting(true);
+    setImportProgress(0);
+    setImportStep('正在初始化下载...');
     setError('');
     
     try {
-      await importVideo(importUrl);
+      await importVideo(importUrl, (percent, step) => {
+        setImportProgress(percent);
+        if (step === 'downloading') {
+          setImportStep(`正在下载视频与字幕... ${percent}%`);
+        } else if (step === 'parsing') {
+          setImportStep('下载完成，正在解析与切分字幕...');
+        }
+      });
       setImportUrl('');
       loadVideos(); // Refresh list after import
     } catch (err: unknown) {
@@ -55,6 +66,8 @@ export default function HomePage() {
       setError(message);
     } finally {
       setImporting(false);
+      setImportProgress(0);
+      setImportStep('');
     }
   };
 
@@ -68,25 +81,48 @@ export default function HomePage() {
       <section className={styles.importSection}>
         <h2 className={styles.importTitle}>导入新视频</h2>
         <form onSubmit={handleImport} className={styles.importForm}>
-          <input
-            type="url"
-            value={importUrl}
-            onChange={(e) => setImportUrl(e.target.value)}
-            placeholder="粘贴 YouTube 或 B站链接..."
-            className={styles.input}
-            disabled={importing}
-          />
-          <button type="submit" className={styles.importBtn} disabled={importing || !importUrl}>
-            {importing ? (
-              <>
-                <div className={styles.spinner} />
-                正在下载与解析字幕...
-              </>
-            ) : (
-              '开始导入'
-            )}
-          </button>
-          {error && <p style={{ color: '#ef4444', fontSize: 12 }}>{error}</p>}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <input
+              type="url"
+              value={importUrl}
+              onChange={(e) => setImportUrl(e.target.value)}
+              placeholder="粘贴 YouTube 或 B站链接..."
+              className={styles.input}
+              style={{ flex: 1 }}
+              disabled={importing}
+            />
+            <button type="submit" className={styles.importBtn} disabled={importing || !importUrl}>
+              {importing ? (
+                <>
+                  <div className={styles.spinner} />
+                  导入中
+                </>
+              ) : (
+                '开始导入'
+              )}
+            </button>
+          </div>
+          
+          {importing && (
+            <div style={{ marginTop: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+                <span>{importStep || '初始化中...'}</span>
+                {importProgress > 0 && <span>{importProgress}%</span>}
+              </div>
+              <div style={{ width: '100%', height: '6px', background: 'var(--bg-card-hover)', borderRadius: '3px', overflow: 'hidden' }}>
+                <div 
+                  style={{ 
+                    height: '100%', 
+                    background: 'var(--green)', 
+                    width: `${importProgress}%`,
+                    transition: 'width 0.3s ease'
+                  }} 
+                />
+              </div>
+            </div>
+          )}
+          
+          {error && <p style={{ color: '#ef4444', fontSize: '14px', marginTop: '12px' }}>{error}</p>}
         </form>
       </section>
 

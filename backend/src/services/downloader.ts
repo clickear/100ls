@@ -1,7 +1,7 @@
 /**
  * Video downloader service — wraps yt-dlp to download videos and subtitles.
  */
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
@@ -22,7 +22,11 @@ export interface DownloadResult {
 /**
  * Download video, subtitles, and thumbnail using yt-dlp.
  */
-export async function downloadVideo(url: string, outputDir: string): Promise<DownloadResult> {
+export async function downloadVideo(
+  url: string,
+  outputDir: string,
+  onProgress?: (percent: number) => void
+): Promise<DownloadResult> {
   await fs.mkdir(outputDir, { recursive: true });
 
   // Step 1: Get video metadata first
@@ -41,24 +45,58 @@ export async function downloadVideo(url: string, outputDir: string): Promise<Dow
   // Step 2: Download video (max 720p for faster download + smaller files)
   console.log(`📥 Downloading video: ${title} (${duration}s)...`);
   try {
-    await execFileAsync('yt-dlp', [
-      '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]/best',
-      '--merge-output-format', 'mp4',
-      '--no-playlist',
-      '--legacy-server-connect',
-      '--ignore-errors', // continue on download errors (e.g. subtitle 429)
-      '--write-subs',
-      '--write-auto-subs',
-      '--sub-langs', 'en.*,zh-Hans,zh-CN,zh',
-      '--sub-format', 'vtt',
-      '--convert-subs', 'vtt',
-      '--write-thumbnail',
-      '--convert-thumbnails', 'jpg',
-      '-o', path.join(outputDir, 'video.%(ext)s'),
-      url,
-    ], {
-      maxBuffer: 50 * 1024 * 1024,
-      timeout: 10 * 60 * 1000, // 10 min timeout
+    await new Promise<void>((resolve, reject) => {
+      const args = [
+        '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]/best',
+        '--merge-output-format', 'mp4',
+        '--no-playlist',
+        '--legacy-server-connect',
+        '--ignore-errors', // continue on download errors (e.g. subtitle 429)
+        '--write-subs',
+        '--write-auto-subs',
+        '--sub-langs', 'en.*,zh-Hans,zh-CN,zh',
+        '--sub-format', 'vtt',
+        '--convert-subs', 'vtt',
+        '--write-thumbnail',
+        '--convert-thumbnails', 'jpg',
+        '-o', path.join(outputDir, 'video.%(ext)s'),
+        url,
+      ];
+
+      const child = spawn('yt-dlp', args);
+      let errorOutput = '';
+
+      child.stdout.on('data', (data) => {
+        const text = data.toString();
+        // Look for progress like: [download]  25.0%
+        const match = text.match(/\[download\]\s+(\d+\.\d+)%/);
+        if (match && onProgress) {
+          const percent = parseFloat(match[1]);
+          if (!isNaN(percent)) onProgress(percent);
+        }
+      });
+
+      child.stderr.on('data', (data) => {
+        errorOutput += data.toString();
+      });
+
+      const timeoutTimer = setTimeout(() => {
+        child.kill();
+        reject(new Error('Download timeout exceeded (10 mins)'));
+      }, 10 * 60 * 1000);
+
+      child.on('close', (code) => {
+        clearTimeout(timeoutTimer);
+        if (code !== 0) {
+          console.warn(`⚠️ yt-dlp exited with code ${code}, but continuing. Error logs: ${errorOutput.substring(0, 200)}...`);
+        }
+        resolve(); // Continue anyway since we ignore errors and check if file exists later
+      });
+
+      child.on('error', (err) => {
+        clearTimeout(timeoutTimer);
+        reject(err);
+      });
     });
   } catch (err: any) {
     // yt-dlp might exit with code 1 if subtitle downloads fail with 429, but video still downloads.
