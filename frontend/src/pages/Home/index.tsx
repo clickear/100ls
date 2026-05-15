@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { listVideos } from '../../api/player';
 import VideoList from '../../components/VideoList';
 import VideoImport from '../../components/VideoImport';
 import styles from './styles.module.css';
@@ -12,7 +11,6 @@ import type { TabId } from '../../types/player';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<TabId>('home');
   const [refreshCount, setRefreshCount] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [, setLocation] = useLocation();
 
   const handleImportSuccess = () => {

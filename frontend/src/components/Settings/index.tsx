@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSettings } from '../../hooks/useSettings';
 import styles from './styles.module.css';
 

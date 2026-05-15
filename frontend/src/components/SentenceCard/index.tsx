@@ -14,8 +14,6 @@ interface SentenceCardProps {
   onToggleKey: () => void;
   onSpeak: () => void;
   onTogglePlay: () => void;
-  isPlaying: boolean;
-  shadowingMode: boolean;
   isWaitingForShadowing: boolean;
 }
 
@@ -34,8 +32,6 @@ export default function SentenceCard({
   onToggleKey,
   onSpeak,
   onTogglePlay,
-  isPlaying,
-  shadowingMode,
   isWaitingForShadowing
 }: SentenceCardProps) {
   const showCn = subtitleMode === 'bilingual';

@@ -38,7 +38,7 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeMarker, setActiveMarker] = useState<number | null>(null);
   const [suppressedIndex, setSuppressedIndex] = useState<number | null>(null);
-  const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hideTimerRef = useRef<any>(null);
 
   const clearHideTimer = () => {
     if (hideTimerRef.current) {

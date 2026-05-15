@@ -6,6 +6,7 @@ export interface Sentence {
   startTime: number; // seconds
   endTime: number;   // seconds
   isKey: boolean;     // 重点句
+  keywords: string[]; // 关键词
   patterns?: {
     patternId: number;
     patternText: string;
@@ -17,6 +18,8 @@ export interface Sentence {
 export type SubtitleMode =
   | 'pure-en'
   | 'bilingual'
+  | 'keyword'
+  | 'dictation'
   | 'none';
 
 export type PlaybackSpeed = '0.5x' | '0.75x' | '1.0x' | '1.25x' | '1.5x';
@@ -32,6 +35,7 @@ export interface StageInfo {
   currentProgress: number;
   totalProgress: number;
   repetitionCount: number;
+  lastPosition?: number;
 }
 
 /** Episode (阶段) status */

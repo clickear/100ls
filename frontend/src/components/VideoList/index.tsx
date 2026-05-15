@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { listVideos, deleteVideo } from '../../api/player';
-import VideoImport from '../VideoImport';
 import styles from './styles.module.css';
 
 interface VideoSummary {

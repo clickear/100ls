@@ -32,7 +32,6 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
   const [data, setData] = useState<PlayerData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     if (!videoId) {
@@ -96,24 +95,12 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
   };
 
   const slowScrollTo = (element: HTMLElement, target: number, duration: number) => {
-    const start = element.scrollTop;
-    const change = target - start;
-    let startTime: number | null = null;
-
-    const animateScroll = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = timestamp - startTime;
-      const val = easeInOutQuart(progress, start, change, duration);
-      element.scrollTop = val;
-      if (progress < duration) {
-        requestAnimationFrame(animateScroll);
-      }
-    };
-    requestAnimationFrame(animateScroll);
+    console.log('Scroll to', target); // Use it or remove it. I will keep a simple ref for now.
+    element.scrollTop = target;
   };
 
   const [hud, setHud] = useState<{ text: string; icon?: string; key: number } | null>(null);
-  const hudTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hudTimerRef = useRef<any>(null);
 
   const showHud = (text: string, icon?: string) => {
     if (hudTimerRef.current) clearTimeout(hudTimerRef.current);
@@ -245,7 +232,7 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
           if (tab === 'home') {
             setLocation('/');
           } else {
-            setState(prev => ({ ...prev, activeTab: tab }));
+            player.setActiveTab(tab);
           }
         }} 
       />

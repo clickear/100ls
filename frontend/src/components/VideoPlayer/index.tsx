@@ -36,7 +36,7 @@ function renderSubtitleEn(sentence: Sentence, mode: SubtitleMode): string {
     return sentence.en.split(/\b/).map(word => {
       const lower = word.toLowerCase().trim();
       if (!lower || /^\W+$/.test(word)) return word;
-      return sentence.keywords.some(k => k.toLowerCase() === lower) ? word : '____';
+      return sentence.keywords.some((k: string) => k.toLowerCase() === lower) ? word : '____';
     }).join('');
   }
 
@@ -45,7 +45,7 @@ function renderSubtitleEn(sentence: Sentence, mode: SubtitleMode): string {
     return sentence.en.split(/\b/).map(word => {
       const lower = word.toLowerCase().trim();
       if (!lower || /^\W+$/.test(word)) return word;
-      return sentence.keywords.some(k => k.toLowerCase() === lower) ? '____' : word;
+      return sentence.keywords.some((k: string) => k.toLowerCase() === lower) ? '____' : word;
     }).join('');
   }
 
@@ -82,13 +82,13 @@ export default function VideoPlayer({
         {videoUrl ? (
           <video
             ref={videoRef}
+            key={videoUrl} // Force re-mount when URL changes
             className={`${styles.videoThumb} ${isAudioMode ? styles.hiddenVideo : ''}`}
+            src={videoUrl}
             poster={thumbnailUrl}
             playsInline
             preload="auto"
-          >
-            <source src={videoUrl} type="video/mp4" />
-          </video>
+          />
         ) : (
           <img
             src={thumbnailUrl}
