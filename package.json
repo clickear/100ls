@@ -6,7 +6,9 @@
     "setup": "node scripts/setup.js",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
-    "dev": "export PATH=$PATH:$HOME/.local/bin && concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
+    "dev": "export PATH=$PATH:$HOME/.local/bin && concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "export": "node scripts/export-static.js",
+    "build:static": "npm run export && cd frontend && npm install && npm run build"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

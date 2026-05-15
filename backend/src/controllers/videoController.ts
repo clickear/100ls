@@ -84,6 +84,29 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
       console.error('⚠️ Translation failed (non-critical):', transErr);
     }
 
+    // Step 4.6: Cloud Storage Upload (Optional)
+    let videoUrl = path.basename(result.videoFile);
+    let thumbnailUrl = result.thumbnailFile ? path.basename(result.thumbnailFile) : '';
+
+    const { getStorageProvider } = await import('../services/storageService.js');
+    const storage = getStorageProvider();
+    
+    if (process.env.STORAGE_PROVIDER && process.env.STORAGE_PROVIDER !== 'local') {
+      sendEvent('progress', { percent: 100, step: 'uploading' });
+      console.log(`☁️ Uploading files to ${process.env.STORAGE_PROVIDER}...`);
+      try {
+        // Upload video
+        videoUrl = await storage.uploadFile(result.videoFile, `${videoId}/${path.basename(result.videoFile)}`);
+        
+        // Upload thumbnail
+        if (result.thumbnailFile) {
+          thumbnailUrl = await storage.uploadFile(result.thumbnailFile, `${videoId}/${path.basename(result.thumbnailFile)}`);
+        }
+      } catch (uploadErr) {
+        console.error('❌ Cloud upload failed, falling back to local paths:', uploadErr);
+      }
+    }
+
     // Step 5: Save metadata
     const meta: VideoMeta = {
       videoId,
@@ -91,8 +114,8 @@ export async function importVideo(req: Request, res: Response): Promise<void> {
       sourceUrl: url,
       duration: result.duration,
       importedAt: new Date().toISOString(),
-      videoFile: path.basename(result.videoFile),
-      thumbnailFile: result.thumbnailFile ? path.basename(result.thumbnailFile) : '',
+      videoFile: videoUrl,
+      thumbnailFile: thumbnailUrl,
       subtitleFiles: {}, // No longer using static subtitle files
       sentences,
     };

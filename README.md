@@ -118,6 +118,20 @@ npx tsx scripts/debug/test-translation.ts
 
 ---
 
-## 🛠️ 技术架构
+## 📦 存储与媒体管理 (Storage)
+
+本项目支持本地与云端（七牛云）多种存储方式。详细的架构说明及配置指南请参阅：
+
+👉 **[存储配置文档 (docs/STORAGE.md)](./docs/STORAGE.md)**
+
+---
+
+## 🚀 静态部署 (GitHub Pages)
+本项目支持 **Serverless 模式**，可将所有数据导出为静态 JSON 并在 GitHub Pages 上运行。
+
+1. **导出数据**: 运行 `npm run export`。
+2. **构建发布**: 运行 `npm run build:static` 或推送至 `main` 分支触发 GitHub Actions。
+
+---
 
 *Designed with ❤️ by Antigravity*

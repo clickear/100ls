@@ -1,0 +1,49 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Root Dependencies 📦
+        run: npm install
+
+      - name: Build and Export 🚀
+        env:
+          VITE_STATIC_MODE: 'true'
+        run: |
+          # 1. Export static data (JSONs)
+          # Note: This requires the SQLite DB to be in the repo if running on CI
+          # If you don't commit the DB, you should run 'npm run export' locally instead
+          if [ -f "backend/data/100ls.db" ]; then
+            npm run export
+          else
+            console.log("⚠️ SQLite DB not found in CI. Skipping export step. Ensure data is committed to frontend/public/static-data")
+          fi
+          
+          # 2. Build Frontend
+          cd frontend
+          npm install
+          npm run build -- --base=/${{ github.event.repository.name }}/
+
+      - name: Deploy 🛫
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: frontend/dist
+          branch: gh-pages

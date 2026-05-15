@@ -159,7 +159,9 @@ export async function listVideos(): Promise<VideoSummary[]> {
       duration: row.duration,
       importedAt: row.importedAt,
       sentenceCount: row.sentenceCount,
-      thumbnailUrl: row.thumbnailFile ? `/media/${row.id}/${row.thumbnailFile}` : '',
+      thumbnailUrl: row.thumbnailFile 
+        ? (row.thumbnailFile.startsWith('http') ? row.thumbnailFile : `/media/${row.id}/${row.thumbnailFile}`)
+        : '',
       currentStage: row.currentStage || 1,
       repetitionCount: row.repetitionCount || 0
     }));
@@ -223,9 +225,11 @@ export function toPlayerData(meta: VideoMeta): PlayerData {
     videoId: meta.videoId,
     title: meta.title,
     isVip: false,
-    videoUrl: `/media/${meta.videoId}/${meta.videoFile}`,
+    videoUrl: meta.videoFile.startsWith('http') 
+      ? meta.videoFile 
+      : `/media/${meta.videoId}/${meta.videoFile}`,
     thumbnailUrl: meta.thumbnailFile
-      ? `/media/${meta.videoId}/${meta.thumbnailFile}`
+      ? (meta.thumbnailFile.startsWith('http') ? meta.thumbnailFile : `/media/${meta.videoId}/${meta.thumbnailFile}`)
       : '',
     duration: meta.duration,
     stageInfo: {

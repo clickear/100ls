@@ -1,12 +1,20 @@
 import type { PlayerData } from '../types/player';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3001';
+const IS_STATIC = import.meta.env.VITE_STATIC_MODE === 'true';
 
 /**
- * Fetch player data for a given video from the backend API.
- * Resolves relative video/thumbnail URLs to the backend server.
+ * Fetch player data for a given video.
+ * In STATIC mode, fetches from public/static-data/player/*.json
  */
 export async function fetchPlayerData(videoId: string): Promise<PlayerData> {
+  if (IS_STATIC) {
+    const res = await fetch(`./static-data/player/${videoId}.json`);
+    if (!res.ok) throw new Error(`Static data not found for ${videoId}`);
+    const data: PlayerData = await res.json();
+    return data;
+  }
+
   const res = await fetch(`${API_BASE}/api/player/${videoId}`);
   if (!res.ok) {
     throw new Error(`API error: ${res.status} ${res.statusText}`);
@@ -37,6 +45,10 @@ export async function importVideo(
   sentenceCount: number;
   status: string;
 }> {
+  if (IS_STATIC) {
+    throw new Error('抱歉，静态演示模式不支持导入新视频。请在本地版中使用此功能。');
+  }
+
   const res = await fetch(`${API_BASE}/api/videos`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -97,6 +109,12 @@ export async function listVideos(): Promise<Array<{
   sentenceCount: number;
   thumbnailUrl: string;
 }>> {
+  if (IS_STATIC) {
+    const res = await fetch(`./static-data/videos.json`);
+    if (!res.ok) throw new Error('Static video list not found');
+    return res.json();
+  }
+
   const res = await fetch(`${API_BASE}/api/videos`);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   const videos = await res.json();
@@ -117,6 +135,10 @@ export async function updateSentenceStatus(
   sentenceId: number,
   data: { isKey: boolean }
 ): Promise<void> {
+  if (IS_STATIC) {
+    console.warn('静态模式下无法保存修改');
+    return;
+  }
   const res = await fetch(`${API_BASE}/api/player/${videoId}/sentences/${sentenceId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -136,6 +158,10 @@ export async function updateVideoProgress(
   videoId: string,
   data: { currentStage?: number; repetitionCount?: number; lastPosition?: number }
 ): Promise<void> {
+  if (IS_STATIC) {
+    console.warn('静态模式下无法保存进度');
+    return;
+  }
   const res = await fetch(`${API_BASE}/api/player/${videoId}/progress`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -165,6 +191,11 @@ export async function deleteVideo(videoId: string): Promise<void> {
  * Fetch all identified patterns and their counts.
  */
 export async function fetchPatterns(): Promise<any[]> {
+  if (IS_STATIC) {
+    const res = await fetch(`./static-data/patterns.json`);
+    if (!res.ok) return [];
+    return res.json();
+  }
   const res = await fetch(`${API_BASE}/api/patterns`);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
@@ -174,6 +205,12 @@ export async function fetchPatterns(): Promise<any[]> {
  * Fetch all occurrences of a specific pattern.
  */
 export async function fetchPatternDetails(patternId: number): Promise<any[]> {
+  if (IS_STATIC) {
+    const res = await fetch(`./static-data/pattern-instances.json`);
+    if (!res.ok) return [];
+    const allInstances = await res.json();
+    return allInstances.filter((inst: any) => inst.patternId === patternId);
+  }
   const res = await fetch(`${API_BASE}/api/patterns/${patternId}`);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
