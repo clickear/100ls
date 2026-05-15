@@ -42,7 +42,7 @@ const videoSummaries = videos.map(row => ({
   importedAt: row.importedAt,
   sentenceCount: row.sentenceCount,
   thumbnailUrl: row.thumbnailFile 
-    ? (row.thumbnailFile.startsWith('http') ? row.thumbnailFile : `./static-data/media/${row.id}/${row.thumbnailFile}`)
+    ? (row.thumbnailFile.startsWith('http') ? row.thumbnailFile : `static-data/media/${row.id}/${row.thumbnailFile}`)
     : '',
   currentStage: row.currentStage || 1,
   repetitionCount: row.repetitionCount || 0
@@ -94,9 +94,9 @@ for (const video of videos) {
     isVip: false,
     videoUrl: video.videoFile.startsWith('http') 
       ? video.videoFile 
-      : `./static-data/media/${video.id}/${video.videoFile}`,
+      : `static-data/media/${video.id}/${video.videoFile}`,
     thumbnailUrl: video.thumbnailFile
-      ? (video.thumbnailFile.startsWith('http') ? video.thumbnailFile : `./static-data/media/${video.id}/${video.thumbnailFile}`)
+      ? (video.thumbnailFile.startsWith('http') ? video.thumbnailFile : `static-data/media/${video.id}/${video.thumbnailFile}`)
       : '',
     duration: video.duration,
     stageInfo: {

@@ -9,9 +9,18 @@ const IS_STATIC = import.meta.env.VITE_STATIC_MODE === 'true';
  */
 export async function fetchPlayerData(videoId: string): Promise<PlayerData> {
   if (IS_STATIC) {
-    const res = await fetch(`./static-data/player/${videoId}.json`);
+    const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const res = await fetch(`${baseUrl}/static-data/player/${videoId}.json`);
     if (!res.ok) throw new Error(`Static data not found for ${videoId}`);
     const data: PlayerData = await res.json();
+    
+    // Fix internal paths
+    if (data.videoUrl && !data.videoUrl.startsWith('http')) {
+      data.videoUrl = `${baseUrl}/${data.videoUrl}`;
+    }
+    if (data.thumbnailUrl && !data.thumbnailUrl.startsWith('http')) {
+      data.thumbnailUrl = `${baseUrl}/${data.thumbnailUrl}`;
+    }
     return data;
   }
 
@@ -110,9 +119,16 @@ export async function listVideos(): Promise<Array<{
   thumbnailUrl: string;
 }>> {
   if (IS_STATIC) {
-    const res = await fetch(`./static-data/videos.json`);
+    const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const res = await fetch(`${baseUrl}/static-data/videos.json`);
     if (!res.ok) throw new Error('Static video list not found');
-    return res.json();
+    const videos = await res.json();
+    return videos.map((v: any) => {
+      if (v.thumbnailUrl && !v.thumbnailUrl.startsWith('http')) {
+        v.thumbnailUrl = `${baseUrl}/${v.thumbnailUrl}`;
+      }
+      return v;
+    });
   }
 
   const res = await fetch(`${API_BASE}/api/videos`);
@@ -192,7 +208,8 @@ export async function deleteVideo(videoId: string): Promise<void> {
  */
 export async function fetchPatterns(): Promise<any[]> {
   if (IS_STATIC) {
-    const res = await fetch(`./static-data/patterns.json`);
+    const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const res = await fetch(`${baseUrl}/static-data/patterns.json`);
     if (!res.ok) return [];
     return res.json();
   }
@@ -206,7 +223,8 @@ export async function fetchPatterns(): Promise<any[]> {
  */
 export async function fetchPatternDetails(patternId: number): Promise<any[]> {
   if (IS_STATIC) {
-    const res = await fetch(`./static-data/pattern-instances.json`);
+    const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const res = await fetch(`${baseUrl}/static-data/pattern-instances.json`);
     if (!res.ok) return [];
     const allInstances = await res.json();
     return allInstances.filter((inst: any) => inst.patternId === patternId);
