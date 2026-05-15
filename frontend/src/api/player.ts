@@ -10,16 +10,19 @@ const IS_STATIC = import.meta.env.VITE_STATIC_MODE === 'true';
 export async function fetchPlayerData(videoId: string): Promise<PlayerData> {
   if (IS_STATIC) {
     const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-    const res = await fetch(`${baseUrl}/static-data/player/${videoId}.json`);
+    const fetchUrl = `${baseUrl}/static-data/player/${videoId}.json`;
+    console.log('[Static Mode] Fetching player data from:', fetchUrl);
+    const res = await fetch(fetchUrl);
     if (!res.ok) throw new Error(`Static data not found for ${videoId}`);
     const data: PlayerData = await res.json();
     
     // Fix internal paths
+    const fullBase = baseUrl || '';
     if (data.videoUrl && !data.videoUrl.startsWith('http')) {
-      data.videoUrl = `${baseUrl}/${data.videoUrl}`;
+      data.videoUrl = (fullBase + '/' + data.videoUrl).replace(/\/+/g, '/');
     }
     if (data.thumbnailUrl && !data.thumbnailUrl.startsWith('http')) {
-      data.thumbnailUrl = `${baseUrl}/${data.thumbnailUrl}`;
+      data.thumbnailUrl = (fullBase + '/' + data.thumbnailUrl).replace(/\/+/g, '/');
     }
     return data;
   }
@@ -120,12 +123,14 @@ export async function listVideos(): Promise<Array<{
 }>> {
   if (IS_STATIC) {
     const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-    const res = await fetch(`${baseUrl}/static-data/videos.json`);
+    const fetchUrl = `${baseUrl}/static-data/videos.json`;
+    console.log('[Static Mode] Fetching video list from:', fetchUrl);
+    const res = await fetch(fetchUrl);
     if (!res.ok) throw new Error('Static video list not found');
     const videos = await res.json();
     return videos.map((v: any) => {
       if (v.thumbnailUrl && !v.thumbnailUrl.startsWith('http')) {
-        v.thumbnailUrl = `${baseUrl}/${v.thumbnailUrl}`;
+        v.thumbnailUrl = (baseUrl + '/' + v.thumbnailUrl).replace(/\/+/g, '/');
       }
       return v;
     });

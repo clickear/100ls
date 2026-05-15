@@ -34,7 +34,7 @@ jobs:
           if [ -f "backend/data/100ls.db" ]; then
             npm run export
           else
-            console.log("⚠️ SQLite DB not found in CI. Skipping export step. Ensure data is committed to frontend/public/static-data")
+            echo "⚠️ SQLite DB not found in CI. Skipping export step. Ensure data is committed to frontend/public/static-data"
           fi
           
           # 2. Build Frontend
