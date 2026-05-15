@@ -6,6 +6,7 @@ import VideoImport from '../../components/VideoImport';
 import styles from './styles.module.css';
 import TabBar from '../../components/TabBar';
 import PatternBook from '../../components/PatternBook';
+import Settings from '../../components/Settings';
 import type { TabId } from '../../types/player';
 
 export default function HomePage() {
@@ -56,6 +57,14 @@ export default function HomePage() {
                 setLocation(`/player/${targetVideoId}?t=${startTime}`);
               }}
             />
+          </div>
+        ) : activeTab === 'settings' ? (
+          <div style={{ padding: '0 var(--spacing-lg)' }}>
+            <header className={styles.header}>
+              <h1 className={styles.title}>配置中心</h1>
+              <p className={styles.subtitle}>个性化你的学习体验</p>
+            </header>
+            <Settings />
           </div>
         ) : activeTab === 'player' ? (
           <div className={styles.empty}>

@@ -1,5 +1,5 @@
 /* === Theme Tokens - Golden Majestic (Semantic & Abstracted) === */
-:root {
+:root, [data-theme='imperial-gold'] {
   /* Brand Identity */
   --brand: #D97706;          /* Majestic Gold */
   --brand-dim: rgba(217, 119, 6, 0.08);
@@ -28,26 +28,63 @@
   --text-dim: #92400e;
   --text-on-dark: #ffffff;
 
-  /* Elevation - Refined for better clarity */
+  /* Elevation */
   --shadow-soft: 0 2px 10px rgba(120, 53, 15, 0.04);
   --shadow-majestic: 0 10px 30px rgba(120, 53, 15, 0.08);
   --shadow-strong: 0 15px 45px rgba(120, 53, 15, 0.1);
 
-  /* Geometry - More balanced radii */
+  /* Geometry */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 20px;
   --radius-xl: 28px;
   
-  /* Spacing System (with legacy aliases) */
+  /* Spacing */
   --space-xs: 4px;  --spacing-xs: 4px;
   --space-sm: 8px;  --spacing-sm: 8px;
   --space-md: 12px; --spacing-md: 12px;
   --space-lg: 20px; --spacing-lg: 20px;
   --space-xl: 24px; --spacing-xl: 24px;
   --space-2xl: 32px; --spacing-2xl: 32px;
+}
+
+[data-theme='midnight-blue'] {
+  /* Brand Identity - Keeping the Gold but making it glowier */
+  --brand: #fbbf24;          /* Brighter Gold for dark mode */
+  --brand-dim: rgba(251, 191, 36, 0.12);
   
-  /* Theme Aliases for Legacy Compatibility */
+  /* Interaction & Status */
+  --active: #34d399;         /* Brighter Green */
+  --active-dim: rgba(52, 211, 153, 0.12);
+  --error: #f87171;
+  
+  /* Backgrounds - Deep Midnight */
+  --bg-main: #020617;        /* Deepest Navy */
+  --bg-alt: #0f172a;         /* Midnight Blue */
+  --bg-card: rgba(30, 41, 59, 0.7); /* Glassy Slate */
+  --bg-card-hover: rgba(51, 65, 85, 0.8);
+  --bg-dark: #1e293b;
+  
+  /* Borders & Lines */
+  --border-light: rgba(251, 191, 36, 0.15);
+  --border-active: rgba(52, 211, 153, 0.5);
+  --border-focus: rgba(251, 191, 36, 0.4);
+
+  /* Typography - High Contrast */
+  --text-main: #f8fafc;      /* White/Slate 50 */
+  --text-body: #e2e8f0;      /* Slate 200 */
+  --text-muted: #94a3b8;     /* Slate 400 */
+  --text-dim: #64748b;       /* Slate 500 */
+  --text-on-dark: #ffffff;
+
+  /* Elevation - Toned for dark mode */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-majestic: 0 12px 36px rgba(0, 0, 0, 0.6);
+  --shadow-strong: 0 18px 54px rgba(0, 0, 0, 0.7);
+}
+
+/* Global Compatibility Aliases */
+:root {
   --accent-gold: var(--brand);
   --text: var(--text-body);
   --text-primary: var(--text-main);
@@ -59,6 +96,7 @@
   --shadow-md: var(--shadow-majestic);
   --shadow-lg: var(--shadow-strong);
 }
+
 
 /* === Global Reset & Body === */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { PlayerData, PlayerState, PlaybackSpeed, SubtitleMode, TabId, Sentence } from '../types/player';
 import { updateSentenceStatus, updateVideoProgress, updatePatternMastery } from '../api/player';
+import { useSettings } from './useSettings';
 
 const SPEEDS: PlaybackSpeed[] = ['0.5x', '0.75x', '1.0x', '1.25x', '1.5x'];
 const SPEED_VALUES: Record<PlaybackSpeed, number> = {
@@ -36,6 +37,7 @@ export interface UsePlayerReturn {
 }
 
 export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) => void): UsePlayerReturn {
+  const { settings } = useSettings();
   const videoElRef = useRef<HTMLVideoElement | null>(null);
   const dataRef = useRef(data);
   dataRef.current = data;
@@ -246,7 +248,7 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
       if (!sentence) return;
 
       const sentenceDuration = sentence.endTime - sentence.startTime;
-      const pauseDuration = Math.max(2000, sentenceDuration * 1500); // 1.5x duration or min 2s
+      const pauseDuration = Math.max(1000, sentenceDuration * settings.shadowingPauseFactor * 1000); 
 
       const timer = setTimeout(() => {
         const video = videoElRef.current;

@@ -19,8 +19,10 @@ export type SubtitleMode =
   | 'bilingual'
   | 'none';
 
-/** Playback speed option */
 export type PlaybackSpeed = '0.5x' | '0.75x' | '1.0x' | '1.25x' | '1.5x';
+
+/** Visual theme options */
+export type Theme = 'imperial-gold' | 'midnight-blue';
 
 /** Stage info for the learning session */
 export interface StageInfo {
