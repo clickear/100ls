@@ -87,17 +87,7 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
   };
 
   // Luxury Quartic Easing (More fluid than Quad)
-  const easeInOutQuart = (t: number, b: number, c: number, d: number) => {
-    t /= d / 2;
-    if (t < 1) return (c / 2) * t * t * t * t + b;
-    t -= 2;
-    return (-c / 2) * (t * t * t * t - 2) + b;
-  };
 
-  const slowScrollTo = (element: HTMLElement, target: number, duration: number) => {
-    console.log('Scroll to', target); // Use it or remove it. I will keep a simple ref for now.
-    element.scrollTop = target;
-  };
 
   const [hud, setHud] = useState<{ text: string; icon?: string; key: number } | null>(null);
   const hudTimerRef = useRef<any>(null);
@@ -330,11 +320,9 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
                   onPrev={player.goToPrevSentence}
                   onNext={player.goToNextSentence}
                   onToggleLoop={player.toggleLoopSentence}
-                  onToggleKey={player.toggleKeySentence}
-                  onSpeak={player.replay}
-                  onTogglePlay={player.togglePlayPause}
-                  isPlaying={state.isPlaying}
-                  shadowingMode={state.shadowingMode}
+                  onToggleKey={() => player.toggleKeySentence()}
+                  onSpeak={() => {}}
+                  onTogglePlay={() => player.togglePlayPause()}
                   isWaitingForShadowing={state.isWaitingForShadowing}
                 />
               )}
