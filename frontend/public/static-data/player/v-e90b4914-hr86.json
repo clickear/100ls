@@ -7,8 +7,8 @@
   "duration": 267,
   "stageInfo": {
     "currentStage": 1,
-    "totalStages": 10,
-    "subtitleMode": "中英双语",
+    "totalStages": 5,
+    "subtitleMode": "bilingual",
     "currentProgress": 0,
     "totalProgress": 100,
     "repetitionCount": 0,
@@ -18,1073 +18,1380 @@
     {
       "number": 1,
       "status": "active"
-    },
-    {
-      "number": 2,
-      "status": "locked"
-    },
-    {
-      "number": 3,
-      "status": "locked"
-    },
-    {
-      "number": 4,
-      "status": "locked"
-    },
-    {
-      "number": 5,
-      "status": "locked"
-    },
-    {
-      "number": 6,
-      "status": "locked"
-    },
-    {
-      "number": 7,
-      "status": "locked"
-    },
-    {
-      "number": 8,
-      "status": "locked"
-    },
-    {
-      "number": 9,
-      "status": "locked"
-    },
-    {
-      "number": 10,
-      "status": "locked"
     }
   ],
   "sentences": [
     {
       "id": 429,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 0,
       "startTime": 1.58,
       "endTime": 3.18,
       "en": "You were telling us how you met mom?",
       "cn": "你刚在讲你是怎么遇见妈妈的？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 430,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 1,
       "startTime": 3.18,
       "endTime": 4.82,
       "en": "In excruciating detail?",
       "cn": "要详细到令人发指的地步？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 431,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 2,
       "startTime": 4.82,
       "endTime": 10.74,
       "en": "Right, so back in 2005, when I was 27, my two best friends got engaged.",
       "cn": "对，2005年，我27岁，我两个最好的朋友订婚了。",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 45,
           "patternId": 110,
-          "patternText": "I was *",
-          "exactText": "I was "
+          "sentenceId": 431,
+          "exactText": "I was ",
+          "patternText": "I was *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 432,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 3,
       "startTime": 10.74,
       "endTime": 13.42,
       "en": "And it got me thinking, maybe I should get married.",
       "cn": "这让我开始想，也许我也该结婚了。",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 46,
           "patternId": 150,
-          "patternText": "get married",
-          "exactText": "get married"
+          "sentenceId": 432,
+          "exactText": "get married",
+          "patternText": "get married"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 433,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 4,
       "startTime": 13.42,
       "endTime": 15.62,
       "en": "And then I saw Robin.",
       "cn": "然后我遇到了罗宾。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 434,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 5,
       "startTime": 15.62,
       "endTime": 17.26,
       "en": "She was incredible.",
       "cn": "她太棒了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 435,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 6,
       "startTime": 17.26,
       "endTime": 19.16,
       "en": "I just knew I had to meet her.",
       "cn": "我就知道我一定要认识她。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 436,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 7,
       "startTime": 19.16,
       "endTime": 20.96,
       "en": "That's where your Uncle Barney came in.",
       "cn": "这时候你们的巴尼叔叔出场了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 437,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 8,
       "startTime": 20.96,
       "endTime": 23.2,
       "en": "I suggest we play a little game I like to call...",
       "cn": "我建议我们玩一个小游戏，我叫它...",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 438,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 9,
       "startTime": 23.2,
       "endTime": 29.74,
       "en": "Have you met Ted? No, no, no, no, we're not going to have you met Ted. Hi, have you met Ted?",
       "cn": "你见过泰德吗？不，不，不，不，我们不会让你去搞“你见过泰德吗？”那一套。嗨，你见过泰德吗？",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 47,
           "patternId": 135,
-          "patternText": "going to *",
-          "exactText": "going to "
+          "sentenceId": 438,
+          "exactText": "going to ",
+          "patternText": "going to *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 439,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 10,
       "startTime": 29.74,
       "endTime": 32.46,
       "en": "So I asked her out, and I know this sounds crazy.",
       "cn": "于是我约了她出来，我知道这听起来很疯狂。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 440,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 11,
       "startTime": 32.46,
       "endTime": 35.08,
       "en": "But after just one date, I was in love with her.",
       "cn": "但仅仅一次约会之后，我就爱上了她。",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 48,
           "patternId": 110,
-          "patternText": "I was *",
-          "exactText": "I was "
+          "sentenceId": 440,
+          "exactText": "I was ",
+          "patternText": "I was *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 441,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 12,
       "startTime": 35.08,
       "endTime": 37,
       "en": "Which made me say something stupid.",
       "cn": "这让我说了些蠢话。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 442,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 13,
       "startTime": 37,
       "endTime": 38.62,
       "en": "I think I'm in love with you.",
       "cn": "我想我爱上你了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 443,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 14,
       "startTime": 38.62,
       "endTime": 39.48,
       "en": "What?",
       "cn": "什么？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 444,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 15,
       "startTime": 39.48,
       "endTime": 41.66,
       "en": "Oh, Ted.",
       "cn": "哦，泰德。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 445,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 16,
       "startTime": 41.66,
       "endTime": 43.7,
       "en": "So then what happened?",
       "cn": "然后发生了什么？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 446,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 17,
       "startTime": 43.7,
       "endTime": 45.06,
       "en": "Nothing.",
       "cn": "没什么。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 447,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 18,
       "startTime": 45.06,
       "endTime": 47.54,
       "en": "I mean, I made a complete fool of myself.",
       "cn": "我的意思是，我彻底出丑了。",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 49,
           "patternId": 104,
-          "patternText": "I mean *",
-          "exactText": "I mean"
+          "sentenceId": 447,
+          "exactText": "I mean",
+          "patternText": "I mean *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 448,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 19,
       "startTime": 47.54,
       "endTime": 50.56,
       "en": "So a week went by, and I decided not to call her.",
       "cn": "所以一周过去了，我决定不给她打电话。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 449,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 20,
       "startTime": 50.56,
       "endTime": 52.2,
       "en": "So you're not gonna call her?",
       "cn": "所以你不打算给她打电话？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 450,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 21,
       "startTime": 52.2,
       "endTime": 55.1,
       "en": "You went from, \"I think I'm in love with you,\" to, \"I'm not gonna call her.\"",
       "cn": "你从'我觉得我爱上你了'变成'我不会给她打电话'。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 451,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 22,
       "startTime": 55.1,
       "endTime": 56.44,
       "en": "I wasn't in love with her, okay?",
       "cn": "我没有爱上她，好吗？",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 50,
           "patternId": 110,
-          "patternText": "I was *",
-          "exactText": "I was"
+          "sentenceId": 451,
+          "exactText": "I was",
+          "patternText": "I was *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 452,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 23,
       "startTime": 56.44,
       "endTime": 59.94,
       "en": "I was briefly in love with the abstract concept of getting married.",
       "cn": "我只是短暂地爱上了结婚这个抽象概念。",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 51,
           "patternId": 110,
-          "patternText": "I was *",
-          "exactText": "I was "
+          "sentenceId": 452,
+          "exactText": "I was ",
+          "patternText": "I was *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 453,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 24,
       "startTime": 59.94,
       "endTime": 62.74,
       "en": "That absolutely nothing to do with Robin.",
       "cn": "这和罗宾完全无关。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 454,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 25,
       "startTime": 62.74,
       "endTime": 63.74,
       "en": "Robin.",
       "cn": "罗宾。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 455,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 26,
       "startTime": 63.74,
       "endTime": 65.44,
       "en": "Hey, look who I ran into.",
       "cn": "嘿，看看我碰到谁了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 456,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 27,
       "startTime": 65.44,
       "endTime": 66.94,
       "en": "Since when do you guys know each other?",
       "cn": "你们什么时候认识的？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 457,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 28,
       "startTime": 66.94,
       "endTime": 69.98,
       "en": "Oh, since about... year.",
       "cn": "哦，大约...一年前。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 458,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 29,
       "startTime": 69.98,
       "endTime": 72.38,
       "en": "Lily recognized me from the news, and it's...",
       "cn": "莉莉从新闻里认出我来，然后...",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 459,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 30,
       "startTime": 72.38,
       "endTime": 73.88,
       "en": "Hello, sailor.",
       "cn": "你好，水手。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 460,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 31,
       "startTime": 73.88,
       "endTime": 76.68,
       "en": "They just got engaged.",
       "cn": "他们刚订婚了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 461,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 32,
       "startTime": 76.68,
       "endTime": 79.02,
       "en": "Well, I should get back to the station.",
       "cn": "好吧，我得回电视台了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 462,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 33,
       "startTime": 79.02,
       "endTime": 82.02,
       "en": "See you guys.",
       "cn": "再见各位。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 463,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 34,
       "startTime": 82.02,
       "endTime": 83.02,
       "en": "Nice to see you, Ted.",
       "cn": "很高兴见到你，泰德。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 464,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 35,
       "startTime": 83.02,
       "endTime": 84.76,
       "en": "Yeah, you too.",
       "cn": "嗯，你也是。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 465,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 36,
       "startTime": 84.76,
       "endTime": 86.76,
       "en": "Damn it.",
       "cn": "该死。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 466,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 37,
       "startTime": 86.76,
       "endTime": 87.76,
       "en": "What?",
       "cn": "什么？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 467,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 38,
       "startTime": 87.76,
       "endTime": 89.28,
       "en": "I'm in love with her.",
       "cn": "我爱上她了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 468,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 39,
       "startTime": 89.28,
       "endTime": 90.88,
       "en": "No!",
       "cn": "不！",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 469,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 40,
       "startTime": 90.88,
       "endTime": 93.14,
       "en": "As your sponsor, I will not let you relapse.",
       "cn": "作为你的担保人，我不会让你旧病复发的。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 470,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 41,
       "startTime": 93.14,
       "endTime": 94.14,
       "en": "You blew it, it's over.",
       "cn": "你搞砸了，完了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 471,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 42,
       "startTime": 94.14,
       "endTime": 95.14,
       "en": "Move on.",
       "cn": "继续前进吧。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 472,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 43,
       "startTime": 95.14,
       "endTime": 96.14,
       "en": "I don't know.",
       "cn": "我不知道。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 473,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 44,
       "startTime": 96.14,
       "endTime": 97.14,
       "en": "I just have this feeling.",
       "cn": "我就是有这种感觉。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 474,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 45,
       "startTime": 97.14,
       "endTime": 98.96,
       "en": "She's the future Mrs. Ted Mosby.",
       "cn": "她是未来的泰德·莫斯比太太。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 475,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 46,
       "startTime": 98.96,
       "endTime": 102.6,
       "en": "Lily, you squeaked.",
       "cn": "莉莉，你露馅了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 476,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 47,
       "startTime": 102.6,
       "endTime": 104.14,
       "en": "She said something about me, didn't she?",
       "cn": "她说了一些关于我的事，对吧？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 477,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 48,
       "startTime": 104.14,
       "endTime": 105.6,
       "en": "Come on, spill it, Red.",
       "cn": "别这样，说出来吧，红发。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 478,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 49,
       "startTime": 105.6,
       "endTime": 106.6,
       "en": "Fine.",
       "cn": "好吧。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 479,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 50,
       "startTime": 106.6,
       "endTime": 109.04,
       "en": "So, what do we think of Ted?",
       "cn": "那么，我们对泰德怎么看？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 480,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 51,
       "startTime": 109.04,
       "endTime": 112.38,
       "en": "Ted, something else.",
       "cn": "泰德，另一种类型。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 481,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 52,
       "startTime": 112.38,
       "endTime": 113.38,
       "en": "Huh.",
       "cn": "哈。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 482,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 53,
       "startTime": 113.38,
       "endTime": 115.4,
       "en": "I'm gonna spin that as good.",
       "cn": "我会把这个当成好事来看。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 483,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 54,
       "startTime": 115.4,
       "endTime": 117.64,
       "en": "Lots of guys are something, I'm something else.",
       "cn": "很多男人是某种类型，我是另一种类型。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 484,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 55,
       "startTime": 117.64,
       "endTime": 119.8,
       "en": "Come on, a little strong.",
       "cn": "别这样，有点过了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 485,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 56,
       "startTime": 119.8,
       "endTime": 121.84,
       "en": "But that's part of my charm.",
       "cn": "但这也是我魅力的一部分。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 486,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 57,
       "startTime": 121.84,
       "endTime": 123.72,
       "en": "But that's part of his charm?",
       "cn": "但这也是他魅力的一部分？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 487,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 58,
       "startTime": 123.72,
       "endTime": 124.72,
       "en": "Oh, totally.",
       "cn": "哦，绝对是。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 488,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 59,
       "startTime": 124.72,
       "endTime": 129.56,
       "en": "I mean, he's sweet, he's charming, he's just looking for something a little bit more serious than I am.",
       "cn": "我的意思是，他很贴心，很有魅力，他只是想找比我现在想要的东西更认真一点的东西。",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 52,
           "patternId": 104,
-          "patternText": "I mean *",
-          "exactText": "I mean"
+          "sentenceId": 488,
+          "exactText": "I mean",
+          "patternText": "I mean *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 489,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 60,
       "startTime": 129.56,
       "endTime": 133.2,
       "en": "I mean, the most I can handle right now is something casual.",
       "cn": "我是说，我现在最多只能接受随便玩玩。",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 53,
           "patternId": 104,
-          "patternText": "I mean *",
-          "exactText": "I mean"
+          "sentenceId": 489,
+          "exactText": "I mean",
+          "patternText": "I mean *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 490,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 61,
       "startTime": 133.2,
       "endTime": 134.64,
       "en": "This just stays between us, right?",
       "cn": "这事就我们俩知道吧？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 491,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 62,
       "startTime": 134.64,
       "endTime": 136.32,
       "en": "Are you kidding?",
       "cn": "你开玩笑吧？",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 54,
           "patternId": 140,
-          "patternText": "are you kidding",
-          "exactText": "Are you kidding"
+          "sentenceId": 491,
+          "exactText": "Are you kidding",
+          "patternText": "are you kidding"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 492,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 63,
       "startTime": 136.32,
       "endTime": 138.32,
       "en": "This flapper, Fort Knox.",
       "cn": "这个轻佻妞，像诺克斯堡一样难撬。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 493,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 64,
       "startTime": 138.32,
       "endTime": 139.32,
       "en": "Oops.",
       "cn": "哎呀。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 494,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 65,
       "startTime": 139.32,
       "endTime": 143.68,
       "en": "She wants casual, okay.",
       "cn": "她想要随便，好吧。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 495,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 66,
       "startTime": 143.68,
       "endTime": 144.68,
       "en": "I'll be casual.",
       "cn": "那我就随便。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 496,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 67,
       "startTime": 144.68,
       "endTime": 149.2,
       "en": "I'm gonna be a mushroom cloud of casual, you know why?",
       "cn": "我会随便得像原子弹爆炸一样，你知道为什么吗？",
-      "isKey": false,
+      "isKey": 0,
       "patterns": [
         {
+          "id": 55,
           "patternId": 105,
-          "patternText": "You know *",
-          "exactText": "you know "
+          "sentenceId": 496,
+          "exactText": "you know ",
+          "patternText": "You know *"
         }
-      ]
+      ],
+      "keywords": []
     },
     {
       "id": 497,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 68,
       "startTime": 149.2,
       "endTime": 150.28,
       "en": "'Cause it's a game.",
       "cn": "因为这就是个游戏。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 498,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 69,
       "startTime": 150.28,
       "endTime": 155.36,
       "en": "I wanted to skip to the end and do the whole happily ever after thing, but you don't get there unless you play the game.",
       "cn": "我想直接跳到结局，来个大团圆什么的，但你不玩游戏就得不到那个结局。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 499,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 70,
       "startTime": 155.36,
       "endTime": 157.16,
       "en": "So you're gonna ask her out?",
       "cn": "所以你要约她出去？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 500,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 71,
       "startTime": 157.16,
       "endTime": 162.6,
       "en": "Yeah, no, I can't ask her out because if I ask her out, I'm asking her out.",
       "cn": "对，不，我不能约她，因为如果我约她，那就是正式约会了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 501,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 72,
       "startTime": 162.6,
       "endTime": 167,
       "en": "So how do I ask her out without asking her out?",
       "cn": "那我怎么才能约她出去又不像是约她出去呢？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 502,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 73,
       "startTime": 167,
       "endTime": 171.24,
       "en": "Did you guys get high?",
       "cn": "你们是不是吸嗨了？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 503,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 74,
       "startTime": 171.24,
       "endTime": 173.24,
       "en": "I got it.",
       "cn": "我明白了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 504,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 75,
       "startTime": 173.24,
       "endTime": 174.72,
       "en": "I don't ask her out.",
       "cn": "我不约她。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 505,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 76,
       "startTime": 174.72,
       "endTime": 177.68,
       "en": "I invite her to our party next Friday.",
       "cn": "我邀请她来我们下周五的派对。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 506,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 77,
       "startTime": 177.68,
       "endTime": 179.48,
       "en": "We're having a party next Friday?",
       "cn": "我们下周五有派对吗？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 507,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 78,
       "startTime": 179.48,
       "endTime": 180.72,
       "en": "We are now.",
       "cn": "现在有了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 508,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 79,
       "startTime": 180.72,
       "endTime": 181.72,
       "en": "Casual.",
       "cn": "随便。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 509,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 80,
       "startTime": 181.72,
       "endTime": 186.08,
       "en": "Yeah, 'cause nothing says casual like inviting a hundred people over just a mac on one girl.",
       "cn": "是啊，毕竟没什么比为了一个女孩请一百个人来吃个巨无霸更随意的了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 510,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 81,
       "startTime": 186.08,
       "endTime": 187.4,
       "en": "Oh, and Lily?",
       "cn": "哦，对了，莉莉呢？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 511,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 82,
       "startTime": 187.4,
       "endTime": 188.4,
       "en": "That's my leg.",
       "cn": "那是我的腿。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 512,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 83,
       "startTime": 188.4,
       "endTime": 193,
       "en": "He waited five minutes to tell me that.",
       "cn": "他等了五分钟才告诉我。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 513,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 84,
       "startTime": 193,
       "endTime": 195.24,
       "en": "All right, so call her up.",
       "cn": "好吧，那就打给她。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 514,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 85,
       "startTime": 195.24,
       "endTime": 197.04,
       "en": "No, Colin's not casual.",
       "cn": "不，科林不是随便的人。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 515,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 86,
       "startTime": 197.04,
       "endTime": 198.96,
       "en": "I just gotta bump into her somewhere.",
       "cn": "我只是得在某个地方偶遇她。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 516,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 87,
       "startTime": 198.96,
       "endTime": 202.04,
       "en": "If only I knew her schedule, I could arrange a chance encounter.",
       "cn": "要是我知道她的日程，我就能安排一次偶遇了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 517,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 88,
       "startTime": 202.04,
       "endTime": 203.04,
       "en": "That's great, Ted.",
       "cn": "太棒了，泰德。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 518,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 89,
       "startTime": 203.04,
       "endTime": 208.76,
       "en": "You'll be the most casual stalker ever.",
       "cn": "你将成为史上最随意的跟踪狂。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 519,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 90,
       "startTime": 208.76,
       "endTime": 215.64,
       "en": "Now ever since Marshall put that ring on her finger, Lily had been, well, extra affectionate.",
       "cn": "自从马歇尔给她戴上戒指后，莉莉就变得，嗯，格外黏人。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 520,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 91,
       "startTime": 215.64,
       "endTime": 217.68,
       "en": "Baby, no.",
       "cn": "宝贝，不行。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 521,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 92,
       "startTime": 217.68,
       "endTime": 220.64,
       "en": "I have a 25-page paper on constitutional law due Monday.",
       "cn": "我有一篇25页的宪法论文要周一交。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 522,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 93,
       "startTime": 220.64,
       "endTime": 221.64,
       "en": "I barely started.",
       "cn": "我几乎还没开始。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 523,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 94,
       "startTime": 221.64,
       "endTime": 233.72,
       "en": "Hey, I'm just sitting here wearing my ring, my beautiful ring, kind of makes wearing other stuff seem wrong.",
       "cn": "嘿，我就坐在这儿戴着我的戒指，美丽的戒指，让我觉得穿其他东西都不对了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 524,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 95,
       "startTime": 233.72,
       "endTime": 242.24,
       "en": "My shirt, kind of don't want to wear my shirt anymore, or my underwear.",
       "cn": "我的衬衫，有点不想再穿了，还有内衣。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 525,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 96,
       "startTime": 242.24,
       "endTime": 243.24,
       "en": "That's right.",
       "cn": "没错。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 526,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 97,
       "startTime": 243.24,
       "endTime": 247.16,
       "en": "I'm not wearing any.",
       "cn": "我什么都没穿。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 527,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 98,
       "startTime": 247.16,
       "endTime": 248.16,
       "en": "No underwear.",
       "cn": "没穿内衣。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 528,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 99,
       "startTime": 248.16,
       "endTime": 250.28,
       "en": "Not even slightly.",
       "cn": "一点都没穿。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 529,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 100,
       "startTime": 250.28,
       "endTime": 251.28,
       "en": "Guys?",
       "cn": "伙计们？",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 530,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 101,
       "startTime": 251.28,
       "endTime": 252.28,
       "en": "Boundaries.",
       "cn": "界限。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 531,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 102,
       "startTime": 252.28,
       "endTime": 253.28,
       "en": "There she is.",
       "cn": "她来了。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 532,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 103,
       "startTime": 253.28,
       "endTime": 254.28,
       "en": "Thanks, Bill.",
       "cn": "谢谢，比尔。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 533,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 104,
       "startTime": 254.28,
       "endTime": 262.44,
       "en": "I'm reporting from the Razzle Dazzle supermarket on 75th and Columbus.",
       "cn": "我在75街和哥伦布大道交汇处的Razzle Dazzle超市进行报道。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 534,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 105,
       "startTime": 262.44,
       "endTime": 263.84,
       "en": "75th and Columbus.",
       "cn": "75街和哥伦布大道。",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     },
     {
       "id": 535,
+      "videoId": "v-e90b4914-hr86",
+      "sentenceIndex": 106,
       "startTime": 263.84,
       "endTime": 266.24,
       "en": "Game on!",
       "cn": "开始吧！",
-      "isKey": false,
-      "patterns": []
+      "isKey": 0,
+      "patterns": [],
+      "keywords": []
     }
   ],
   "abLoop": {

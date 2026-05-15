@@ -4,16 +4,15 @@
   "version": "1.0.0",
   "scripts": {
     "setup": "node scripts/setup.js",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "dev": "export PATH=$PATH:$HOME/.local/bin && concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "export": "node scripts/export-static.js",
-    "build:static": "npm run export && cd frontend && npm install && npm run build"
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev": "npm run dev:backend & npm run dev:frontend",
+    "export": "npm run export --prefix backend",
+    "build:static": "npm run export && npm run build --prefix frontend"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "tsx": "^4.19.0",
+    "typescript": "~6.0.2"
   },
-  "dependencies": {
-    "better-sqlite3": "^12.10.0"
-  }
+  "dependencies": {}
 }

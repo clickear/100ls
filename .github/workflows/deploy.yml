@@ -32,7 +32,7 @@ jobs:
           # Note: This requires the SQLite DB to be in the repo if running on CI
           # If you don't commit the DB, you should run 'npm run export' locally instead
           if [ -f "backend/data/100ls.db" ]; then
-            npm run export
+            npm run export --prefix backend
           else
             echo "⚠️ SQLite DB not found in CI. Skipping export step. Ensure data is committed to frontend/public/static-data"
           fi
