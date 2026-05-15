@@ -79,6 +79,7 @@ export interface PlayerState {
   isLooping: boolean;
   shadowingMode: boolean;
   isWaitingForShadowing: boolean;
+  volume: number; // 0.0 to 1.0
 }
 
 export interface Pattern {

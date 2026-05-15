@@ -32,6 +32,7 @@ export interface UsePlayerReturn {
   setStage: (stage: number) => void;
   incrementRepetition: () => void;
   toggleShadowingMode: () => void;
+  setVolume: (val: number) => void;
 }
 
 export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) => void): UsePlayerReturn {
@@ -54,6 +55,7 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
     isLooping: true,
     shadowingMode: false,
     isWaitingForShadowing: false,
+    volume: 1.0,
   });
 
   const [hasInitialSeeked, setHasInitialSeeked] = useState(false);
@@ -299,10 +301,32 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
   const togglePlayPause = useCallback(() => {
     const video = videoElRef.current;
     if (!video) return;
+
     if (video.paused) {
-      // If was waiting for shadowing, clear that state
-      setState(prev => ({ ...prev, isWaitingForShadowing: false }));
-      video.play().catch(() => { /* browser may block autoplay */ });
+      const s = stateRef.current;
+      const d = dataRef.current;
+      
+      // If was waiting for shadowing, advance to next sentence manually
+      if (s.isWaitingForShadowing && d) {
+        const nextIdx = s.currentSentenceIndex + 1;
+        if (nextIdx < d.sentences.length) {
+          const nextSentence = d.sentences[nextIdx];
+          video.currentTime = nextSentence.startTime;
+          setState(prev => ({ 
+            ...prev, 
+            currentSentenceIndex: nextIdx, 
+            currentTime: nextSentence.startTime,
+            isWaitingForShadowing: false,
+            isPlaying: true 
+          }));
+        } else {
+          setState(prev => ({ ...prev, isWaitingForShadowing: false }));
+        }
+      } else {
+        setState(prev => ({ ...prev, isWaitingForShadowing: false }));
+      }
+      
+      video.play().catch(() => {});
     } else {
       video.pause();
     }
@@ -502,6 +526,12 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
     setState(prev => ({ ...prev, shadowingMode: !prev.shadowingMode, isWaitingForShadowing: false }));
   }, []);
 
+  const setVolume = useCallback((val: number) => {
+    const v = Math.max(0, Math.min(1, val));
+    if (videoElRef.current) videoElRef.current.volume = v;
+    setState(prev => ({ ...prev, volume: v }));
+  }, []);
+
   const selectEpisode = useCallback((_ep: number) => {}, []);
 
   return {
@@ -521,5 +551,6 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
     setStage,
     incrementRepetition,
     toggleShadowingMode,
+    setVolume,
   };
 }

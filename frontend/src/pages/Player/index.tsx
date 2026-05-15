@@ -107,6 +107,72 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
     requestAnimationFrame(animateScroll);
   };
 
+  const [hud, setHud] = useState<{ text: string; icon?: string; key: number } | null>(null);
+  const showHud = (text: string, icon?: string) => {
+    setHud({ text, icon, key: Date.now() });
+  };
+
+  // --- Hotkeys ---
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is typing in an input/textarea
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+        return;
+      }
+
+      switch (e.key.toLowerCase()) {
+        case ' ': // Space
+          e.preventDefault();
+          player.togglePlayPause();
+          break;
+        case 'arrowleft':
+          e.preventDefault();
+          player.goToPrevSentence();
+          break;
+        case 'arrowright':
+          e.preventDefault();
+          player.goToNextSentence();
+          break;
+        case 'arrowup':
+          e.preventDefault();
+          const volUp = Math.min(1, state.volume + 0.1);
+          player.setVolume(volUp);
+          showHud(`音量: ${Math.round(volUp * 100)}%`, '🔊');
+          break;
+        case 'arrowdown':
+          e.preventDefault();
+          const volDown = Math.max(0, state.volume - 0.1);
+          player.setVolume(volDown);
+          showHud(`音量: ${Math.round(volDown * 100)}%`, '🔉');
+          break;
+        case 'r':
+          player.replay();
+          showHud('重播本句', '🔄');
+          break;
+        case 'a':
+          player.setPointA();
+          showHud('设置 A 点', '🅰️');
+          break;
+        case 'b':
+          player.setPointB();
+          showHud('设置 B 点', '🅱️');
+          break;
+        case 's':
+          player.toggleShadowingMode();
+          showHud(state.shadowingMode ? '影子模式: 关' : '影子模式: 开', '🎙️');
+          break;
+        case 'l':
+          player.toggleLoopSentence();
+          showHud(state.isLoopSentence ? '单句循环: 关' : '单句循环: 开', '🔂');
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [player, state.volume, state.shadowingMode, state.isLoopSentence]);
+
   // Manual scroll trigger will be handled by a button instead of this auto-effect
 
 
@@ -339,6 +405,14 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
           }
         }} 
       />
+
+      {/* HUD Notification */}
+      {hud && (
+        <div key={hud.key} className={styles.hud}>
+          {hud.icon && <span className={styles.hudIcon}>{hud.icon}</span>}
+          <span>{hud.text}</span>
+        </div>
+      )}
     </div>
   );
 }
