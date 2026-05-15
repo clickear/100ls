@@ -1,0 +1,1218 @@
+[
+  {
+    "id": 1,
+    "text": "bring up *",
+    "description": "提到/养育...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 2,
+    "text": "call off *",
+    "description": "取消...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 3,
+    "text": "carry on *",
+    "description": "继续...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 4,
+    "text": "check out *",
+    "description": "检查/去看看...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 5,
+    "text": "come across *",
+    "description": "偶然发现/给人以...印象",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 6,
+    "text": "come up with *",
+    "description": "想出/提出...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 7,
+    "text": "count on *",
+    "description": "指望...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 8,
+    "text": "cut down on *",
+    "description": "削减/减少...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 9,
+    "text": "deal with *",
+    "description": "处理...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 10,
+    "text": "do over *",
+    "description": "重做...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 11,
+    "text": "drop by *",
+    "description": "顺便访问...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 12,
+    "text": "end up *",
+    "description": "最终/以...告终",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 13,
+    "text": "fall apart",
+    "description": "崩溃/瓦解",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 14,
+    "text": "figure out *",
+    "description": "弄明白/想出",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 15,
+    "text": "fill out *",
+    "description": "填写(表格)...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 16,
+    "text": "find out *",
+    "description": "找出/发现",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 17,
+    "text": "get along with *",
+    "description": "与...相处融洽",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 18,
+    "text": "get over *",
+    "description": "克服/从...中恢复",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 19,
+    "text": "get rid of *",
+    "description": "摆脱/丢弃",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 20,
+    "text": "give up *",
+    "description": "放弃...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 21,
+    "text": "go on *",
+    "description": "继续...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 22,
+    "text": "grow up *",
+    "description": "成长/长大",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 23,
+    "text": "hang out *",
+    "description": "闲逛/混日子",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 24,
+    "text": "hold on *",
+    "description": "坚持/等一下",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 25,
+    "text": "keep on *",
+    "description": "继续...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 26,
+    "text": "look after *",
+    "description": "照顾...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 27,
+    "text": "look for *",
+    "description": "寻找...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 28,
+    "text": "look forward to *",
+    "description": "期待...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 29,
+    "text": "look into *",
+    "description": "调查...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 30,
+    "text": "look up to *",
+    "description": "仰慕/尊敬",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 31,
+    "text": "make up *",
+    "description": "虚构/弥补/化妆",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 32,
+    "text": "pass out *",
+    "description": "昏倒/分发",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 33,
+    "text": "pick up *",
+    "description": "捡起/接人/学会",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 34,
+    "text": "point out *",
+    "description": "指出...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 35,
+    "text": "put off *",
+    "description": "推迟...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 36,
+    "text": "put up with *",
+    "description": "忍受...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 37,
+    "text": "run into *",
+    "description": "偶然碰到...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 38,
+    "text": "run out of *",
+    "description": "用完/耗尽...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 39,
+    "text": "set up *",
+    "description": "建立/安装",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 40,
+    "text": "show up *",
+    "description": "出现/露面",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 41,
+    "text": "take after *",
+    "description": "长得像/性格像",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 42,
+    "text": "take off *",
+    "description": "起飞/脱掉/突然成功",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 43,
+    "text": "think over *",
+    "description": "仔细考虑",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 44,
+    "text": "throw away *",
+    "description": "扔掉...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 45,
+    "text": "turn down *",
+    "description": "拒绝/调小",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 46,
+    "text": "turn off *",
+    "description": "关掉...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 47,
+    "text": "turn on *",
+    "description": "开启...",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 48,
+    "text": "turn up *",
+    "description": "出现/调大",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 49,
+    "text": "wake up *",
+    "description": "醒来/唤醒",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 50,
+    "text": "work out *",
+    "description": "锻炼/解决/结果为",
+    "category": "短语动词",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 51,
+    "text": "piece of cake",
+    "description": "小菜一碟",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 52,
+    "text": "under the weather",
+    "description": "身体不适",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 53,
+    "text": "spill the beans",
+    "description": "泄露秘密",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 54,
+    "text": "break the ice",
+    "description": "破冰/打破僵局",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 55,
+    "text": "call it a day",
+    "description": "收工/到此为止",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 56,
+    "text": "bite the bullet",
+    "description": "咬紧牙关/硬着头皮",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 57,
+    "text": "get out of hand",
+    "description": "失去控制",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 58,
+    "text": "hit the hay",
+    "description": "上床睡觉",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 59,
+    "text": "cut to the chase",
+    "description": "开门见山",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 60,
+    "text": "bark up the wrong tree",
+    "description": "搞错对象/找错人",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 61,
+    "text": "best of both worlds",
+    "description": "两全其美",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 62,
+    "text": "blessing in disguise",
+    "description": "因祸得福",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 63,
+    "text": "break a leg",
+    "description": "祝你好运",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 64,
+    "text": "cost an arm and a leg",
+    "description": "价格昂贵",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 65,
+    "text": "let the cat out of the bag",
+    "description": "泄露天机",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 66,
+    "text": "miss the boat",
+    "description": "错过时机",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 67,
+    "text": "no pain no gain",
+    "description": "不劳无获",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 68,
+    "text": "on the ball",
+    "description": "机灵/事事留心",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 69,
+    "text": "pull yourself together",
+    "description": "振作起来",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 70,
+    "text": "sit on the fence",
+    "description": "犹豫不决/观望",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 71,
+    "text": "through thick and thin",
+    "description": "患难与共",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 72,
+    "text": "once in a blue moon",
+    "description": "极少/罕见",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 73,
+    "text": "beat around the bush",
+    "description": "拐弯抹角",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 74,
+    "text": "burn the midnight oil",
+    "description": "熬夜苦干",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 75,
+    "text": "face the music",
+    "description": "承担后果",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 76,
+    "text": "get cold feet",
+    "description": "临阵缩头/害怕",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 77,
+    "text": "hit the books",
+    "description": "用功读书",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 78,
+    "text": "keep an eye on *",
+    "description": "照看/留意...",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 79,
+    "text": "let someone off the hook",
+    "description": "放某人一马",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 80,
+    "text": "make a long story short",
+    "description": "长话短说",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 81,
+    "text": "on the same page",
+    "description": "达成共识",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 82,
+    "text": "ring a bell",
+    "description": "听起来耳熟",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 83,
+    "text": "steer clear of *",
+    "description": "避开...",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 84,
+    "text": "take it with a grain of salt",
+    "description": "半信半疑",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 85,
+    "text": "up in the air",
+    "description": "悬而未决",
+    "category": "地道习语",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 86,
+    "text": "As far as I know *",
+    "description": "据我所知...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 87,
+    "text": "Speaking of *",
+    "description": "说到...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 88,
+    "text": "Truth be told *",
+    "description": "老实说...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 89,
+    "text": "In the long run *",
+    "description": "从长远来看...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 90,
+    "text": "For what it's worth *",
+    "description": "不管有没有用/总之...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 91,
+    "text": "It's a matter of time *",
+    "description": "只是时间问题...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 92,
+    "text": "On the other hand *",
+    "description": "另一方面...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 93,
+    "text": "That being said *",
+    "description": "话虽如此...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 94,
+    "text": "To be honest *",
+    "description": "诚实地说...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 95,
+    "text": "In other words *",
+    "description": "换句话说...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 96,
+    "text": "By and large *",
+    "description": "总的来说...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 97,
+    "text": "First of all *",
+    "description": "首先...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 98,
+    "text": "Last but not least *",
+    "description": "最后但同样重要...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 99,
+    "text": "So far so good",
+    "description": "目前为止一切都好",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 100,
+    "text": "Without a doubt *",
+    "description": "毫无疑问...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 101,
+    "text": "As it turns out *",
+    "description": "结果证明...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 102,
+    "text": "It occurs to me that *",
+    "description": "我突然想到...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 103,
+    "text": "Believe it or not *",
+    "description": "信不信由你...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 104,
+    "text": "I mean *",
+    "description": "我的意思是...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 3
+  },
+  {
+    "id": 105,
+    "text": "You know *",
+    "description": "你知道...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 1
+  },
+  {
+    "id": 106,
+    "text": "Anyway *",
+    "description": "不管怎样...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 107,
+    "text": "In case *",
+    "description": "以防万一...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 108,
+    "text": "Frankly speaking *",
+    "description": "坦白说...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 109,
+    "text": "In fact *",
+    "description": "事实上...",
+    "category": "逻辑引导",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 110,
+    "text": "I was *",
+    "description": "我当时正在/当时是...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 4
+  },
+  {
+    "id": 111,
+    "text": "used to *",
+    "description": "过去常常...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 112,
+    "text": "be about to *",
+    "description": "正要/即将...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 113,
+    "text": "be supposed to *",
+    "description": "应该/本该...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 114,
+    "text": "be able to *",
+    "description": "能够...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 115,
+    "text": "be willing to *",
+    "description": "愿意...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 116,
+    "text": "be likely to *",
+    "description": "很可能...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 117,
+    "text": "had better *",
+    "description": "最好...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 118,
+    "text": "would rather *",
+    "description": "宁愿...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 119,
+    "text": "It's high time *",
+    "description": "该是...的时候了",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 120,
+    "text": "I was wondering if *",
+    "description": "我在想是否...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 121,
+    "text": "not only * but also *",
+    "description": "不仅...而且...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 122,
+    "text": "the more * the more *",
+    "description": "越...就越...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 123,
+    "text": "rather than *",
+    "description": "而不是...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 124,
+    "text": "instead of *",
+    "description": "代替/而不是...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 125,
+    "text": "no matter *",
+    "description": "无论...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 126,
+    "text": "in order to *",
+    "description": "为了...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 127,
+    "text": "It takes * to *",
+    "description": "花某人...去做...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 128,
+    "text": "It depends on *",
+    "description": "取决于...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 129,
+    "text": "Would you mind *",
+    "description": "你介意...吗？",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 130,
+    "text": "What if *",
+    "description": "如果...怎么办？",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 131,
+    "text": "What about *",
+    "description": "那...怎么样？",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 132,
+    "text": "How come *",
+    "description": "怎么会...？",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 133,
+    "text": "take * eyes off *",
+    "description": "目不转睛地看...",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 134,
+    "text": "the one who *",
+    "description": "那个...的人",
+    "category": "核心结构",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 135,
+    "text": "going to *",
+    "description": "将要/打算...",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 1
+  },
+  {
+    "id": 136,
+    "text": "before I was *",
+    "description": "在我...之前",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 137,
+    "text": "make it as *",
+    "description": "作为...获得成功",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 138,
+    "text": "screw * up",
+    "description": "把...搞砸",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 139,
+    "text": "Thanks for *ing",
+    "description": "谢谢你做...",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 140,
+    "text": "are you kidding",
+    "description": "你在开玩笑吗",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 1
+  },
+  {
+    "id": 141,
+    "text": "have been there for *",
+    "description": "经历过/见证过...",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 142,
+    "text": "have a thing for *",
+    "description": "对...情有独钟/有好感",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 143,
+    "text": "suit up",
+    "description": "穿上正装/打扮起来",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 144,
+    "text": "put on *",
+    "description": "穿上/戴上...",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 145,
+    "text": "go with *",
+    "description": "与...相配",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 146,
+    "text": "take a while",
+    "description": "花点时间/需要一段时间",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 147,
+    "text": "It's no big deal",
+    "description": "没什么大不了的",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 148,
+    "text": "I wish *",
+    "description": "我希望...",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 149,
+    "text": "look at *",
+    "description": "看着...",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 150,
+    "text": "get married",
+    "description": "结婚",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 1
+  },
+  {
+    "id": 151,
+    "text": "start a family",
+    "description": "成家",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  },
+  {
+    "id": 152,
+    "text": "lose the *",
+    "description": "丢掉/别再带(那个)...",
+    "category": "口语常用",
+    "mastery_xp": 0,
+    "count": 0
+  }
+]
