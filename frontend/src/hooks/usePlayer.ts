@@ -31,6 +31,7 @@ export interface UsePlayerReturn {
   selectEpisode: (ep: number) => void;
   setStage: (stage: number) => void;
   incrementRepetition: () => void;
+  toggleShadowingMode: () => void;
 }
 
 export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) => void): UsePlayerReturn {
@@ -51,6 +52,8 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
     repetitionCount: 0,
     isAudioMode: false,
     isLooping: true,
+    shadowingMode: false,
+    isWaitingForShadowing: false,
   });
 
   const [hasInitialSeeked, setHasInitialSeeked] = useState(false);
@@ -189,10 +192,9 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
 
       // Auto-track sentence
       if (d) {
-        // Add a small epsilon (0.05s) to ct to prevent floating point issues when jumping exactly to startTime
-        const safeCt = ct + 0.05; 
+        // Only track new sentence if NOT waiting for shadowing or if it's a significant move
         const idx = d.sentences.findIndex(
-          (sen) => safeCt >= sen.startTime && safeCt < sen.endTime
+          (sen) => ct >= sen.startTime && ct < sen.endTime
         );
         if (idx !== -1) newSentenceIdx = idx;
       }
@@ -206,11 +208,25 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
       // Sentence loop enforcement
       if (prev.isLoopSentence && d) {
         const sentence = d.sentences[prev.currentSentenceIndex];
-        // For sentence loop, use strict ct
         if (sentence && ct >= sentence.endTime) {
           video.currentTime = sentence.startTime;
           return { ...prev, currentTime: sentence.startTime };
         }
+      }
+
+      // Shadowing mode enforcement
+      if (prev.shadowingMode && d) {
+        const sentence = d.sentences[prev.currentSentenceIndex];
+        // If we reached the end of the current sentence, pause and WAIT
+        if (sentence && ct >= sentence.endTime - 0.05 && !prev.isWaitingForShadowing) {
+          video.pause();
+          return { ...prev, currentTime: ct, isPlaying: false, isWaitingForShadowing: true };
+        }
+      }
+
+      // If we are waiting for shadowing, lock the index to the current one
+      if (prev.isWaitingForShadowing) {
+        return { ...prev, currentTime: ct };
       }
 
       return {
@@ -220,6 +236,41 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
       };
     });
   }
+
+  // Handle auto-resume for shadowing mode
+  useEffect(() => {
+    if (state.isWaitingForShadowing && state.shadowingMode && data) {
+      const sentence = data.sentences[state.currentSentenceIndex];
+      if (!sentence) return;
+
+      const sentenceDuration = sentence.endTime - sentence.startTime;
+      const pauseDuration = Math.max(2000, sentenceDuration * 1500); // 1.5x duration or min 2s
+
+      const timer = setTimeout(() => {
+        const video = videoElRef.current;
+        if (video && stateRef.current.isWaitingForShadowing) {
+          // Go to next sentence before playing
+          const nextIdx = stateRef.current.currentSentenceIndex + 1;
+          if (nextIdx < data.sentences.length) {
+            const nextSentence = data.sentences[nextIdx];
+            video.currentTime = nextSentence.startTime;
+            setState(prev => ({ 
+              ...prev, 
+              currentSentenceIndex: nextIdx, 
+              currentTime: nextSentence.startTime,
+              isWaitingForShadowing: false,
+              isPlaying: true 
+            }));
+            video.play().catch(() => {});
+          } else {
+            setState(prev => ({ ...prev, isWaitingForShadowing: false }));
+          }
+        }
+      }, pauseDuration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [state.isWaitingForShadowing, state.shadowingMode, state.currentSentenceIndex, data]);
 
   function handlePlay() {
     setState(prev => ({ ...prev, isPlaying: true }));
@@ -249,6 +300,8 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
     const video = videoElRef.current;
     if (!video) return;
     if (video.paused) {
+      // If was waiting for shadowing, clear that state
+      setState(prev => ({ ...prev, isWaitingForShadowing: false }));
       video.play().catch(() => { /* browser may block autoplay */ });
     } else {
       video.pause();
@@ -445,6 +498,10 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
     setState(prev => ({ ...prev, activeTab: tab }));
   }, []);
 
+  const toggleShadowingMode = useCallback(() => {
+    setState(prev => ({ ...prev, shadowingMode: !prev.shadowingMode, isWaitingForShadowing: false }));
+  }, []);
+
   const selectEpisode = useCallback((_ep: number) => {}, []);
 
   return {
@@ -463,5 +520,6 @@ export function usePlayer(data: PlayerData | null, onXpGain?: (amount: number) =
     selectEpisode,
     setStage,
     incrementRepetition,
+    toggleShadowingMode,
   };
 }

@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import type { Sentence, SubtitleMode } from '../../types/player';
 import HighlightedText from '../HighlightedText';
 import styles from './styles.module.css';
@@ -15,6 +14,9 @@ interface SentenceCardProps {
   onToggleKey: () => void;
   onSpeak: () => void;
   onTogglePlay: () => void;
+  isPlaying: boolean;
+  shadowingMode: boolean;
+  isWaitingForShadowing: boolean;
 }
 
 
@@ -31,7 +33,10 @@ export default function SentenceCard({
   onToggleLoop,
   onToggleKey,
   onSpeak,
-  onTogglePlay
+  onTogglePlay,
+  isPlaying,
+  shadowingMode,
+  isWaitingForShadowing
 }: SentenceCardProps) {
   const showCn = subtitleMode === 'bilingual';
 
@@ -125,6 +130,16 @@ export default function SentenceCard({
                   />
                 </svg>
               </button>
+            </div>
+          )}
+        </div>
+
+        {/* Shadowing status indicator */}
+        <div className={styles.visualizerSection}>
+          {isWaitingForShadowing && (
+            <div className={styles.shadowingOverlay}>
+              <span className={styles.shadowingPulse}>●</span>
+              正在等待跟读...
             </div>
           )}
         </div>

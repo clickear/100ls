@@ -10,6 +10,8 @@ interface PlaybackControlsProps {
   onSpeedChange: () => void;
   onToggleLoop: () => void;
   onSubtitleToggle: () => void;
+  shadowingMode: boolean;
+  onToggleShadowing: () => void;
 }
 
 export default function PlaybackControls({ 
@@ -20,7 +22,9 @@ export default function PlaybackControls({
   onClearAB, 
   onSpeedChange,
   onToggleLoop,
-  onSubtitleToggle
+  onSubtitleToggle,
+  shadowingMode,
+  onToggleShadowing
 }: PlaybackControlsProps) {
   const subtitleLabel = subtitleMode === 'bilingual' ? '双语' : subtitleMode === 'pure-en' ? '纯英' : '无';
   return (
@@ -63,6 +67,24 @@ export default function PlaybackControls({
           </svg>
         </div>
         <span className={`${styles.controlLabel} ${isLooping ? styles.activeText : ''}`}>循环</span>
+      </button>
+
+      <button 
+        className={`${styles.controlBtn} ${shadowingMode ? styles.active : ''}`} 
+        id="btn-shadowing" 
+        onClick={onToggleShadowing}
+        title={shadowingMode ? '关闭影子模式' : '开启影子模式'}
+      >
+        <div className={styles.controlIcon}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 4V20" stroke={shadowingMode ? "var(--green)" : "currentColor"} strokeWidth="2" strokeLinecap="round" />
+            <path d="M16 7V17" stroke={shadowingMode ? "var(--green)" : "currentColor"} strokeWidth="2" strokeLinecap="round" />
+            <path d="M8 7V17" stroke={shadowingMode ? "var(--green)" : "currentColor"} strokeWidth="2" strokeLinecap="round" />
+            <path d="M20 10V14" stroke={shadowingMode ? "var(--green)" : "currentColor"} strokeWidth="2" strokeLinecap="round" />
+            <path d="M4 10V14" stroke={shadowingMode ? "var(--green)" : "currentColor"} strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </div>
+        <span className={`${styles.controlLabel} ${shadowingMode ? styles.activeText : ''}`}>影子模式</span>
       </button>
 
       <button className={styles.controlBtn} id="btn-subtitle-toggle" onClick={onSubtitleToggle}>

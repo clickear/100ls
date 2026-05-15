@@ -244,10 +244,12 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
               onSpeedChange={player.cycleSpeed}
               onToggleLoop={player.toggleLoop}
               onSubtitleToggle={() => {
-                const order: SubtitleMode[] = ['bilingual', 'pure-en', 'none'];
-                const nextIndex = (order.indexOf(state.subtitleMode) + 1) % order.length;
-                player.setSubtitleMode(order[nextIndex]);
+                const modes: SubtitleMode[] = ['bilingual', 'pure-en', 'none'];
+                const idx = modes.indexOf(state.subtitleMode);
+                player.setSubtitleMode(modes[(idx + 1) % modes.length]);
               }}
+              shadowingMode={state.shadowingMode}
+              onToggleShadowing={player.toggleShadowingMode}
             />
             
             <div className={styles.sentencesSection}>
@@ -262,8 +264,11 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
                   onNext={player.goToNextSentence}
                   onToggleLoop={player.toggleLoopSentence}
                   onToggleKey={player.toggleKeySentence}
-                  onSpeak={() => {}}
+                  onSpeak={player.replay}
                   onTogglePlay={player.togglePlayPause}
+                  isPlaying={state.isPlaying}
+                  shadowingMode={state.shadowingMode}
+                  isWaitingForShadowing={state.isWaitingForShadowing}
                 />
               )}
             </div>

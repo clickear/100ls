@@ -77,6 +77,8 @@ export interface PlayerState {
   repetitionCount: number;
   isAudioMode: boolean;
   isLooping: boolean;
+  shadowingMode: boolean;
+  isWaitingForShadowing: boolean;
 }
 
 export interface Pattern {
