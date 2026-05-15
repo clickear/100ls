@@ -38,21 +38,48 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeMarker, setActiveMarker] = useState<number | null>(null);
   const [suppressedIndex, setSuppressedIndex] = useState<number | null>(null);
+  const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const clearHideTimer = () => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = null;
+    }
+  };
+
+  const startHideTimer = useCallback(() => {
+    clearHideTimer();
+    hideTimerRef.current = setTimeout(() => {
+      setActiveMarker(null);
+    }, 3000); // Auto hide after 3s
+  }, []);
+
+  const handleMarkerInteraction = useCallback((index: number | null) => {
+    setActiveMarker(index);
+    if (index !== null) {
+      startHideTimer();
+    } else {
+      clearHideTimer();
+    }
+  }, [startHideTimer]);
 
   // Clear active marker when clicking elsewhere or when video changes
   useEffect(() => {
     const handleGlobalClick = () => {
-      setActiveMarker(null);
+      handleMarkerInteraction(null);
       setSuppressedIndex(null);
     };
     document.addEventListener('click', handleGlobalClick);
-    return () => document.removeEventListener('click', handleGlobalClick);
-  }, []);
+    return () => {
+      document.removeEventListener('click', handleGlobalClick);
+      clearHideTimer();
+    };
+  }, [handleMarkerInteraction]);
 
   useEffect(() => {
-    setActiveMarker(null);
+    handleMarkerInteraction(null);
     setSuppressedIndex(null);
-  }, [duration, markers]);
+  }, [duration, handleMarkerInteraction]); // Removed markers from dependency to stop auto-hide on re-render
 
   const handleJump = useCallback((time: number, index: number) => {
     onSeek(time);
@@ -117,11 +144,11 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
                   if (isActive) {
                     handleJump(m.time, i);
                   } else {
-                    setActiveMarker(i);
+                    handleMarkerInteraction(i);
                   }
                 }}
-                onMouseEnter={() => setActiveMarker(i)}
-                onMouseLeave={() => setActiveMarker(null)}
+                onMouseEnter={() => handleMarkerInteraction(i)}
+                // Removed aggressive onMouseLeave to prevent flickering during playback
               />
             );
           })}
@@ -136,8 +163,8 @@ export default function ProgressBar({ currentTime, duration, abLoop, onSeek, onS
         {activeMarker !== null && markers?.[activeMarker] && (
           <div 
             className={`${styles.markerTooltip} ${styles.activeTooltip}`}
-            onMouseEnter={() => setActiveMarker(activeMarker)}
-            onMouseLeave={() => setActiveMarker(null)}
+            onMouseEnter={clearHideTimer}
+            onMouseLeave={startHideTimer}
             onClick={(e) => {
               e.stopPropagation();
               const m = markers[activeMarker];

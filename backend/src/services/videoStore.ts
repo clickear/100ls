@@ -35,13 +35,13 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
   await fs.mkdir(dir, { recursive: true });
   
   const insertVideo = db.prepare(`
-    INSERT OR REPLACE INTO videos (id, title, sourceUrl, duration, videoFile, thumbnailFile, subEn, subCn, importedAt, currentStage, repetitionCount, lastPosition)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT OR REPLACE INTO videos (id, title, sourceUrl, duration, videoFile, thumbnailFile, importedAt, currentStage, repetitionCount, lastPosition)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   const insertSentence = db.prepare(`
-    INSERT INTO sentences (videoId, sentenceIndex, startTime, endTime, en, cn, keywords, isKey)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO sentences (videoId, sentenceIndex, startTime, endTime, en, cn, isKey)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
 
   const deleteSentences = db.prepare(`DELETE FROM sentences WHERE videoId = ?`);
@@ -59,8 +59,6 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
       meta.duration,
       meta.videoFile,
       meta.thumbnailFile || null,
-      meta.subtitleFiles.en || null,
-      meta.subtitleFiles.cn || null,
       meta.importedAt,
       meta.currentStage || 1,
       meta.repetitionCount || 0,
@@ -80,7 +78,6 @@ export async function saveVideoMeta(videoId: string, meta: VideoMeta): Promise<v
         s.endTime,
         s.en || '',
         s.cn || '',
-        JSON.stringify(s.keywords || []),
         s.isKey ? 1 : 0
       );
     }
@@ -135,10 +132,6 @@ export async function getVideoMeta(videoId: string): Promise<VideoMeta | null> {
     importedAt: video.importedAt,
     videoFile: video.videoFile,
     thumbnailFile: video.thumbnailFile || '',
-    subtitleFiles: {
-      en: video.subEn || undefined,
-      cn: video.subCn || undefined
-    },
     sentences,
     currentStage: video.currentStage || 1,
     repetitionCount: video.repetitionCount || 0,
@@ -234,10 +227,6 @@ export function toPlayerData(meta: VideoMeta): PlayerData {
     thumbnailUrl: meta.thumbnailFile
       ? `/media/${meta.videoId}/${meta.thumbnailFile}`
       : '',
-    subtitleUrls: {
-      en: meta.subtitleFiles.en ? `/media/${meta.videoId}/${meta.subtitleFiles.en}` : undefined,
-      cn: meta.subtitleFiles.cn ? `/media/${meta.videoId}/${meta.subtitleFiles.cn}` : undefined,
-    },
     duration: meta.duration,
     stageInfo: {
       currentStage: meta.currentStage || 1,

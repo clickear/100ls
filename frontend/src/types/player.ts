@@ -3,7 +3,6 @@ export interface Sentence {
   id: number;
   en: string;
   cn: string;
-  keywords: string[];
   startTime: number; // seconds
   endTime: number;   // seconds
   isKey: boolean;     // 重点句
@@ -56,10 +55,6 @@ export interface PlayerData {
   isVip: boolean;
   videoUrl: string;
   thumbnailUrl: string;
-  subtitleUrls?: {
-    en?: string;
-    cn?: string;
-  };
   duration: number; // seconds
   stageInfo: StageInfo;
   episodes: Episode[];

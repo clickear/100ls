@@ -11,34 +11,7 @@ export interface SubtitleCue {
   text: string;
 }
 
-// Common English stop words to filter out from keywords
-const STOP_WORDS = new Set([
-  'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',
-  'you', 'your', 'yours', 'yourself', 'yourselves',
-  'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself',
-  'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves',
-  'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those',
-  'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
-  'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing',
-  'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as',
-  'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about',
-  'against', 'between', 'through', 'during', 'before', 'after',
-  'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out',
-  'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once',
-  'here', 'there', 'when', 'where', 'why', 'how', 'all', 'both',
-  'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no',
-  'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too',
-  'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now',
-  'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', 'couldn',
-  'didn', 'doesn', 'hadn', 'hasn', 'haven', 'isn', 'ma', 'mightn',
-  'mustn', 'needn', 'shan', 'shouldn', 'wasn', 'weren', 'won', 'wouldn',
-  'could', 'would', 'shall', 'might', 'must', 'need',
-  'also', 'well', 'like', 'know', 'think', 'go', 'get', 'make',
-  'say', 'tell', 'see', 'come', 'want', 'look', 'use', 'find',
-  'give', 'take', 'let', 'put', 'try', 'got', 'still', 'back',
-  'going', 'really', 'right', 'thing', 'things', 'much', 'way',
-  'even', 'good', 'yeah', 'okay', 'oh', 'uh', 'um',
-]);
+
 
 /**
  * Parse VTT timestamp to seconds.
@@ -220,21 +193,7 @@ function semanticMergeCues(cues: SubtitleCue[]): SubtitleCue[] {
   return merged;
 }
 
-/**
- * Extract keywords from English text.
- * Simple approach: words longer than 3 chars that aren't stop words.
- */
-export function extractKeywords(text: string, maxKeywords = 3): string[] {
-  const words = text
-    .replace(/[^a-zA-Z\s'-]/g, '')
-    .split(/\s+/)
-    .map(w => w.toLowerCase().replace(/^['-]+|['-]+$/g, ''))
-    .filter(w => w.length > 3 && !STOP_WORDS.has(w));
 
-  // Deduplicate and take first N
-  const unique = [...new Set(words)];
-  return unique.slice(0, maxKeywords);
-}
 
 /**
  * Build Sentence[] from English cues (and optional Chinese cues).
@@ -261,7 +220,6 @@ export function buildSentences(
       id: idx + 1,
       en: cue.text,
       cn,
-      keywords: extractKeywords(cue.text),
       startTime: Math.round(cue.startTime * 100) / 100,
       endTime: Math.round(cue.endTime * 100) / 100,
       isKey: false,
@@ -287,7 +245,6 @@ export function buildSentencesFromWhisper(segments: WhisperSegment[]): Sentence[
       id: idx + 1,
       en: cue.text,
       cn: '', // Whisper base model usually outputs english only, cn can be translated later if needed
-      keywords: extractKeywords(cue.text),
       startTime: Math.round(cue.startTime * 100) / 100,
       endTime: Math.round(cue.endTime * 100) / 100,
       isKey: false,

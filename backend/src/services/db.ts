@@ -24,11 +24,10 @@ db.exec(`
     duration INTEGER NOT NULL,
     videoFile TEXT NOT NULL,
     thumbnailFile TEXT,
-    subEn TEXT,
-    subCn TEXT,
     importedAt TEXT NOT NULL,
     currentStage INTEGER DEFAULT 1,
-    repetitionCount INTEGER DEFAULT 0
+    repetitionCount INTEGER DEFAULT 0,
+    lastPosition REAL DEFAULT 0
   );
 
   CREATE TABLE IF NOT EXISTS sentences (
@@ -39,7 +38,6 @@ db.exec(`
     endTime REAL NOT NULL,
     en TEXT NOT NULL,
     cn TEXT,
-    keywords TEXT, -- JSON array of strings
     isKey INTEGER DEFAULT 0,
     FOREIGN KEY(videoId) REFERENCES videos(id)
   );
@@ -67,12 +65,5 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_phrase_instances_sentenceId ON phrase_instances(sentenceId);
 
 `);
-
-// Defensive migrations for existing databases
-try { db.exec('ALTER TABLE videos ADD COLUMN currentStage INTEGER DEFAULT 1'); } catch (e) {}
-try { db.exec('ALTER TABLE videos ADD COLUMN repetitionCount INTEGER DEFAULT 0'); } catch (e) {}
-try { db.exec('ALTER TABLE videos ADD COLUMN lastPosition REAL DEFAULT 0'); } catch (e) {}
-try { db.exec('ALTER TABLE patterns ADD COLUMN mastery_xp INTEGER DEFAULT 0'); } catch (e) {}
-try { db.exec('ALTER TABLE patterns ADD COLUMN category TEXT'); } catch (e) {}
 
 export default db;

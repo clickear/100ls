@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useLocation } from 'wouter';
 import type { PlayerData, SubtitleMode } from '../../types/player';
 import { fetchPlayerData } from '../../api/player';
@@ -61,6 +61,18 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
 
   const player = usePlayer(data, handleXpGain);
   const { state, currentSentence, videoRef } = player;
+
+  const markers = useMemo(() => {
+    if (!data) return [];
+    return data.sentences
+      .filter(s => s.patterns && s.patterns.length > 0)
+      .flatMap(s => (s.patterns || []).map(p => ({
+        time: s.startTime,
+        patternId: p.patternId,
+        patternText: p.patternText,
+        sentenceEn: s.en
+      })));
+  }, [data?.sentences]);
 
   const mainRef = useRef<HTMLElement | null>(null);
 
@@ -221,15 +233,7 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
               onSeek={player.seek}
               onSetA={player.setPointA}
               onSetB={player.setPointB}
-              markers={data.sentences
-                .filter(s => s.patterns && s.patterns.length > 0)
-                .flatMap(s => (s.patterns || []).map(p => ({
-                  time: s.startTime,
-                  patternId: p.patternId,
-                  patternText: p.patternText,
-                  sentenceEn: s.en
-                })))
-              }
+              markers={markers}
             />
             <PlaybackControls
               isLooping={state.isLooping}

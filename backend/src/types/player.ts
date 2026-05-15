@@ -4,7 +4,6 @@ export interface Sentence {
   id: number;
   en: string;
   cn: string;
-  keywords: string[];
   startTime: number;
   endTime: number;
   isKey: boolean;
@@ -37,10 +36,6 @@ export interface PlayerData {
   isVip: boolean;
   videoUrl: string;
   thumbnailUrl: string;
-  subtitleUrls?: {
-    en?: string;
-    cn?: string;
-  };
   duration: number;
   stageInfo: StageInfo;
   episodes: Episode[];
@@ -57,10 +52,6 @@ export interface VideoMeta {
   importedAt: string;
   videoFile: string;       // relative filename, e.g. "video.mp4"
   thumbnailFile: string;   // relative filename, e.g. "thumbnail.jpg"
-  subtitleFiles: {
-    en?: string;
-    cn?: string;
-  };
   sentences: Sentence[];
   currentStage: number;
   repetitionCount: number;

@@ -20,14 +20,6 @@ export async function fetchPlayerData(videoId: string): Promise<PlayerData> {
   if (data.thumbnailUrl && data.thumbnailUrl.startsWith('/media/')) {
     data.thumbnailUrl = `${API_BASE}${data.thumbnailUrl}`;
   }
-  if (data.subtitleUrls) {
-    if (data.subtitleUrls.en && data.subtitleUrls.en.startsWith('/media/')) {
-      data.subtitleUrls.en = `${API_BASE}${data.subtitleUrls.en}`;
-    }
-    if (data.subtitleUrls.cn && data.subtitleUrls.cn.startsWith('/media/')) {
-      data.subtitleUrls.cn = `${API_BASE}${data.subtitleUrls.cn}`;
-    }
-  }
 
   return data;
 }
