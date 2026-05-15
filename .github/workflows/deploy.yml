@@ -41,6 +41,9 @@ jobs:
           cd frontend
           npm install
           npm run build -- --base=/${{ github.event.repository.name }}/
+          
+          # 3. Add 404.html for SPA routing support on GitHub Pages
+          cp dist/index.html dist/404.html
 
       - name: Deploy 🛫
         uses: JamesIves/github-pages-deploy-action@v4
