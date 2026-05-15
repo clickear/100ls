@@ -19,7 +19,9 @@ function run(command, cwd = process.cwd()) {
 
 function checkCmd(cmd) {
   try {
-    execSync(`${cmd} --version`, { stdio: 'ignore' });
+    // ffmpeg uses -version, most others support --version
+    const versionCmd = cmd === 'ffmpeg' ? `${cmd} -version` : `${cmd} --version`;
+    execSync(versionCmd, { stdio: 'ignore' });
     return true;
   } catch (e) {
     return false;

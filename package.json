@@ -2,6 +2,7 @@
   "name": "100ls-monorepo",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "setup": "node scripts/setup.js",
     "dev:backend": "npm run dev --prefix backend",

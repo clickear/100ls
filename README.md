@@ -95,7 +95,7 @@ npm run setup
 TRANSLATION_PROVIDER=openai
 TRANSLATION_API_KEY=您的_API_KEY
 TRANSLATION_BASE_URL=https://api.deepseek.com/v1/chat/completions
-TRANSLATION_MODEL=deepseek-chat
+TRANSLATION_MODEL=deepseek-v4-flash
 ```
 
 ### 3. 启动项目
@@ -133,5 +133,3 @@ npx tsx scripts/debug/test-translation.ts
 2. **构建发布**: 运行 `npm run build:static` 或推送至 `main` 分支触发 GitHub Actions。
 
 ---
-
-*Designed with ❤️ by Antigravity*
