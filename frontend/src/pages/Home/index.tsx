@@ -11,21 +11,15 @@ import type { TabId } from '../../types/player';
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<TabId>('home');
-  const [videos, setVideos] = useState<any[]>([]);
+  const [refreshCount, setRefreshCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [, setLocation] = useLocation();
 
-  const loadVideos = () => {
-    setLoading(true);
-    listVideos()
-      .then(setVideos)
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
+  const handleImportSuccess = () => {
+    setRefreshCount(prev => prev + 1);
   };
 
-  useEffect(() => {
-    loadVideos();
-  }, []);
+  // No longer need to load videos here as VideoList handles its own loading
 
   return (
     <div className={styles.container}>
@@ -37,13 +31,14 @@ export default function HomePage() {
               <p className={styles.subtitle}>深度精听，建立语感</p>
             </header>
 
-            <VideoImport onSuccess={loadVideos} />
+            <VideoImport onSuccess={handleImportSuccess} />
 
             <div style={{ height: 'var(--spacing-2xl)' }} />
 
             <VideoList 
               currentVideoId="" 
               onSelectVideo={(id) => setLocation(`/player/${id}`)} 
+              refreshTrigger={refreshCount}
             />
           </>
         ) : activeTab === 'vocabulary' ? (

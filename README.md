@@ -75,12 +75,25 @@
 
 ---
 
-## 🚀 部署建议
+## 🚀 快速开始
 
-1. **环境准备**：需安装 `Node.js 20+` 和 `FFmpeg`。
-2. **环境变量**：参考 `.env.example` 配置 `API_BASE` 和 `ALLOWED_ORIGINS`。
-3. **数据库**：首次运行将自动初始化 `data/100ls.db`。
+### 1. 环境自动一键配置 (推荐)
+本项目提供了一个自动化的设置脚本，可自动检查/安装 `ffmpeg`, `yt-dlp` (Mac 用户)，初始化 `.env` 并安装所有依赖。
+
+```bash
+# 在项目根目录下运行
+npm run setup
+```
+
+### 2. 启动项目
+环境配置完成后，可以使用一个命令同时启动前端和后端：
+
+```bash
+npm run dev
+```
 
 ---
+
+## 🛠️ 技术架构
 
 *Designed with ❤️ by Antigravity*

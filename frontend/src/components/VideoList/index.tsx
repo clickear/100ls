@@ -14,6 +14,7 @@ interface VideoSummary {
 interface VideoListProps {
   currentVideoId: string;
   onSelectVideo: (videoId: string) => void;
+  refreshTrigger?: number;
 }
 
 function formatTime(seconds: number): string {
@@ -36,7 +37,7 @@ export default function VideoList({ currentVideoId, onSelectVideo }: VideoListPr
 
   useEffect(() => {
     loadVideos();
-  }, []);
+  }, [refreshTrigger]);
 
   const handleDelete = async (e: React.MouseEvent, videoId: string) => {
     e.stopPropagation();
