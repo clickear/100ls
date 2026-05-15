@@ -18,8 +18,11 @@ export async function translateSentences(sentences: string[]): Promise<string[]>
   }
 
   const systemPrompt = `You are a professional English-to-Chinese translator for movie subtitles. 
-Translate the provided English sentences into natural, idiomatic Chinese. 
-Keep the original tone. Return ONLY a JSON array of strings, where each element corresponds to the input sentence at the same index.
+Translate the English sentences into natural Chinese.
+CRITICAL: Output ONLY the raw JSON array of strings. 
+DO NOT include any markdown code blocks, explanations, or introductory text.
+The array length MUST exactly match the input.
+
 Example Input: ["Hello", "How are you?"]
 Example Output: ["你好", "你最近怎么样？"]`;
 

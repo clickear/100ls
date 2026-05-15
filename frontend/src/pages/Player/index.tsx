@@ -14,6 +14,7 @@ import TabBar from '../../components/TabBar';
 import PatternBook from '../../components/PatternBook';
 import VideoList from '../../components/VideoList';
 import VideoImport from '../../components/VideoImport';
+import Settings from '../../components/Settings';
 import styles from './styles.module.css';
 
 interface PlayerPageProps {
@@ -41,7 +42,11 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
     }
     setLoading(true);
     fetchPlayerData(videoId)
-      .then(setData)
+      .then((res) => {
+        setData(res);
+        // Save as last played video
+        localStorage.setItem('100ls-last-video-id', videoId);
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [videoId]);
@@ -108,8 +113,17 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
   };
 
   const [hud, setHud] = useState<{ text: string; icon?: string; key: number } | null>(null);
+  const hudTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   const showHud = (text: string, icon?: string) => {
+    if (hudTimerRef.current) clearTimeout(hudTimerRef.current);
+    
     setHud({ text, icon, key: Date.now() });
+    
+    hudTimerRef.current = setTimeout(() => {
+      setHud(null);
+      hudTimerRef.current = null;
+    }, 2000);
   };
 
   // --- Hotkeys ---
@@ -386,6 +400,14 @@ export default function PlayerPage({ videoId }: PlayerPageProps) {
                 }
               }}
             />
+        ) : state.activeTab === 'settings' ? (
+          <div style={{ padding: '0 var(--spacing-lg)' }}>
+            <header className={styles.header} style={{ marginTop: 'var(--spacing-xl)' }}>
+              <h1 className={styles.title}>配置中心</h1>
+              <p className={styles.subtitle}>个性化你的学习体验</p>
+            </header>
+            <Settings />
+          </div>
         ) : (
           <div style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
             <div style={{ fontSize: '48px', marginBottom: '20px' }}>🚧</div>

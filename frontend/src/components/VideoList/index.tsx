@@ -23,7 +23,7 @@ function formatTime(seconds: number): string {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-export default function VideoList({ currentVideoId, onSelectVideo }: VideoListProps) {
+export default function VideoList({ currentVideoId, onSelectVideo, refreshTrigger }: VideoListProps) {
   const [videos, setVideos] = useState<VideoSummary[]>([]);
   const [loading, setLoading] = useState(true);
 

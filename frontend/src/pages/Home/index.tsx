@@ -72,7 +72,19 @@ export default function HomePage() {
         )}
       </main>
 
-      <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+      <TabBar 
+        activeTab={activeTab} 
+        onTabChange={(tab) => {
+          if (tab === 'player') {
+            const lastId = localStorage.getItem('100ls-last-video-id');
+            if (lastId) {
+              setLocation(`/player/${lastId}`);
+              return;
+            }
+          }
+          setActiveTab(tab);
+        }} 
+      />
     </div>
   );
 }

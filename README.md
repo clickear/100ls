@@ -85,11 +85,35 @@
 npm run setup
 ```
 
-### 2. 启动项目
+### 2. 配置翻译服务 (必须)
+为了生成中文字幕，您需要配置 AI 翻译 API。
+1. 打开 `backend/.env` 文件。
+2. 填入您的 API 信息（推荐使用 **DeepSeek**，速度快且成本低）：
+
+```env
+# 示例配置 (DeepSeek)
+TRANSLATION_PROVIDER=openai
+TRANSLATION_API_KEY=您的_API_KEY
+TRANSLATION_BASE_URL=https://api.deepseek.com/v1/chat/completions
+TRANSLATION_MODEL=deepseek-chat
+```
+
+### 3. 启动项目
 环境配置完成后，可以使用一个命令同时启动前端和后端：
 
 ```bash
 npm run dev
+```
+
+### 3. 调试与验证 (可选)
+如果导入视频后没有中文字幕，可以使用以下命令单独验证翻译服务是否连通：
+
+```bash
+# 进入后端目录
+cd backend
+
+# 运行翻译测试脚本
+npx tsx scripts/debug/test-translation.ts
 ```
 
 ---
