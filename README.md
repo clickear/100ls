@@ -77,35 +77,32 @@
 
 ## 🚀 快速开始
 
-### 1. 环境自动一键配置 (推荐)
-本项目提供了一个自动化的设置脚本，可自动检查/安装 `ffmpeg`, `yt-dlp` (Mac 用户)，初始化 `.env` 并安装所有依赖。
+### 1. 安装与一键配置
+在项目根目录下运行安装命令。脚本会自动检查系统依赖（如 `ffmpeg`）、初始化环境文件，并引导您配置 AI 密钥。
 
 ```bash
-# 在项目根目录下运行
+# 一键安装所有依赖 (根目录、前端、后端)
+npm run install:all
+
+# 运行自动化配置脚本 (推荐)
 npm run setup
 ```
 
-### 2. 配置翻译服务 (必须)
-为了生成中文字幕，您需要配置 AI 翻译 API。
-1. 打开 `backend/.env` 文件。
-2. 填入您的 API 信息（推荐使用 **DeepSeek**，速度快且成本低）：
+> 💡 **提示**: 脚本会询问您是否配置翻译 API（OpenAI/DeepSeek）和云存储。如果您已有配置或想稍后手动修改，可直接输入 `n`。
 
-```env
-# 示例配置 (DeepSeek)
-TRANSLATION_PROVIDER=openai
-TRANSLATION_API_KEY=您的_API_KEY
-TRANSLATION_BASE_URL=https://api.deepseek.com/v1/chat/completions
-TRANSLATION_MODEL=deepseek-v4-flash
-```
-
-### 3. 启动项目
-环境配置完成后，可以使用一个命令同时启动前端和后端：
+### 2. 启动项目
+环境配置完成后，直接在根目录启动前后端服务：
 
 ```bash
 npm run dev
 ```
 
-### 3. 调试与验证 (可选)
+### 3. 开始学习
+访问浏览器：[http://localhost:5173](http://localhost:5173)
+
+---
+
+### 4. 调试与验证 (可选)
 如果导入视频后没有中文字幕，可以使用以下命令单独验证翻译服务是否连通：
 
 ```bash
